@@ -1,8 +1,10 @@
 "use client";
 
 // import Image from "next/image";
-import Link from "next/link";
 import { FaCheckCircle } from "react-icons/fa";
+import Link from "next/link";
+import Image from "next/image";
+
 
 export default function HereSection() {
   const features = [
@@ -20,7 +22,7 @@ export default function HereSection() {
     },
   ];
   return (
-    <section className="w-full bg-gradient-to-b from-pink-100 via-pink-50 to-white p-6 rounded-xl">
+    <section className="w-full bg-gradient-to-b from-pink-100 via-pink-50 to-white p-6 mt-15 md:mt-6 rounded-xl">
       <div className="container mx-auto px-6 py-7 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left: Text */}
@@ -91,6 +93,14 @@ export default function HereSection() {
           {/* Right: Illustration / Cards */}
           <div className="lg:col-span-5">
             <div className="relative -mx-4 sm:mx-0">
+              <Image
+                src={"/hero-imag2.gif"}
+                alt={"hero-image"}
+                width={900}
+                height={900}
+                className="object-cover w-full h-full rounded-lg transition-all duration-300"
+                priority
+              />
               {/* <div className="rounded-2xl bg-white shadow-lg p-6">
                 <div className="flex items-center justify-between">
                   <div>

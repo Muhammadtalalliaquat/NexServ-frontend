@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { verifyEmail } from "./authAction";
+import { verifyEmail } from "../server/authAction";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "../app/emailVerify/main.module.css";
 // import withAuthCheck from "../HOC/withAuth";
@@ -35,7 +35,7 @@ export default function EmailVerifyComponent() {
   useEffect(() => {
     console.log(isVerified);
     if (isVerified) {
-      router.push("/fashion-store");
+      router.push("/nexserv");
     }
   }, [isVerified, router]);
 

@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
-// import Image from "next/image";
 
 interface DecodedToken {
   exp: number;
@@ -22,30 +21,35 @@ export default function Home() {
     const user: User | null = storedData ? JSON.parse(storedData) : null;
     const token = localStorage.getItem("token");
 
-    if (token) {
-      try {
-        const decoded: DecodedToken = jwtDecode(token);
-        const currentTime = Date.now() / 1000;
-        if (decoded.exp < currentTime) {
-          localStorage.removeItem("user");
-          // router.push("/get-started");
-          console.log(decoded, "here");
-          return;
-        }
-      } catch (error) {
-        localStorage.removeItem("user");
-        // router.push("/get-started");
-        console.log(error, "here");
-      }
+    if (!token) {
+      router.push("/get-started");
+      return;
     }
-    if (user?.isAdmin === true) {
+
+    try {
+      const decoded: DecodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+
+      // 🔹 Token expired
+      if (decoded.exp < currentTime) {
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        router.push("/get-started");
+        return;
+      }
+    } catch (err) {
+      console.log(err, "here");
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      router.push("/get-started");
+      return;
+    }
+
+    if (user?.isAdmin) {
       router.push("/add-service");
-    } else if (user) {
-      router.push("/Home");
-    } 
-    // else {
-    //   router.push("/get-started");
-    // }
+    } else {
+      router.push("/nexserv");
+    }
   }, [router]);
 
   return;

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { useDispatch } from "react-redux";
 import Link from "next/link";
 import { TiDeleteOutline } from "react-icons/ti";
 import { GoHome } from "react-icons/go";
@@ -10,12 +11,14 @@ import { RiContactsLine } from "react-icons/ri";
 import { RiFunctionAddLine } from "react-icons/ri";
 import { FaMicroblog } from "react-icons/fa";
 import { LuAlignRight } from "react-icons/lu";
+import { clearUser } from "@/store/features/userSlice";
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loadingUser, setLoadingUser] = useState(true);
   const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -36,25 +39,37 @@ function Navbar() {
     setIsMenuOpen((prev) => !prev);
   };
 
-  const handleNavigate = () => {
-    if (
-      pathname === "/add-service" ||
-      pathname === "/contact" ||
-      pathname.startsWith("/add-service")
-    ) {
-      router.push("/home");
-    }
+  // const handleNavigate = () => {
+  //   if (
+  //     pathname === "/add-service" ||
+  //     pathname === "/contact"
+  //     // pathname.startsWith("/add-service")
+  //    ) {
+  //     router.push("/nexserv");
+  //   }
+  // };
+
+  const logOut = () => {
+    dispatch(clearUser());
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    router.push("/get-started");
   };
   if (loadingUser) return null;
   return (
     <nav
       className={`w-full fixed top-0 left-0 z-50 border-b border-pink-600 transition-all duration-300 bg-[#f2f4fd] px-4 py-3 flex items-center justify-between shadow-sm ${
-        isScrolled ? "shadow-md bg-white" : ""
-      } relative`}
+        isScrolled
+          ? "shadow-xl bg-gradient-to-br from-pink-500/10 via-blue-500/10 to-purple-500/10 backdrop-blur-3xl"
+          : ""
+      } `}
     >
-      <div className="w-full container mx-auto flex items-center justify-between pl-5 pr-5">
+      <div className="w-full container mx-auto flex items-center justify-between cursor-pointer pl-5 pr-5">
         {/* Logo */}
-        <div className="flex items-center gap-3">
+        <div
+          className="flex items-center gap-3"
+          onClick={() => window.location.reload()}
+        >
           <span
             className={`text-xl sm:text-2xl font-medium ${
               isScrolled ? "text-gray-800" : "text-blue-600"
@@ -66,14 +81,16 @@ function Navbar() {
 
         {/* Menu (Desktop) */}
         <ul className="hidden sm:flex items-center gap-10">
-          {pathname !== "/home" && (
+          {pathname !== "/nexserv" && (
             <li
-              onClick={handleNavigate}
+              // onClick={handleNavigate}
               className="flex items-center gap-2 cursor-pointer transition-all duration-300 
              hover:rounded-[5px] hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
             >
-              {/* <GoHome className="w-4 h-4" /> */}
-              Home
+              <Link href="/nexserv" className="flex items-center gap-2">
+                {/* <GoHome className="w-4 h-4" /> */}
+                Home
+              </Link>
             </li>
           )}
           {pathname !== "/service" && (
@@ -113,17 +130,26 @@ function Navbar() {
 
         {/* Actions */}
         <div className="hidden sm:flex items-center gap-3">
-          <button
-            onClick={() => router.push("/login")}
-            className="bg-white px-5 py-1 font-bold rounded-md border border-gray-200 text-gray-900 text-sm shadow-sm hover:bg-blue-600 hover:text-white transition"
-          >
-            Sign in
-          </button>
+          {user ? (
+            <button
+              onClick={logOut}
+              className="bg-white px-5 py-1 font-bold rounded-md border border-red-400 text-gray-900 text-sm shadow-sm hover:bg-red-400 hover:text-white transition"
+            >
+              Sign out
+            </button>
+          ) : (
+            <button
+              onClick={() => router.push("/login")}
+              className="bg-white px-5 py-1 font-bold rounded-md border border-blue-600 text-gray-900 text-sm shadow-sm hover:bg-blue-600 hover:text-white transition"
+            >
+              Sign in
+            </button>
+          )}
           {user?.isAdmin && pathname !== "/add-service" && (
             <button
               onClick={() => router.push("/add-service")}
               title="Add Service"
-              className="bg-white px-5 py-1 font-bold rounded-md border border-gray-200 text-gray-900 text-sm shadow-sm hover:bg-pink-600 hover:text-white transition flex items-center gap-2"
+              className="bg-white px-5 py-1 font-bold rounded-md border border-pink-600 text-gray-900 text-sm shadow-sm hover:bg-pink-600 hover:text-white transition flex items-center gap-2"
             >
               <RiFunctionAddLine className="w-4 h-4" />
               Service
@@ -159,13 +185,15 @@ function Navbar() {
         style={{ background: "#ffffffff" }}
       >
         <ul className="flex flex-col gap-4 py-5 px-6 divide-y divide-gray-200">
-          {pathname !== "/home" && (
+          {pathname !== "/nexserv" && (
             <li
-              onClick={handleNavigate}
+              // onClick={handleNavigate}
               className="flex items-center gap-2 text-lg font-medium cursor-pointer pb-5 hover:text-blue-500 transition"
             >
-              <GoHome className="w-5 h-5" />
-              Home
+              <Link href="/nexserv" className="flex items-center gap-2">
+                <GoHome className="w-4 h-4" />
+                Home
+              </Link>
             </li>
           )}
           {pathname !== "/service" && (

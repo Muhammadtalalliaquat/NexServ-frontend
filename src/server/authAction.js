@@ -28,25 +28,26 @@ export const verifyEmail = (token) => async (dispatch) => {
       headers: { token },
     });
 
-    console.log("API Response:", response.data);
-
-    const verifiedEmail = response.data?.data?.verifiedEmail ?? false;
-    const isAuthenticated = response.data?.data?.isAuthenticated ?? false;
+    if (!response.data || !response.data.data) {
+      dispatch(setError("Invalid API response"));
+      return;
+    }
+    const { verifiedEmail = false, isAuthenticated = false } =
+      response.data.data;
 
     if (verifiedEmail) {
       dispatch(setSuccess({ verifiedEmail, isAuthenticated }));
     } else {
       dispatch(setError("Email verification failed."));
     }
-
-    // dispatch(setSuccess(response.data?.data?.message));
-    // console.log(response.data?.data);
   } catch (error) {
-    const errorMessage = error.response?.data?.message || "Verification failed";
+    const errorMessage =
+      error.response?.data?.message || error.message || "Verification failed";
     dispatch(setError(errorMessage));
-    console.error("Error during Verification:", error.message);
+    console.error("Error during Verification:", errorMessage);
   }
 };
+
 
 export const loginUser = (credentials) => async (dispatch) => {
   try {
