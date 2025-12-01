@@ -11,7 +11,7 @@ export const ApiRoutes = {
   forgotPassword: BASIC_URL + `user/requestPasswordReset`,
   forgotPasswordSent: BASIC_URL + `user/resetPassword`,
 
-  addService: BASIC_URL + `service/addService`,
+  addedService: BASIC_URL + `service/addService`,
   getService: BASIC_URL + `service/fetchService`,
   editService: BASIC_URL + `service/editService`,
   deleteService: BASIC_URL + `service/deleteService`,

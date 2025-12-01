@@ -25,7 +25,7 @@ export const addService = async (serviceData) => {
 
     console.log("Token before sending request:", token);
 
-    const response = await axios.post(ApiRoutes.addService, serviceData, {
+    const response = await axios.post(ApiRoutes.addedService, serviceData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

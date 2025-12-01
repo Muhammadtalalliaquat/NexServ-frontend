@@ -58,9 +58,9 @@ function Navbar() {
   if (loadingUser) return null;
   return (
     <nav
-      className={`w-full fixed top-0 left-0 z-50 border-b border-pink-600 transition-all duration-300 bg-[#f2f4fd] px-4 py-3 flex items-center justify-between shadow-sm ${
+      className={`w-full fixed top-0 left-0 z-50 border-b border-pink-600 transition-all duration-300 bg-[#f2f4fd] px-4 py-2 sm:py-0 flex items-center justify-between shadow-sm ${
         isScrolled
-          ? "shadow-xl bg-gradient-to-br from-pink-500/10 via-blue-500/10 to-purple-500/10 backdrop-blur-3xl"
+          ? "bg-background/70 backdrop-blur-md"
           : ""
       } `}
     >
@@ -84,8 +84,8 @@ function Navbar() {
           {pathname !== "/nexserv" && (
             <li
               // onClick={handleNavigate}
-              className="flex items-center gap-2 cursor-pointer transition-all duration-300 
-             hover:rounded-[5px] hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
+              className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
+              hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
             >
               <Link href="/nexserv" className="flex items-center gap-2">
                 {/* <GoHome className="w-4 h-4" /> */}
@@ -95,8 +95,8 @@ function Navbar() {
           )}
           {pathname !== "/service" && (
             <li
-              className="flex items-center gap-2 cursor-pointer transition-all duration-300 
-             hover:rounded-[5px] hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
+              className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
+              hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
             >
               <Link href="/service" className="flex items-center gap-2">
                 {/* {isMenuOpen && <GrBusinessService className="w-4 h-4" />} */}
@@ -106,8 +106,8 @@ function Navbar() {
           )}
           {pathname !== "/Blog" && (
             <li
-              className="flex items-center gap-2 cursor-pointer transition-all duration-300 
-             hover:rounded-[5px] hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
+              className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
+              hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
             >
               <Link href="/Blog" className="flex items-center gap-2">
                 {/* {isMenuOpen && <FaMicroblog className="w-4 h-4" />} */}
@@ -117,8 +117,8 @@ function Navbar() {
           )}
           {pathname !== "/contact" && (
             <li
-              className="flex items-center gap-2 cursor-pointer transition-all duration-300 
-             hover:rounded-[5px] hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
+              className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
+              hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
             >
               <Link href="/contact" className="flex items-center gap-2">
                 {/* {isMenuOpen && <RiContactsLine className="w-4 h-4" />} */}
