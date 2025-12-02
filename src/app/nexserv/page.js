@@ -83,7 +83,7 @@ export default function HomeRoute() {
                       {new Date(service.createdAt).toLocaleDateString()}
                     </p>
                     <Link
-                      href="/serviceDetail"
+                      href={`/service-detail/${service._id}`}
                       className="px-3 py-1 text-sm bg-pink-600 text-white rounded-md hover:bg-pink-700 transition-colors duration-300"
                     >
                       Read More

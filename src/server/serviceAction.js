@@ -14,6 +14,19 @@ export const fetchService = async () => {
 };
 
 
+export const fetchOneService = async (id) => {
+  try {
+    const response = await axios.get(`${ApiRoutes.getOneService}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Failed to fetch services:",
+      error.response?.data || error.message
+    );
+  }
+};
+
+
 export const addService = async (serviceData) => {
   try {
     const token = localStorage.getItem("token");

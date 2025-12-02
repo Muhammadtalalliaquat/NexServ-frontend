@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { createService } from "../../store/features/serviceSlice";
-import withAdminCheck from "../../HOC/withAuth";
-import Navbar from "../../components/navbar";
-// import { useRouter } from "next/navigation";
+import { updateService } from "../../../store/features/serviceSlice";
+import { useParams } from "next/navigation";
+import withAdminCheck from "../../../HOC/withAuth";
+import Navbar from "../../../components/navbar";
 
-function AddService() {
+function UpdateService() {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [title, setTitle] = useState("");
@@ -16,54 +16,59 @@ function AddService() {
   const [description, setDescription] = useState("");
   const [SuccessMsg, setSuccessMsg] = useState("");
   const [errors, setErrors] = useState("");
+  const params = useParams();
+  const serviceId = params?.serviceId;
   // const [activeTab, setActiveTab] = useState("product");
   // const router = useRouter();
 
   const pricingPlans = {
     basic: {
-      price: 120,
+      price: 100,
       planId: "plan_basic",
       features: [
-        "Basic data cleaning",
-        "Small dataset analysis",
-        "2 visual reports",
-        "1 predictive model (simple)",
-        "Email support",
+        "Social media account setup (Facebook, Instagram)",
+        "1 platform campaign management",
+        "Basic SEO recommendations",
+        "Monthly performance report",
+        "1 revision/adjustment per month",
       ],
     },
     standard: {
-      price: 250,
+      price: 200,
       planId: "plan_standard",
       features: [
-        "Advanced data cleaning",
-        "Exploratory data analysis (EDA)",
-        "Detailed visual dashboards",
-        "Predictive model (medium complexity)",
-        "Model evaluation report",
-        "Email + chat support",
+        "Up to 3 social media platforms",
+        "Content creation for posts (images & captions)",
+        "SEO optimization for website",
+        "Monthly performance analytics report",
+        "Email marketing campaign setup",
+        "3 revisions/adjustments per month",
       ],
     },
     premium: {
       price: 300,
       planId: "plan_premium",
       features: [
-        "Enterprise-level data cleaning",
-        "Full EDA + deep insights",
-        "Interactive dashboards (Power BI/Tableau)",
-        "Advanced machine learning model",
-        "Model optimization + tuning",
-        "Deployment-ready model",
-        "Full documentation",
-        "Priority support",
+        "Up to 5 social media platforms",
+        "Custom content creation & scheduling",
+        "Advanced SEO optimization",
+        "Google Ads / Paid campaigns setup",
+        "Email marketing automation",
+        "Blog creation & management",
+        "Unlimited revisions/adjustments within 1 month",
+        "Detailed weekly performance report",
+        "Competitor analysis & strategy",
       ],
     },
   };
 
-  const ServiceProduct = (e) => {
+  const editService = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setErrors("");
+    setErrors({});
     setSuccessMsg("");
+
+    if (!serviceId) return;
 
     const formData = new FormData();
     formData.append("title", title);
@@ -72,7 +77,7 @@ function AddService() {
     formData.append("category", category);
     formData.append("pricingPlans", JSON.stringify(pricingPlans));
 
-    dispatch(createService(formData))
+    dispatch(updateService({ id: serviceId, serviceData: formData }))
       .then((result) => {
         const { error, msg } = result.payload || {};
 
@@ -95,8 +100,7 @@ function AddService() {
           return;
         }
 
-        // SUCCESS CASE
-        setSuccessMsg(msg || "Service added successfully!");
+        setSuccessMsg(msg || "Service updated successfully!");
         setTitle("");
         setCategory("");
         setImage("");
@@ -104,9 +108,8 @@ function AddService() {
         setErrors({});
         setIsSubmitting(false);
       })
-      .catch((err) => {
-        console.error("Fetch Error:", err);
-        setErrors({ general: "Something went wrong!" });
+      .catch((error) => {
+        console.error("Error submitting service:", error);
         setIsSubmitting(false);
       });
   };
@@ -122,11 +125,11 @@ function AddService() {
     <>
       <Navbar />
       <form
-        onSubmit={ServiceProduct}
+        onSubmit={editService}
         className="max-w-xl mx-auto mt-32 bg-white shadow-xl rounded-2xl p-8 space-y-6 border border-gray-100"
       >
         <h2 className="text-2xl font-bold text-gray-800 text-center">
-          Add New Service
+          Update Service
         </h2>
 
         {/* Title */}
@@ -219,7 +222,7 @@ function AddService() {
           {isSubmitting ? (
             <div className="animate-spin h-6 w-6 border-t-2 border-white rounded-full"></div>
           ) : (
-            "Add Service"
+            "Update Service"
           )}
         </button>
       </form>
@@ -227,4 +230,4 @@ function AddService() {
   );
 }
 
-export default withAdminCheck(AddService);
+export default withAdminCheck(UpdateService);

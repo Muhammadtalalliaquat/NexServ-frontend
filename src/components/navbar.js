@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, startTransition } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
@@ -22,18 +22,21 @@ function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
 
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setUser(storedUser);
-    setLoadingUser(false);
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
-    };
+ useEffect(() => {
+   const storedUser = JSON.parse(localStorage.getItem("user"));
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+   startTransition(() => {
+     setUser(storedUser);
+     setLoadingUser(false);
+   });
+
+   const handleScroll = () => {
+     setIsScrolled(window.scrollY > 30);
+   };
+
+   window.addEventListener("scroll", handleScroll);
+   return () => window.removeEventListener("scroll", handleScroll);
+ }, []);
 
   const toggleMenubar = () => {
     setIsMenuOpen((prev) => !prev);
@@ -188,7 +191,7 @@ function Navbar() {
           {pathname !== "/nexserv" && (
             <li
               // onClick={handleNavigate}
-              className="flex items-center gap-2 text-lg font-medium cursor-pointer pb-5 hover:text-blue-500 transition"
+              className="flex items-center gap-2 font-medium cursor-pointer pb-5 hover:text-blue-500 transition"
             >
               <Link href="/nexserv" className="flex items-center gap-2">
                 <GoHome className="w-4 h-4" />
@@ -197,7 +200,7 @@ function Navbar() {
             </li>
           )}
           {pathname !== "/service" && (
-            <li className="flex items-center gap-2 text-lg font-medium pb-5 hover:text-blue-500 transition">
+            <li className="flex items-center gap-2 font-medium pb-5 hover:text-blue-500 transition">
               <Link href="/service" className="flex items-center gap-2">
                 <GrBusinessService className="w-5 h-5" />
                 Services
@@ -205,7 +208,7 @@ function Navbar() {
             </li>
           )}
           {pathname !== "/Blog" && (
-            <li className="flex items-center gap-2 text-lg font-medium pb-5 hover:text-blue-500 transition">
+            <li className="flex items-center gap-2 font-medium pb-5 hover:text-blue-500 transition">
               <Link href="/Blog" className="flex items-center gap-2">
                 <FaMicroblog className="w-5 h-5" />
                 Blog
@@ -213,7 +216,7 @@ function Navbar() {
             </li>
           )}
           {pathname !== "/contact" && (
-            <li className="flex items-center gap-2 text-lg font-medium pb-5 hover:text-blue-500 transition">
+            <li className="flex items-center gap-2 font-medium pb-5 hover:text-blue-500 transition">
               <Link href="/contact" className="flex items-center gap-2">
                 <RiContactsLine className="w-5 h-5" />
                 Contact

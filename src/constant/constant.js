@@ -13,6 +13,7 @@ export const ApiRoutes = {
 
   addedService: BASIC_URL + `service/addService`,
   getService: BASIC_URL + `service/fetchService`,
+  getOneService: BASIC_URL + `service/fetchOneService`,
   editService: BASIC_URL + `service/editService`,
   deleteService: BASIC_URL + `service/deleteService`,
 
