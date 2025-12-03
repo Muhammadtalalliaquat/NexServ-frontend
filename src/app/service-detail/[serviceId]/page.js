@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getOneService } from "../../../store/features/serviceSlice";
+import {
+  getOneService,
+  removeService,
+} from "../../../store/features/serviceSlice";
+import { createUserService } from "../../../store/features/userServiceSlice";
 import { useParams, useRouter } from "next/navigation";
 import Navbar from "../../../components/navbar";
 import { useDispatch } from "react-redux";
@@ -13,10 +17,14 @@ export default function ServiceDetailPage() {
   const [loading, setLoading] = useState(true);
   const [serviceData, setServiceData] = useState([]);
   const [user, setUser] = useState(null);
+  const [errorMsg, setErrorMsg] = useState("");
+
   const dispatch = useDispatch();
-  //   const router = useRouter();
+  const router = useRouter();
   const params = useParams();
   const serviceId = params?.serviceId;
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,10 +50,50 @@ export default function ServiceDetailPage() {
     fetchData();
   }, [dispatch, serviceId]);
 
-  if (loading) return <NextServLoader />;
+  const handleDeleteService = async () => {
+    if (!serviceId) {
+      console.error("Product ID is missing!");
+      return;
+    }
 
-  const { title, description, image, category, pricingPlans } =
-    serviceData;
+    console.log(serviceId, "id here");
+
+    try {
+      const result = await dispatch(removeService(serviceId));
+      console.log("Service deleted successfully:", result);
+    } catch (error) {
+      console.error("Error deleting Service:", error);
+    } finally {
+      setLoading(false);
+      router.push("/nexserv");
+    }
+  };
+
+  const { title, description, image, category, pricingPlans } = serviceData;
+
+  const handleSelectPlan = (planId) => {
+    setSelectedPlan(planId);
+    setOpenModal(true);
+  };
+
+  const handleConfirmBooking = () => {
+    if (!user) {
+      setError("Please login before booking service");
+      return;
+    }
+    dispatch(createUserService({ serviceId, planId: selectedPlan }))
+      .then((result) => {
+        const { msg } = result.payload;
+        setErrorMsg(msg);
+        console.log("API Response:", result.payload);
+        setOpenModal(false);
+      })
+      .catch((err) => {
+        console.error("Fetch Error:", err);
+      });
+  };
+
+  if (loading) return <NextServLoader />;
 
   return (
     <>
@@ -85,6 +133,7 @@ export default function ServiceDetailPage() {
                 </Link>
 
                 <button
+                  onClick={handleDeleteService}
                   className="px-4 py-2 border border-red-500 text-red-600 hover:bg-red-50 
     rounded-lg text-sm font-medium transition"
                 >
@@ -136,27 +185,6 @@ export default function ServiceDetailPage() {
                     {planKey}
                   </h3>
                   <p className="text-4xl font-bold mb-4">${plan.price}</p>
-                  {/* <ul className="space-y-3 mb-6 pt-7 border-t border-gray-300">
-                    {plan.features.map((f, idx) => (
-                      <li key={idx} className="flex items-center gap-3">
-                        <span
-                          className={`w-5 h-5 flex items-center justify-center rounded-full text-white text-[12px]
-                            ${
-                              planKey === "basic"
-                                ? "bg-blue-500"
-                                : planKey === "standard"
-                                ? "bg-pink-500"
-                                : "bg-blue-800"
-                            }
-                           `}
-                        >
-                          ✓
-                        </span>
-
-                        <span className="text-gray-700">{f}</span>
-                      </li>
-                    ))}
-                  </ul> */}
 
                   <ul className="space-y-3 mb-6 pt-7 border-t border-gray-300">
                     {plan.features.map((f, idx) => (
@@ -182,6 +210,8 @@ export default function ServiceDetailPage() {
                     Select {planKey.charAt(0).toUpperCase() + planKey.slice(1)}
                   </button> */}
                   <button
+                    onClick={() => handleSelectPlan(plan.planId)}
+                    // onClick={() => {addUserService(plan.planId)}}
                     className={`mt-auto py-3 px-6 rounded-xl font-semibold transition transform hover:scale-105
       ${
         planKey === "basic"
@@ -197,6 +227,61 @@ export default function ServiceDetailPage() {
               );
             })}
           </div>
+
+          {openModal && (
+            <div
+              onClick={() => setOpenModal(false)}
+              className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            >
+              <div className="bg-white rounded-xl p-6 w-full max-w-md shadow-xl">
+                <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+                  Confirm Your Booking
+                </h2>
+
+                {user ? (
+                  <>
+                    <p className="text-gray-600 mb-4">
+                      You selected:{" "}
+                      <span className="font-bold">{selectedPlan}</span>
+                    </p>
+
+                    <div className="flex justify-end gap-4">
+                      <button
+                        onClick={() => setOpenModal(false)}
+                        className="px-4 py-2 border rounded-lg hover:bg-gray-200"
+                      >
+                        Cancel
+                      </button>
+
+                      <button
+                        onClick={handleConfirmBooking}
+                        className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700"
+                      >
+                        Confirm Booking
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <p className="text-red-600 mb-4">
+                    Please login before booking the service.
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {errorMsg && (
+            <div
+              className={`rounded-md px-3 py-2 mt-2 text-sm${
+                errorMsg.toLowerCase().includes("already")
+                  ? "text-red-600 bg-red-100 border border-red-400"
+                  : "text-green-600 bg-green-100 border border-green-400"
+              }
+              `}
+            >
+              {errorMsg}
+            </div>
+          )}
         </div>
       </div>
     </>
