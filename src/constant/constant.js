@@ -18,7 +18,7 @@ export const ApiRoutes = {
   deleteService: BASIC_URL + `service/deleteService`,
 
   userAddService: BASIC_URL + `user-service/userAddService`,
-  userGetService: BASIC_URL + `user-service/userAllServices`,
+  userGetService: BASIC_URL + `user-service/eachUserServices`,
   adminUpdateService: BASIC_URL + `user-service/updateService`,
 
   addContact: BASIC_URL + `contact-us/addContact`,

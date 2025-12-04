@@ -12,31 +12,33 @@ import { RiFunctionAddLine } from "react-icons/ri";
 import { FaMicroblog } from "react-icons/fa";
 import { LuAlignRight } from "react-icons/lu";
 import { clearUser } from "@/store/features/userSlice";
+import { FaRegUser } from "react-icons/fa";
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [loadingUser, setLoadingUser] = useState(true);
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const pathname = usePathname();
   const router = useRouter();
 
- useEffect(() => {
-   const storedUser = JSON.parse(localStorage.getItem("user"));
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
 
-   startTransition(() => {
-     setUser(storedUser);
-     setLoadingUser(false);
-   });
+    startTransition(() => {
+      setUser(storedUser);
+      setLoadingUser(false);
+    });
 
-   const handleScroll = () => {
-     setIsScrolled(window.scrollY > 30);
-   };
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+    };
 
-   window.addEventListener("scroll", handleScroll);
-   return () => window.removeEventListener("scroll", handleScroll);
- }, []);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const toggleMenubar = () => {
     setIsMenuOpen((prev) => !prev);
@@ -62,9 +64,7 @@ function Navbar() {
   return (
     <nav
       className={`w-full fixed top-0 left-0 z-50 border-b border-pink-600 transition-all duration-300 bg-[#f2f4fd] px-4 py-2 sm:py-0 flex items-center justify-between shadow-sm ${
-        isScrolled
-          ? "bg-background/70 backdrop-blur-md"
-          : ""
+        isScrolled ? "bg-background/70 backdrop-blur-md" : ""
       } `}
     >
       <div className="w-full container mx-auto flex items-center justify-between cursor-pointer pl-5 pr-5">
@@ -158,6 +158,49 @@ function Navbar() {
               Service
             </button>
           )}
+
+          {user && (
+            <div className="relative inline-block text-left">
+              <button
+                onClick={() => setOpen(!open)}
+                className="flex items-center justify-center w-10 h-10 sm:w-9 sm:h-9 bg-white text-gray-900 text-sm sm:text-base font-semibold border border-gray-300 rounded-full shadow-md hover:bg-pink-600 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
+              >
+                <FaRegUser />
+              </button>
+
+              {open && (
+                <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden animate-fadeIn">
+                  <div className="p-4 flex flex-col items-center gap-2 border-b border-gray-100">
+                    <div className="w-12 h-12 bg-pink-100 text-pink-600 flex items-center justify-center rounded-full text-xl font-bold">
+                      {user.userName.slice(0, 1).toUpperCase()}
+                    </div>
+                    <h3 className="text-gray-900 font-semibold text-lg">
+                      {user.userName}
+                    </h3>
+                    <p className="text-gray-500 text-sm break-all">
+                      {user.email}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col divide-y divide-gray-100">
+                    <Link
+                    href={"/dashborad"}
+                    className="px-4 py-2 text-gray-700 hover:bg-gray-100 text-left w-full transition">
+                      {/* <button className="px-4 py-2 text-gray-700 hover:bg-gray-100 text-left w-full transition"> */}
+                        Dashborad
+                      {/* </button> */}
+                    </Link>
+                    {/* <button className="px-4 py-2 text-gray-700 hover:bg-gray-100 text-left w-full transition">
+                      Settings
+                    </button>
+                    <button className="px-4 py-2 text-red-600 hover:bg-red-100 text-left w-full transition">
+                      Logout
+                    </button> */}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -234,14 +277,40 @@ function Navbar() {
               </Link>
             </li>
           )}
-          <li>
+          {user ? (
+            <button
+              onClick={logOut}
+              className="px-4 py-2 font-bold rounded-md border border-red-400 text-sm shadow-sm bg-red-400 text-white transition"
+            >
+              Sign out
+            </button>
+          ) : (
+            <button
+              onClick={() => router.push("/login")}
+              className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition block text-center"
+            >
+              Sign in
+            </button>
+          )}
+          {user && pathname !== "/dashbord" && (
+            <li>
+              <Link
+                href="/dashbord"
+                className="flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 hover:bg-pink-700 hover:text-white bg-gray-50 transition"
+              >
+                <RiFunctionAddLine className="w-5 h-5 text-blue-750" />
+                Dashbord
+              </Link>
+            </li>
+          )}
+          {/* <li>
             <Link
               href="/login"
               className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition block text-center"
             >
               Sign in
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </nav>

@@ -5,7 +5,10 @@ import {
   getOneService,
   removeService,
 } from "../../../store/features/serviceSlice";
-import { createUserService } from "../../../store/features/userServiceSlice";
+import {
+  createUserService,
+  getUserAllService,
+} from "../../../store/features/userServiceSlice";
 import { useParams, useRouter } from "next/navigation";
 import Navbar from "../../../components/navbar";
 import { useDispatch } from "react-redux";
@@ -25,6 +28,9 @@ export default function ServiceDetailPage() {
   const serviceId = params?.serviceId;
   const [openModal, setOpenModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [userService, setUserService] = useState([]);
+
+  const { title, description, image, category, pricingPlans } = serviceData;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,12 +39,15 @@ export default function ServiceDetailPage() {
       setLoading(true);
 
       try {
-        const [serviceRes] = await Promise.all([
-          dispatch(getOneService(serviceId)).unwrap(),
-        ]);
-
+        // Always call this
+        const serviceRes = await dispatch(getOneService(serviceId)).unwrap();
         setServiceData(serviceRes.data);
-        // console.log("Service is here:", serviceId);
+
+        // Only call user services if user exists
+        if (storedUser) {
+          const userSerData = await dispatch(getUserAllService()).unwrap();
+          setUserService(userSerData.data);
+        }
       } catch (err) {
         console.error("Fetch Error:", err);
         setError("Failed to load data.");
@@ -49,6 +58,32 @@ export default function ServiceDetailPage() {
 
     fetchData();
   }, [dispatch, serviceId]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const storedUser = JSON.parse(localStorage.getItem("user"));
+  //     setUser(storedUser);
+  //     setLoading(true);
+
+  //     try {
+  //       const [serviceRes , userSerData] = await Promise.all([
+  //         dispatch(getOneService(serviceId)).unwrap(),
+  //         dispatch(getUserAllService()).unwrap(),
+  //       ]);
+
+  //       setServiceData(serviceRes.data);
+  //       setUserService(userSerData.data);
+  //       // console.log("Service is here:", serviceId);
+  //     } catch (err) {
+  //       console.error("Fetch Error:", err);
+  //       setError("Failed to load data.");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [dispatch, serviceId]);
 
   const handleDeleteService = async () => {
     if (!serviceId) {
@@ -68,8 +103,6 @@ export default function ServiceDetailPage() {
       router.push("/nexserv");
     }
   };
-
-  const { title, description, image, category, pricingPlans } = serviceData;
 
   const handleSelectPlan = (planId) => {
     setSelectedPlan(planId);
@@ -93,6 +126,10 @@ export default function ServiceDetailPage() {
       });
   };
 
+  const activeService = userService?.services?.find(
+    (s) => s?.serviceId?._id === serviceData._id
+  );
+
   if (loading) return <NextServLoader />;
 
   return (
@@ -100,7 +137,9 @@ export default function ServiceDetailPage() {
       <Navbar />
       <div className="max-w-7xl mx-auto px-6 py-16 space-y-16 mt-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row items-center gap-8">
+        {/* Active service box */}
+
+        <div className="flex flex-col md:flex-row  gap-8">
           <Image
             src={image || "/placeholder.png"}
             alt={title}
@@ -110,7 +149,10 @@ export default function ServiceDetailPage() {
             priority
           />
           <div className="flex-1 space-y-4">
-            <h1 className="text-5xl font-extrabold">{title}</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold">
+              {title}
+            </h1>
+
             <div className="flex flex-wrap gap-3">
               {category.map((cat) => (
                 <span
@@ -141,12 +183,50 @@ export default function ServiceDetailPage() {
                 </button>
               </div>
             )}
+            {user && activeService ? (
+              <div className="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-green-50 to-green-100 border border-green-300 rounded-lg p-4 shadow-sm">
+                {/* Header */}
+                <h3 className="text-green-800 flex items-center gap-2 font-semibold text-base">
+                  <span className="w-2 h-2 bg-green-600 rounded-full"></span>
+                  Your Service is Activated
+                </h3>
+
+                {/* Status */}
+                <div className="flex flex-row sm:flex-row sm:items-center justify-between gap-2 mt-2 sm:mt-0">
+                  <span className="font-semibold text-gray-800">Status:</span>
+
+                  {activeService.status === "processing" && (
+                    <span className="px-3 py-1 bg-yellow-100 text-yellow-700 border border-yellow-400 rounded-md text-sm font-medium">
+                      ⏳ Processing
+                    </span>
+                  )}
+
+                  {activeService.status === "Booked" && (
+                    <span className="px-3 py-1 bg-blue-100 text-blue-700 border border-blue-400 rounded-md text-sm font-medium">
+                      Booked
+                    </span>
+                  )}
+
+                  {activeService.status === "completed" && (
+                    <span className="px-3 py-1 bg-green-100 text-green-700 border border-green-500 rounded-md text-sm font-medium">
+                      ✔ Completed
+                    </span>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="mt-5 p-4 bg-gray-50 border border-gray-200 rounded-lg text-gray-600 text-center">
+                You have not selected this service yet.
+              </div>
+            )}
           </div>
         </div>
 
         {/* Pricing Plans */}
         <div className="space-y-6">
-          <h2 className="text-4xl font-bold text-center">Choose Your Plan</h2>
+          <h2 className="text-4xl font-extrabold text-center">
+            Choose Your Plan
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {["basic", "standard", "premium"].map((planKey) => {
               const plan = pricingPlans[planKey];
