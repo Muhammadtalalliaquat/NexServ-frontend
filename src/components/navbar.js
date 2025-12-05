@@ -169,33 +169,30 @@ function Navbar() {
               </button>
 
               {open && (
-                <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden animate-fadeIn">
-                  <div className="p-4 flex flex-col items-center gap-2 border-b border-gray-100">
-                    <div className="w-12 h-12 bg-pink-100 text-pink-600 flex items-center justify-center rounded-full text-xl font-bold">
+                <div className="absolute right-0 mt-2 w-64 sm:w-85 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden animate-fadeIn">
+                  {/* User Info */}
+                  <div className="flex p-3 gap-3 border-b border-gray-100">
+                    <div className="w-12 h-12 bg-pink-100 text-pink-600 flex items-center justify-center rounded-full text-md font-bold">
                       {user.userName.slice(0, 1).toUpperCase()}
                     </div>
-                    <h3 className="text-gray-900 font-semibold text-lg">
-                      {user.userName}
-                    </h3>
-                    <p className="text-gray-500 text-sm break-all">
-                      {user.email}
-                    </p>
+                    <div className="flex flex-col">
+                      <h3 className="text-gray-900 font-semibold text-base sm:text-lg">
+                        {user.userName}
+                      </h3>
+                      <p className="text-gray-500 text-sm sm:text-base break-all">
+                        {user.email}
+                      </p>
+                    </div>
                   </div>
 
+                  {/* Menu Links */}
                   <div className="flex flex-col divide-y divide-gray-100">
                     <Link
-                    href={"/dashborad"}
-                    className="px-4 py-2 text-gray-700 hover:bg-gray-100 text-left w-full transition">
-                      {/* <button className="px-4 py-2 text-gray-700 hover:bg-gray-100 text-left w-full transition"> */}
-                        Dashborad
-                      {/* </button> */}
+                      href={"/dashboard"}
+                      className="px-4 py-2 text-gray-700 hover:bg-gray-100 text-left w-full transition text-sm sm:text-base"
+                    >
+                      Dashboard
                     </Link>
-                    {/* <button className="px-4 py-2 text-gray-700 hover:bg-gray-100 text-left w-full transition">
-                      Settings
-                    </button>
-                    <button className="px-4 py-2 text-red-600 hover:bg-red-100 text-left w-full transition">
-                      Logout
-                    </button> */}
                   </div>
                 </div>
               )}
@@ -298,7 +295,6 @@ function Navbar() {
                 href="/dashbord"
                 className="flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 hover:bg-pink-700 hover:text-white bg-gray-50 transition"
               >
-                <RiFunctionAddLine className="w-5 h-5 text-blue-750" />
                 Dashbord
               </Link>
             </li>

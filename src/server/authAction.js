@@ -1,5 +1,10 @@
 import axios from "axios";
 import { setUser, setError, setSuccess } from "@/store/features/userSlice";
+import {
+  setUserUpdate,
+  setLoading,
+  setErrorUpdate,
+} from "../store/features/userAcountUpdateSlice";
 import { ApiRoutes } from "@/constant/constant";
 
 export const registerUser = (userData) => async (dispatch) => {
@@ -68,41 +73,41 @@ export const loginUser = (credentials) => async (dispatch) => {
   }
 };
 
-// export const accountDetailsUpdate = (userData) => async (dispatch) => {
-//   try {
-//     // dispatch(setLoading(true));
-//     const response = await axios.post(ApiRoutes.accountUpdate, userData, {
-//       headers: {
-//         Authorization: `Bearer ${localStorage.getItem("token")}`,
-//       },
-//     });
+export const accountDetailsUpdate = (userData) => async (dispatch) => {
+  try {
+    dispatch(setLoading(true));
+    const response = await axios.post(ApiRoutes.accountUpdate, userData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
 
-//     // Correctly extract data
-//     const { data, msg } = response.data;
-//     const user = data;
-//     const token = localStorage.getItem("token");
+    // Correctly extract data
+    const { data, msg } = response.data;
+    const user = data;
+    const token = localStorage.getItem("token");
 
-//     console.log("Updated User Data:", user);
-//     console.log("Message:", msg);
-//     console.log("response:", response.data);
+    console.log("Updated User Data:", user);
+    console.log("Message:", msg);
+    console.log("response:", response.data);
 
-//     localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
 
-//     dispatch(setUserUpdate({ user, token }));
-//     dispatch(setLoading(false));
+    dispatch(setUserUpdate({ user, token }));
+    dispatch(setLoading(false));
 
-//     return { success: true, user, token };
-//   } catch (error) {
-//     console.error("API Error:", error.response?.data || error.message);
+    return { success: true, user, token };
+  } catch (error) {
+    console.error("API Error:", error.response?.data || error.message);
 
-//     const errorMessage =
-//       error.response?.data?.msg || "Update failed. Please try again.";
-//     dispatch(setErrorUpdate(errorMessage));
-//     dispatch(setLoading(false));
+    const errorMessage =
+      error.response?.data?.msg || "Update failed. Please try again.";
+    dispatch(setErrorUpdate(errorMessage));
+    dispatch(setLoading(false));
 
-//     return { success: false, error: errorMessage };
-//   }
-// };
+    return { success: false, error: errorMessage };
+  }
+};
 
 export const requestPasswordReset = async (email) => {
   try {

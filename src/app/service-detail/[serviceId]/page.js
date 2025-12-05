@@ -215,9 +215,10 @@ export default function ServiceDetailPage() {
                 </div>
               </div>
             ) : (
-              <div className="mt-5 p-4 bg-gray-50 border border-gray-200 rounded-lg text-gray-600 text-center">
-                You have not selected this service yet.
-              </div>
+              <></>
+              // <div className="mt-5 p-4 bg-gray-50 border border-gray-200 rounded-lg text-gray-600 text-center">
+              //   You have not selected this service yet.
+              // </div>
             )}
           </div>
         </div>
@@ -234,7 +235,7 @@ export default function ServiceDetailPage() {
               return (
                 <div
                   key={plan.planId}
-                  className={`border-2 rounded-2xl p-6 flex flex-col justify-between shadow-lg transition-all duration-300 group 
+                  className={`border-2 rounded-2xl bg-gray-50 p-6 flex flex-col justify-between shadow-lg transition-all duration-300 group 
                   ${
                     planKey === "basic"
                       ? "border-blue-500 hover:bg-blue-50"
@@ -286,20 +287,18 @@ export default function ServiceDetailPage() {
                       </li>
                     ))}
                   </ul>
-                  {/* <button className="mt-auto bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white py-3 px-6 rounded-xl font-semibold transition transform hover:scale-105">
-                    Select {planKey.charAt(0).toUpperCase() + planKey.slice(1)}
-                  </button> */}
+
                   <button
                     onClick={() => handleSelectPlan(plan.planId)}
                     // onClick={() => {addUserService(plan.planId)}}
                     className={`mt-auto py-3 px-6 rounded-xl font-semibold transition transform hover:scale-105
-      ${
-        planKey === "basic"
-          ? "bg-blue-500 hover:bg-blue-600 text-white"
-          : planKey === "standard"
-          ? "bg-pink-500 hover:bg-pink-600 text-white"
-          : "bg-blue-800 hover:bg-blue-900 text-white"
-      }`}
+                    ${
+                      planKey === "basic"
+                        ? "bg-blue-500 hover:bg-blue-600 text-white"
+                        : planKey === "standard"
+                        ? "bg-pink-500 hover:bg-pink-600 text-white"
+                        : "bg-blue-800 hover:bg-blue-900 text-white"
+                    }`}
                   >
                     Select {planKey.charAt(0).toUpperCase() + planKey.slice(1)}
                   </button>

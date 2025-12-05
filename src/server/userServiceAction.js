@@ -23,6 +23,28 @@ export const fetchUserService = async () => {
   }
 };
 
+export const getUserService = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("Token is missing!");
+      return;
+    }
+    const response = await axios.get(`${ApiRoutes.userFetchAllService}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Failed to fetch user service:",
+      error.response?.data || error.message
+    );
+  }
+};
+
 
 export const addUserService = async (serviceId , planId) => {
   try {

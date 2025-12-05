@@ -12,15 +12,15 @@ import Link from "next/link";
 export default function HomeRoute() {
   const [serviceData, setServiceData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
-      const storedUser = JSON.parse(localStorage.getItem("user"));
-      setUser(storedUser);
-      setLoading(true);
-
+      // const storedUser = JSON.parse(localStorage.getItem("user"));
+      // setUser(storedUser);
+      setLoading(true); 
+      
       try {
         const [heroRes] = await Promise.all([
           dispatch(getAllService()).unwrap(),

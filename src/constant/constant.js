@@ -10,6 +10,7 @@ export const ApiRoutes = {
   verifyEmail: BASIC_URL + `user/verifyemail`,
   forgotPassword: BASIC_URL + `user/requestPasswordReset`,
   forgotPasswordSent: BASIC_URL + `user/resetPassword`,
+  accountUpdate: BASIC_URL + `user/updateAccount`,
 
   addedService: BASIC_URL + `service/addService`,
   getService: BASIC_URL + `service/fetchService`,
@@ -19,6 +20,7 @@ export const ApiRoutes = {
 
   userAddService: BASIC_URL + `user-service/userAddService`,
   userGetService: BASIC_URL + `user-service/eachUserServices`,
+  userFetchAllService: BASIC_URL + `user-service/userAllServices`,
   adminUpdateService: BASIC_URL + `user-service/updateService`,
 
   addContact: BASIC_URL + `contact-us/addContact`,

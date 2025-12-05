@@ -1,14 +1,20 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   fetchUserService,
+  getUserService,
   addUserService,
   updateServiceStatus,
 } from "../../server/userServiceAction";
 
-export const getUserAllService = createAsyncThunk(
-  "userService/fetch",
-  async () => {
+export const getUserAllService = createAsyncThunk("userService/fetch", async () => {
     const response = await fetchUserService();
+    console.log("API Response:", response);
+    return response;
+  }
+);
+
+export const UserFetchService = createAsyncThunk("userAllService/fetch", async () => {
+    const response = await getUserService();
     console.log("API Response:", response);
     return response;
   }
@@ -44,6 +50,17 @@ const userServiceSlice = createSlice({
         state.userService = action.payload;
       })
       .addCase(getUserAllService.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(UserFetchService.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(UserFetchService.fulfilled, (state, action) => {
+        state.status = "success";
+        state.userService = action.payload;
+      })
+      .addCase(UserFetchService.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })
