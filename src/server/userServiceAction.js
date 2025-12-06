@@ -69,7 +69,7 @@ export const addUserService = async (serviceId , planId) => {
   }
 };
 
-export const updateServiceStatus = async (serviceItemId, status) => {
+export const updateServiceStatus = async (id, status ) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -78,17 +78,17 @@ export const updateServiceStatus = async (serviceItemId, status) => {
       return;
     }
 
-    const response = await axios.put(`${ApiRoutes.adminUpdateService}/${serviceItemId}`,status,{
+    const response = await axios.put(`${ApiRoutes.adminUpdateService}/${id}`,{ status },{
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     );
-    console.log("Product order status updated:", response.data);
+    console.log("Service plan status updated:", response.data);
     return response.data;
   } catch (error) {
     console.error(
-      "Failed to update order status:",
+      "Failed to service plan status:",
       error.response?.data || error.message
     );
   }

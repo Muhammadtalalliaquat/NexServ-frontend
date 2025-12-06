@@ -26,8 +26,8 @@ export const createUserService = createAsyncThunk("userService/add", async ({ se
   return response;
 });
 
-export const updateService = createAsyncThunk("userService/edit", async ({ serviceItemId, status }) => {
-    const response = await updateServiceStatus(serviceItemId, status);
+export const updateService = createAsyncThunk("userService/edit", async ({ id, status  }) => {
+    const response = await updateServiceStatus(id, status);
     console.log("API Response: service status updated successfully:", response);
     if (!response) {
       throw new Error("No response from API");

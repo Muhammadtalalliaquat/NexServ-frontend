@@ -21,43 +21,48 @@ function AddService() {
 
   const pricingPlans = {
     basic: {
-      price: 120,
-      planId: "plan_basic",
+      price: 150,
+      planId: "network_basic",
       features: [
-        "Basic data cleaning",
-        "Small dataset analysis",
-        "2 visual reports",
-        "1 predictive model (simple)",
+        "Basic network health check",
+        "Router & switch configuration (basic)",
+        "Firewall rules review",
+        "LAN/WiFi performance check",
+        "1 troubleshooting session",
         "Email support",
       ],
     },
+
     standard: {
       price: 250,
-      planId: "plan_standard",
+      planId: "network_standard",
       features: [
-        "Advanced data cleaning",
-        "Exploratory data analysis (EDA)",
-        "Detailed visual dashboards",
-        "Predictive model (medium complexity)",
-        "Model evaluation report",
+        "Full network audit & documentation",
+        "VLAN setup & optimization",
+        "Advanced router + firewall configuration",
+        "Bandwidth monitoring setup",
+        "Security hardening recommendations",
+        "2 troubleshooting sessions",
         "Email + chat support",
       ],
     },
+
     premium: {
-      price: 300,
-      planId: "plan_premium",
+      price: 400,
+      planId: "network_premium",
       features: [
-        "Enterprise-level data cleaning",
-        "Full EDA + deep insights",
-        "Interactive dashboards (Power BI/Tableau)",
-        "Advanced machine learning model",
-        "Model optimization + tuning",
-        "Deployment-ready model",
-        "Full documentation",
-        "Priority support",
+        "Enterprise-grade network assessment",
+        "Firewall advanced security policies (IDS/IPS)",
+        "VPN setup (Site-to-Site / Remote Access)",
+        "Network segmentation + VLAN architecture",
+        "High-availability (failover) configuration",
+        "24/7 priority troubleshooting",
+        "Monthly performance reports",
+        "Dedicated support manager",
       ],
     },
   };
+
 
   const ServiceProduct = (e) => {
     e.preventDefault();

@@ -1,13 +1,16 @@
 import { useEffect, useState, startTransition } from "react";
 import { useDispatch } from "react-redux";
-import { UserFetchService } from "../store/features/userServiceSlice";
+import {
+  UserFetchService,
+  updateService,
+} from "../store/features/userServiceSlice";
 import { MdOutlineAccessTime } from "react-icons/md";
 import { LiaEdit } from "react-icons/lia";
 import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
 } from "react-icons/md";
-
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 export default function PlanHistory() {
@@ -16,6 +19,7 @@ export default function PlanHistory() {
   const [user, setUser] = useState(null);
   const [userPlanData, setUserPlanData] = useState([]);
   const [showFeatures, setShowFeatures] = useState(false);
+  const [satusToggle, setSatusToggle] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -38,15 +42,51 @@ export default function PlanHistory() {
     setShowFeatures((prev) => (prev === id ? null : id));
   };
 
+   const toggleDropdownStatus = (serviceId) => {
+     setSatusToggle((prev) => (prev === serviceId ? null : serviceId));
+   };
+
+  const updatePlanStatus = (id, status) => {
+    dispatch(updateService({ id, status }))
+      .then((result) => {
+        setLoading(false);
+        const updated = result.payload?.data;
+        console.log("UPDATED DATA ===>", updated);
+        if (updated) {
+          setUserPlanData((prev) =>
+            prev.map((user) => ({
+              ...user,
+              services: user.services.map((srv) =>
+                srv._id === id
+                  ? { ...srv, status }
+                  : srv
+              ),
+            }))
+          );
+        }
+      })
+      .catch((err) => {
+        console.error("Fetch Error:", err);
+        setLoading(false);
+      });
+  };
+
+  if (!user) return;
+
   return (
     <>
-      <div className="px-4 py-8 sm:px-6 lg:px-10">
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">
+      <div>
+        <h2
+          className="text-xl sm:text-2xl md:text-3xl font-bold 
+          bg-gradient-to-r from-blue-600 to-blue-800 
+          text-white shadow-md rounded-md 
+          px-5 py-4 mt-10 mb-6 tracking-wide"
+        >
           {user?.isAdmin ? "All Users Plans" : "Your Plan History"}
         </h2>
 
         {loading && (
-          <div className="text-center py-10">
+          <div className="relative  top-50 text-center py-10">
             <div className="w-10 h-10 border-4 border-gray-300 border-t-blue-600 rounded-full animate-spin mx-auto"></div>
           </div>
         )}
@@ -55,7 +95,7 @@ export default function PlanHistory() {
           <p className="text-gray-500 text-center">No plan history found.</p>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {userPlanData?.map((item) => (
             <div
               key={item._id}
@@ -103,12 +143,11 @@ export default function PlanHistory() {
                       >
                         {showFeatures === service._id ? (
                           <>
-                            <MdOutlineKeyboardArrowUp size={20} /> Show Features
+                            <MdOutlineKeyboardArrowUp size={20} />
                           </>
                         ) : (
                           <>
-                            <MdOutlineKeyboardArrowDown size={20} /> Hide
-                            Features
+                            <MdOutlineKeyboardArrowDown size={20} />
                           </>
                         )}
                       </button>
@@ -137,11 +176,10 @@ export default function PlanHistory() {
                     )}
                   </div>
 
-                  {user?.isAdmin && (
-                    <div className="mt-5">
-                      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-3">
-                        <span
-                          className={`text-xs px-3 py-1 rounded-md font-medium 
+                  <div className="mt-5">
+                    <div className="flex flex-row sm:flex-row items-center justify-between gap-3 mt-3">
+                      <span
+                        className={`text-xs px-3 py-1 rounded-md font-medium 
                   ${
                     service.status === "processing"
                       ? "bg-yellow-100 text-yellow-800"
@@ -152,35 +190,90 @@ export default function PlanHistory() {
                       : "bg-gray-100 text-gray-700"
                   }
                 `}
-                        >
-                          {service.status}
-                        </span>
-                        <button
-                          className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 
-               bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium 
-               rounded-lg shadow-md transition-all active:scale-95"
-                        >
-                          <LiaEdit />
-                          Edit Status
-                        </button>
-                      </div>
-
-                      <div
-                        className="mt-3 flex items-center gap-2 text-xs text-gray-500 bg-gray-100 
-                  px-3 py-1 rounded-full w-fit shadow-sm"
                       >
-                        <MdOutlineAccessTime />
+                        {service.status}
+                      </span>
+                      {user?.isAdmin && (
+                        <div className="relative">
+                          <span
+                            onClick={() => toggleDropdownStatus(service._id)}
+                            className="cursor-pointer hover:text-gray-600"
+                          >
+                            <button
+                              className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-1
+                         bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium
+                         rounded-lg shadow-md transition-all active:scale-95"
+                            >
+                              <LiaEdit />
+                              Edit Status
+                            </button>
+                          </span>
 
-                        <span>
-                          Created at:{" "}
-                          {new Date(service.createdAt).toLocaleString("en-US", {
-                            dateStyle: "medium",
-                            timeStyle: "short",
-                          })}
-                        </span>
-                      </div>
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{
+                              opacity: satusToggle ? 1 : 0,
+                              height: satusToggle ? "auto" : 0,
+                            }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="overflow-hidden absolute right-0 z-10"
+                          >
+                            {satusToggle === service._id && (
+                              <div className="mt-2 w-48 shadow-xl bg-white transition-all duration-300 ease-out transform">
+                                <div className="py-1">
+                                  {[
+                                    "processing",
+                                    "Booked",
+                                    "completed",
+                                    "cancelled",
+                                  ].map((status) => {
+                                    const statusClassMap = {
+                                      processing:
+                                        "hover:bg-blue-200 active:bg-blue-300",
+                                      Booked:
+                                        "hover:bg-green-200 active:bg-green-300",
+                                      completed:
+                                        "hover:bg-purple-200 active:bg-purple-300",
+                                      cancelled:
+                                        "hover:bg-red-200 active:bg-red-300",
+                                    };
+
+                                    return (
+                                      <button
+                                        key={status}
+                                        onClick={() =>
+                                          updatePlanStatus(service._id, status)
+                                        }
+                                        className={`block w-full px-4 py-2 text-sm border border-gray-200 font-medium text-gray-700 bg-gray-100 focus:outline-none transition-all ${statusClassMap[status]}`}
+                                      >
+                                        {status}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            )}
+                          </motion.div>
+                        </div>
+                      )}
                     </div>
-                  )}
+
+                    <div
+                      className="mt-3 flex items-center gap-2 text-xs text-gray-500 bg-gray-100 
+                  px-3 py-1 rounded-full w-fit shadow-sm"
+                    >
+                      <MdOutlineAccessTime />
+
+                      <span>
+                        Created at:{" "}
+                        {new Date(service.createdAt).toLocaleString("en-US", {
+                          dateStyle: "medium",
+                          timeStyle: "short",
+                        })}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

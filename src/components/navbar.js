@@ -63,7 +63,7 @@ function Navbar() {
   if (loadingUser) return null;
   return (
     <nav
-      className={`w-full fixed top-0 left-0 z-50 border-b border-pink-600 transition-all duration-300 bg-[#f2f4fd] px-4 py-2 sm:py-0 flex items-center justify-between shadow-sm ${
+      className={`w-full fixed top-0 left-0 z-50 border-b border-blue-600 transition-all duration-300 bg-[#f2f4fd] px-4 py-2 sm:py-0 flex items-center justify-between shadow-sm ${
         isScrolled ? "bg-background/70 backdrop-blur-md" : ""
       } `}
     >
@@ -133,17 +133,10 @@ function Navbar() {
 
         {/* Actions */}
         <div className="hidden sm:flex items-center gap-3">
-          {user ? (
-            <button
-              onClick={logOut}
-              className="bg-white px-5 py-1 font-bold rounded-md border border-red-400 text-gray-900 text-sm shadow-sm hover:bg-red-400 hover:text-white transition"
-            >
-              Sign out
-            </button>
-          ) : (
+          {!user && (
             <button
               onClick={() => router.push("/login")}
-              className="bg-white px-5 py-1 font-bold rounded-md border border-blue-600 text-gray-900 text-sm shadow-sm hover:bg-blue-600 hover:text-white transition"
+              className="bg-white px-4 py-2 text-left rounded-md w-full border border-blue-600 text-blue-900 text-sm shadow-sm hover:bg-blue-600 hover:text-white transition"
             >
               Sign in
             </button>
@@ -179,7 +172,7 @@ function Navbar() {
                       <h3 className="text-gray-900 font-semibold text-base sm:text-lg">
                         {user.userName}
                       </h3>
-                      <p className="text-gray-500 text-sm sm:text-base break-all">
+                      <p className="text-gray-500 text-sm sm:text-base break-all break-all">
                         {user.email}
                       </p>
                     </div>
@@ -193,6 +186,22 @@ function Navbar() {
                     >
                       Dashboard
                     </Link>
+
+                    {user ? (
+                      <button
+                        onClick={logOut}
+                        className="bg-white px-4 py-2 text-left w-full text-gray-900 text-sm shadow-sm hover:bg-red-300 hover:text-white transition"
+                      >
+                        Sign out
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => router.push("/login")}
+                        className="bg-white px-4 py-2 text-left w-full text-gray-900 text-sm shadow-sm hover:bg-blue-600 hover:text-white transition"
+                      >
+                        Sign in
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
