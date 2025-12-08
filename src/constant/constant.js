@@ -23,6 +23,11 @@ export const ApiRoutes = {
   userFetchAllService: BASIC_URL + `user-service/userAllServices`,
   adminUpdateService: BASIC_URL + `user-service/updateService`,
 
+  addedBlog: BASIC_URL + `blogs/addBlog`,
+  getBlog: BASIC_URL + `blogs/fetchAllBlogs`,
+  editBlog: BASIC_URL + `blogs/editBlog`,
+  deleteBlog: BASIC_URL + `blogs/deleteBlog`,
+
   addContact: BASIC_URL + `contact-us/addContact`,
   getContact: BASIC_URL + `contact-us/getContacts`,
 };
