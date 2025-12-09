@@ -24,7 +24,8 @@ export const ApiRoutes = {
   adminUpdateService: BASIC_URL + `user-service/updateService`,
 
   addedBlog: BASIC_URL + `blogs/addBlog`,
-  getBlog: BASIC_URL + `blogs/fetchAllBlogs`,
+  getBlog: BASIC_URL + `blogs/fetch3blog`,
+  getOneBlog: BASIC_URL + `blogs/fetchOneBlog`,
   editBlog: BASIC_URL + `blogs/editBlog`,
   deleteBlog: BASIC_URL + `blogs/deleteBlog`,
 

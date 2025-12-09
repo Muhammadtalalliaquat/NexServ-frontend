@@ -30,7 +30,7 @@ export default function HomeRoute() {
         ]);
 
         setServiceData(heroRes.data);
-        setBlogData(blogRes.data.blogs);
+        setBlogData(blogRes.data);
         console.log("Service is here:", heroRes.data);
       } catch (err) {
         console.error("Fetch Error:", err);
@@ -104,7 +104,7 @@ export default function HomeRoute() {
         </div>
       </section>
 
-      <div className="bg-gradient-to-t from-gray-400 via-gray-200 to-white py-19 px-4 md:px-10 w-full">
+      <div className="bg-gradient-to-t from-gray-300 via-gray-200 to-white py-19 px-4 md:px-10 w-full">
         <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 text-center">
             Recently <span className="text-pink-600">Publish Articles</span>
@@ -127,9 +127,10 @@ export default function HomeRoute() {
                   blogData[0]?.image || "https://via.placeholder.com/600x400"
                 }
                 alt={blogData[0]?.title}
-                width={900}
-                height={600}
+                width={1500}
+                height={1500}
                 className="w-full h-[480px] lg:h-[520px] object-cover group-hover:scale-105 transition duration-500"
+                priority
               />
 
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80"></div>
@@ -138,48 +139,66 @@ export default function HomeRoute() {
                 {blogData[0]?.tags?.[0] || "Blog"}
               </span>
 
-              <div className="absolute bottom-6 left-6 right-6 text-white">
-                <h3 className="text-3xl font-bold">{blogData[0]?.title}</h3>
+              <div
+                className="absolute bottom-4 left-4 right-4 text-white 
+                bg-gradient-to-t from-transparent to-gray-500/60 
+                p-4 rounded-lg"
+              >
+                <h3 className="text-lg font-semibold">{blogData[0]?.title}</h3>
 
-                <p className="text-gray-300 mt-2 line-clamp-3">
+                <p className="text-gray-200 text-sm mb-4 line-clamp-2">
                   {blogData[0]?.content}
                 </p>
 
-                <button className="mt-4 bg-pink-600 px-5 py-2 rounded-md text-sm hover:bg-pink-700 transition">
+                <Link
+                  href={`/blog-page/${blogData[0]._id}`}
+                  // href={`/blog-detail/${blogData[0]._id}`}
+                  className="bg-pink-600 px-3 py-2 rounded-md text-xs
+                     hover:bg-pink-700 transition cursor-pointer"
+                >
                   Read More
-                </button>
+                </Link>
               </div>
             </div>
 
             {blogData.slice(1, 3).map((blog, i) => (
               <div
                 key={i}
-                className="relative rounded-md overflow-hidden shadow-lg group cursor-pointer"
+                className="relative rounded-md overflow-hidden shadow-lg group"
               >
                 <Image
                   src={blog.image || "https://via.placeholder.com/600x400"}
                   alt={blog.title}
                   width={600}
-                  height={400}
-                  className="w-full h-56 object-cover group-hover:scale-105 transition duration-500"
+                  height={600}
+                  className="w-full h-62 object-cover group-hover:scale-105 transition duration-500"
+                  priority
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80"></div>
+                {/* <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80"></div> */}
 
                 <span className="absolute top-4 right-4 bg-blue-600 px-2 py-1 rounded-full text-xs text-white shadow-md">
-                  {blog.tags?.[0] || "Blog"}
+                  {blog.tags?.[1] || "Blog"}
                 </span>
 
-                <div className="absolute bottom-4 left-4 right-4 text-white">
-                  <h3 className="text-xl font-bold">{blog.title}</h3>
+                <div
+                  className="absolute bottom-4 left-4 right-4 text-white 
+                bg-gradient-to-t from-transparent to-gray-500/60 
+                p-4 rounded-lg"
+                >
+                  <h3 className="text-lg font-semibold">{blog.title}</h3>
 
-                  <p className="text-gray-300 text-sm mt-1 line-clamp-2">
+                  <p className="text-gray-200 text-sm mb-4 line-clamp-2">
                     {blog.content}
                   </p>
 
-                  <button className="mt-3 bg-pink-600 px-3 py-2 rounded-md text-xs hover:bg-pink-700 transition">
+                  <Link
+                    href={`/blog-page/${blog._id}`}
+                    className="mt-3 bg-pink-600 px-3 py-2 rounded-md text-xs
+                     hover:bg-pink-700 transition cursor-pointer"
+                  >
                     Read More
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))}

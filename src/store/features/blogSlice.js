@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   fetchBlogs,
+  fetchOneBlogs,
   addBlog,
   editBlog,
   deleteBlogs,
@@ -8,6 +9,12 @@ import {
 
 export const getAllBlogs = createAsyncThunk("blogs/fetch", async () => {
   const response = await fetchBlogs();
+  console.log("API Response:", response);
+  return response;
+});
+
+export const getOneBlogs = createAsyncThunk("blogs/fetchOne", async (id) => {
+  const response = await fetchOneBlogs(id);
   console.log("API Response:", response);
   return response;
 });
@@ -51,6 +58,17 @@ const blogSlice = createSlice({
         state.blogs = action.payload;
       })
       .addCase(getAllBlogs.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(getOneBlogs.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getOneBlogs.fulfilled, (state, action) => {
+        state.status = "success";
+        state.blogs = action.payload;
+      })
+      .addCase(getOneBlogs.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })

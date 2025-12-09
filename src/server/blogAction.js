@@ -13,6 +13,18 @@ export const fetchBlogs = async () => {
   }
 };
 
+export const fetchOneBlogs = async (id) => {
+  try {
+    const response = await axios.get(`${ApiRoutes.getOneBlog}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Failed to fetch blogs:",
+      error.response?.data || error.message
+    );
+  }
+};
+
 export const addBlog = async (blogData) => {
   try {
     const token = localStorage.getItem("token");
