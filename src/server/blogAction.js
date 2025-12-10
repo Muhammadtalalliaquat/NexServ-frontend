@@ -47,7 +47,7 @@ export const addBlog = async (blogData) => {
   }
 };
 
-export const editBlog = async (id, blogData) => {
+export const editBlog = async (id, BlogData) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -56,7 +56,7 @@ export const editBlog = async (id, blogData) => {
       return;
     }
 
-    const response = await axios.put(`${ApiRoutes.editBlog}/${id}`, blogData, {
+    const response = await axios.put(`${ApiRoutes.editBlog}/${id}`, BlogData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

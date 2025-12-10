@@ -25,8 +25,8 @@ export const createBlog = createAsyncThunk("blogs/add", async (blogData) => {
   return response;
 });
 
-export const updateBlog = createAsyncThunk("blogs/edit", async ({ id, blogData }) => {
-  const response = await editBlog(id, blogData);
+export const updateBlog = createAsyncThunk("blogs/edit", async ({ id, BlogData }) => {
+  const response = await editBlog(id, BlogData);
   console.log("API Response: blog updated successfully:", response);
   if (!response) {
     throw new Error("No response from API");

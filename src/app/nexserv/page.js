@@ -2,6 +2,7 @@
 
 import { getAllService } from "../../store/features/serviceSlice";
 import { getAllBlogs } from "../../store/features/blogSlice";
+import { getAllReview } from "../../store/features/reviewSlice";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import HereSection from "../../components/heresection";
@@ -13,6 +14,7 @@ import Link from "next/link";
 export default function HomeRoute() {
   const [serviceData, setServiceData] = useState([]);
   const [blogData, setBlogData] = useState([]);
+  const [reviewData, setReviewData] = useState([]);
   const [loading, setLoading] = useState(true);
   // const [user, setUser] = useState(null);
   const dispatch = useDispatch();
@@ -24,13 +26,15 @@ export default function HomeRoute() {
       setLoading(true);
 
       try {
-        const [heroRes, blogRes] = await Promise.all([
+        const [heroRes, blogRes, reviewRes] = await Promise.all([
           dispatch(getAllService()).unwrap(),
           dispatch(getAllBlogs()).unwrap(),
+          dispatch(getAllReview()).unwrap(),
         ]);
 
         setServiceData(heroRes.data);
         setBlogData(blogRes.data);
+        setReviewData(reviewRes.data);
         console.log("Service is here:", heroRes.data);
       } catch (err) {
         console.error("Fetch Error:", err);

@@ -5,6 +5,7 @@ import contactReducer from "../store/features/contactSlice";
 import userServiceReducer from "./features/userServiceSlice";
 import accountReducer from "./features/userAcountUpdateSlice";
 import blogReducer from "./features/blogSlice";
+import reviewReducer from "./features/reviewSlice";
 
 // const persistedReducer = persistReducer(persistConfig, userReducer);
 
@@ -16,6 +17,7 @@ export const store = configureStore({
     userService: userServiceReducer,
     userAcount: accountReducer,
     blog: blogReducer,
+    review: reviewReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

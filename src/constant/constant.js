@@ -29,6 +29,9 @@ export const ApiRoutes = {
   editBlog: BASIC_URL + `blogs/editBlog`,
   deleteBlog: BASIC_URL + `blogs/deleteBlog`,
 
+  addReview: BASIC_URL + `user-review/addReview`,
+  getReview: BASIC_URL + `user-review/getReview`,
+
   addContact: BASIC_URL + `contact-us/addContact`,
   getContact: BASIC_URL + `contact-us/getContacts`,
 };
