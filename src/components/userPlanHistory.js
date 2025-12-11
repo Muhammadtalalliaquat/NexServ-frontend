@@ -104,9 +104,9 @@ export default function PlanHistory() {
               {user?.isAdmin && (
                 <div className="mb-3 pb-3 border-b border-gray-200">
                   <h4 className="font-semibold text-gray-700">
-                    {item.author.userName}
+                    {item.author?.userName}
                   </h4>
-                  <p className="text-sm text-gray-500">{item.author.email}</p>
+                  <p className="text-sm text-gray-500">{item.author?.email}</p>
                 </div>
               )}
 
@@ -223,7 +223,6 @@ export default function PlanHistory() {
                               <div className="mt-2 w-48 shadow-xl bg-white transition-all duration-300 ease-out transform">
                                 <div className="py-1">
                                   {[
-                                    "processing",
                                     "Booked",
                                     "completed",
                                     "cancelled",

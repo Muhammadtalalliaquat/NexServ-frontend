@@ -12,12 +12,41 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function HomeRoute() {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [serviceData, setServiceData] = useState([]);
   const [blogData, setBlogData] = useState([]);
   const [reviewData, setReviewData] = useState([]);
   const [loading, setLoading] = useState(true);
   // const [user, setUser] = useState(null);
   const dispatch = useDispatch();
+  const [itemsPerSlide, setItemsPerSlide] = useState(2);
+
+  // const itemsPerSlide = 2;
+  const totalSlides = Math.ceil(reviewData.length / itemsPerSlide);
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1 < totalSlides ? prev + 1 : 0));
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 >= 0 ? prev - 1 : totalSlides - 1));
+  };
+
+  // const start = currentIndex * itemsPerSlide;
+  // const visibleReviews = reviewData.slice(start, start + itemsPerSlide);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setItemsPerSlide(1);
+      } else {
+        setItemsPerSlide(2);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -208,6 +237,76 @@ export default function HomeRoute() {
             ))}
           </div>
         )}
+      </div>
+
+      <div className="w-full py-12 px-4 md:px-10 bg-gradient-to-t from-white to-gray-300">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-black">
+            What Our<span className="text-pink-600"> Clients Say </span>
+          </h2>
+          <p className="text-gray-600 mt-2 text-sm md:text-base">
+            Our users love our services. Here&apos;s what they say:
+          </p>
+        </div>
+
+        <div className="w-full max-w-5xl mx-auto relative overflow-hidden">
+          <div
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          >
+            {reviewData.map((review) => (
+              <div
+                key={review._id}
+                className={`flex-shrink-0 w-full ${
+                  itemsPerSlide === 2 ? "sm:w-1/2" : "sm:w-full"
+                } p-3`}
+              >
+                <div className="bg-white shadow-md rounded-xl p-6 border border-pink-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 h-full">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {review.author?.userName || "Unknown User"}
+                    </h3>
+                    <div className="flex">
+                      {Array.from({ length: review.rating }).map((_, i) => (
+                        <span key={i} className="text-yellow-500 text-xl">
+                          ★
+                        </span>
+                      ))}
+                      {Array.from({ length: 5 - review.rating }).map((_, i) => (
+                        <span key={i} className="text-gray-300 text-xl">
+                          ★
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {review.comment}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-4">
+                    {new Date(review.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-center mt-6 gap-4">
+            <div className="flex justify-center mt-6 gap-4">
+              <button
+                onClick={prevSlide}
+                className="bg-pink-600 text-white w-10 h-10 flex items-center justify-center rounded-full shadow hover:bg-pink-700 transition"
+              >
+                ‹
+              </button>
+              <button
+                onClick={nextSlide}
+                className="bg-pink-600 text-white w-10 h-10 flex items-center justify-center rounded-full shadow hover:bg-pink-700 transition"
+              >
+                ›
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

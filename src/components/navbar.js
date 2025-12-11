@@ -166,7 +166,7 @@ function Navbar() {
                   {/* User Info */}
                   <div className="flex p-3 gap-3 border-b border-gray-100">
                     <div className="w-12 h-12 bg-pink-100 text-pink-600 flex items-center justify-center rounded-full text-md font-bold">
-                      {user.userName.slice(0, 1).toUpperCase()}
+                      {user?.userName.slice(0, 1).toUpperCase()}
                     </div>
                     <div className="flex flex-col">
                       <h3 className="text-gray-900 font-semibold text-base sm:text-lg">
