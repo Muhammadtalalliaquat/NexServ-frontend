@@ -6,6 +6,7 @@ import { getAllReview } from "../../store/features/reviewSlice";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import HereSection from "../../components/heresection";
+import ConatctComp from "../../components/contact";
 import Navbar from "../../components/navbar";
 import NextServLoader from "../../components/nexservloader";
 import Image from "next/image";
@@ -81,9 +82,9 @@ export default function HomeRoute() {
   return (
     <>
       <Navbar />
-      <HereSection />
+      <HereSection reviewData={reviewData} />
 
-      <section className="py-6 px-6">
+      <section className="py-36 sm:py-6 px-6">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 text-center mb-12">
             Our <span className="text-pink-600">Services</span>
@@ -137,7 +138,7 @@ export default function HomeRoute() {
         </div>
       </section>
 
-      <div className="bg-gradient-to-t from-gray-300 via-gray-200 to-white py-19 px-4 md:px-10 w-full">
+      <div className="bg-gradient-to-t from-gray-300 via-gray-200 to-white py-0 sm:py-19 px-4 md:px-10 w-full">
         <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 text-center">
             Recently <span className="text-pink-600">Publish Articles</span>
@@ -294,13 +295,13 @@ export default function HomeRoute() {
             <div className="flex justify-center mt-6 gap-4">
               <button
                 onClick={prevSlide}
-                className="bg-pink-600 text-white w-10 h-10 flex items-center justify-center rounded-full shadow hover:bg-pink-700 transition"
+                className="bg-white text-black w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 shadow hover:bg-pink-600 hover:text-white transition"
               >
                 ‹
               </button>
               <button
                 onClick={nextSlide}
-                className="bg-pink-600 text-white w-10 h-10 flex items-center justify-center rounded-full shadow hover:bg-pink-700 transition"
+                className="bg-white text-black w-10 h-10 flex items-center justify-center rounded-full shadow border border-gray-200 hover:bg-pink-600 hover:text-white transition"
               >
                 ›
               </button>
@@ -308,6 +309,8 @@ export default function HomeRoute() {
           </div>
         </div>
       </div>
+
+      <ConatctComp />
     </>
   );
 }

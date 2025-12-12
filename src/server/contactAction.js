@@ -16,28 +16,28 @@ export const fetchContact = async () => {
   }
 };
 
-export const addContact = async (contactData) => {
-  try {
-    const token = localStorage.getItem("token");
+// export const addContact = async (contactData) => {
+//   try {
+//     const token = localStorage.getItem("token");
 
-    if (!token) {
-      console.error("Token is missing!");
-      return;
-    }
+//     if (!token) {
+//       console.error("Token is missing!");
+//       return;
+//     }
 
-    console.log("Token before sending request:", token);
+//     console.log("Token before sending request:", token);
 
-    const response = await axios.post(ApiRoutes.addContact, contactData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    // console.log("API Response: Product added:", response.data);
-    return response.data;
-  } catch (error) {
-    console.error(
-      "Failed to add product:",
-      error.response?.data || error.message
-    );
-  }
-};
+//     const response = await axios.post(ApiRoutes.addContact, contactData, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
+//     // console.log("API Response: Product added:", response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error(
+//       "Failed to add product:",
+//       error.response?.data || error.message
+//     );
+//   }
+// };

@@ -51,7 +51,6 @@ export default function UserFeedBack() {
       });
   };
 
-
   return (
     <>
       {user && (
@@ -111,12 +110,4 @@ export default function UserFeedBack() {
       )}
     </>
   );
-}
-
-{
-  /* {error && (
-  <p className="fixed top-[110px] left-1/2 transform -translate-x-1/2 bg-red-100 text-red-700 px-4 py-2 rounded shadow-md border border-red-300 animate-fade-in">
-    {error}
-  </p>
-)} */
 }

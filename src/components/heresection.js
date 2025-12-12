@@ -1,10 +1,9 @@
-
 import { FaCheckCircle } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
+import RatingBadge from "@/components/RatingBadge";
 
-
-export default function HereSection() {
+export default function HereSection({ reviewData }) {
   const features = [
     {
       title: "Fast Delivery",
@@ -19,8 +18,17 @@ export default function HereSection() {
       desc: "Monthly maintenance plans.",
     },
   ];
+
+  const overallRating =
+    reviewData.length > 0
+      ? (
+          reviewData.reduce((acc, review) => acc + Number(review.rating), 0) /
+          reviewData.length
+        ).toFixed(1)
+      : 0;
+
   return (
-    <section className="w-full bg-gradient-to-b from-pink-100 via-pink-50 to-white p-6 mt-15 md:mt-6">
+    <section className="w-full bg-gradient-to-b from-pink-100 via-pink-50 to-white p-6 mt-12 md:mt-6">
       <div className="container mx-auto px-6 py-7 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left: Text */}
@@ -96,7 +104,8 @@ export default function HereSection() {
                 alt={"hero-image"}
                 width={900}
                 height={900}
-                className="object-cover w-full h-full rounded-lg transition-all duration-300"
+                className="object-cover w-full h-full rounded-lg transition-all duration-300 hidden sm:block"
+                // className="object-cover w-full h-full hidden rounded-lg transition-all duration-300"
                 priority
               />
               {/* <div className="rounded-2xl bg-white shadow-lg p-6">
@@ -138,12 +147,14 @@ export default function HereSection() {
               </div> */}
 
               {/* Decorative layered card */}
-              {/* <div className="absolute -right-6 -bottom-6 w-40 sm:w-48 transform rotate-3">
-                <div className="rounded-xl bg-gradient-to-br from-pink-400 to-indigo-400 p-4 text-white shadow-xl">
-                  <div className="text-sm">Happy client</div>
-                  <div className="font-bold text-lg">&quot;Great work — 5/5&quot;</div>
+              <div className="absolute top-1 sm:top-90 lg:top-100 md:top-130 -right-2 sm:-right-6 -bottom-6 w-full sm:w-48 transform rotate-0 sm:rotate-3">
+                <div className="rounded-xl bg-gradient-to-br from-pink-400 to-indigo-400 p-4 text-white shadow-xl transition-transform duration-300 hover:scale-105">
+                  <div className="text-sm">clients reviews</div>
+                  <div className="font-bold text-lg">
+                    <RatingBadge rating={overallRating} />
+                  </div>
                 </div>
-              </div> */}
+              </div>
 
               {/* Illustration (replace src with your asset) */}
               {/* <div className="mt-6 sm:mt-8">
