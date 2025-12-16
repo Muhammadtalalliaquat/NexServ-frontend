@@ -14,11 +14,12 @@ import { LuAlignRight } from "react-icons/lu";
 import { clearUser } from "@/store/features/userSlice";
 import { FaRegUser } from "react-icons/fa";
 
-function Navbar() {
+function Navbar({ onScroll, sections, pageType }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [loadingUser, setLoadingUser] = useState(true);
+  const [selected, setSelected] = useState("services");
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const pathname = usePathname();
@@ -60,12 +61,29 @@ function Navbar() {
     localStorage.removeItem("user");
     router.push("/get-started");
   };
+
+  const handleClick = (ref, section) => {
+    setSelected(section);
+
+    // ❗ Dashboard par scroll nahi hoga
+    if (pageType !== "home") return;
+
+    // ❗ ref exist nahi karta to kuch bhi mat karo
+    if (!ref?.current) return;
+
+    onScroll(ref, section);
+  };
+
+  // const handleClick = (ref, section) => {
+  //   setSelected(section);
+  //   onScroll(ref, section);
+  // };
+
   if (loadingUser) return null;
   return (
     <nav
-      className={`w-full fixed top-0 left-0 z-50 border-b border-blue-600 transition-all duration-300 bg-[#f2f4fd] px-4 py-2 sm:py-0 flex items-center justify-between shadow-sm ${
-        isScrolled ? "bg-background/70 backdrop-blur-md" : ""
-      } `}
+      className={`w-full fixed top-0 left-0 z-50 px-4 py-2 sm:py-0 flex items-center justify-between transition-all duration-300 shadow-sm bg-white
+                 ${isScrolled ? "backdrop-blur-md bg-white/60 shadow-md" : ""}`}
     >
       <div className="w-full container mx-auto flex items-center justify-between cursor-pointer pl-5 pr-5">
         {/* Logo */}
@@ -75,7 +93,7 @@ function Navbar() {
         >
           <span
             className={`text-xl sm:text-2xl font-medium ${
-              isScrolled ? "text-gray-800" : "text-blue-600"
+              isScrolled ? "text-blue-600" : "text-blue-600"
             }`}
           >
             Nex<span className="font-extrabold text-pink-600">Serv</span>
@@ -87,8 +105,8 @@ function Navbar() {
           {pathname !== "/nexserv" && (
             <li
               // onClick={handleNavigate}
-              className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
-              hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
+              className="flex items-center gap-2 cursor-pointer transition-all duration-300 px-3 py-2
+             text-gray-800 hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
             >
               <Link href="/nexserv" className="flex items-center gap-2">
                 {/* <GoHome className="w-4 h-4" /> */}
@@ -98,35 +116,74 @@ function Navbar() {
           )}
           {pathname !== "/service" && (
             <li
-              className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
-              hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
+              onClick={() => handleClick(sections?.services, "service")}
+              className={`cursor-pointer px-3 py-2 transition-all duration-300  md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
+          ${
+            selected === "service"
+              ? "bg-blue-600 text-white"
+              : "text-gray-800 hover:bg-blue-100 hover:text-blue-600"
+          }
+          `}
             >
-              <Link href="/service" className="flex items-center gap-2">
-                {/* {isMenuOpen && <GrBusinessService className="w-4 h-4" />} */}
-                Service
-              </Link>
+              Services
             </li>
+            // <li
+            //   className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
+            //  text-gray-800 hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
+            //   onClick={() => handleClick(sections.services, "services")}
+            // >
+            //   {/* <Link href="/service" className="flex items-center gap-2"> */}
+            //   {/* {isMenuOpen && <GrBusinessService className="w-4 h-4" />} */}
+            //   Service
+            //   {/* </Link> */}
+            // </li>
           )}
-          {pathname !== "/Blog" && (
+          {pathname !== "/Blogs" && (
             <li
-              className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
-              hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
+              onClick={() => handleClick(sections?.blogs, "blog")}
+              className={`cursor-pointer px-3 py-2 transition-all duration-300  md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
+    ${
+      selected === "blog"
+        ? "bg-blue-600 text-white"
+        : "text-gray-800 hover:bg-blue-100 hover:text-blue-600"
+    }
+  `}
             >
-              <Link href="/Blog" className="flex items-center gap-2">
-                {/* {isMenuOpen && <FaMicroblog className="w-4 h-4" />} */}
-                Blog
-              </Link>
+              Blog
             </li>
+            // <li
+            //   className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
+            //  text-gray-800 hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
+            //   onClick={() => handleClick(sections.blogs, "blogs")}
+            // >
+            //   {/* <Link href="/Blog" className="flex items-center gap-2"> */}
+            //   {/* {isMenuOpen && <FaMicroblog className="w-4 h-4" />} */}
+            //   Blog
+            //   {/* </Link> */}
+            // </li>
           )}
           {pathname !== "/contact" && (
+            // <li
+            //   className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
+            // text-gray-800 hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
+            //   onClick={() => handleClick(sections.contact, "contact")}
+            // >
+            //   {/* <Link href="/contact" className="flex items-center gap-2"> */}
+            //   {/* {isMenuOpen && <RiContactsLine className="w-4 h-4" />} */}
+            //   Contact
+            //   {/* </Link> */}
+            // </li>
             <li
-              className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
-              hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
+              onClick={() => handleClick(sections?.contact, "contact")}
+              className={`cursor-pointer px-3 py-2 transition-all duration-300 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
+    ${
+      selected === "contact"
+        ? "bg-blue-600 text-white"
+        : "text-gray-800 hover:bg-blue-100 hover:text-blue-600"
+    }
+  `}
             >
-              <Link href="/contact" className="flex items-center gap-2">
-                {/* {isMenuOpen && <RiContactsLine className="w-4 h-4" />} */}
-                Contact
-              </Link>
+              Contact
             </li>
           )}
         </ul>
@@ -219,12 +276,12 @@ function Navbar() {
         >
           <LuAlignRight
             size={25}
-            className={`${!isMenuOpen ? "block" : "hidden"}`}
+            className={`${!isMenuOpen ? "block" : "hidden"} text-gray-800`}
           />
 
           <TiDeleteOutline
             size={25}
-            className={`${isMenuOpen ? "block" : "hidden"}`}
+            className={`${isMenuOpen ? "block" : "hidden"} text-gray-800`}
           />
         </button>
       </div>
@@ -240,7 +297,7 @@ function Navbar() {
           {pathname !== "/nexserv" && (
             <li
               // onClick={handleNavigate}
-              className="flex items-center gap-2 font-medium cursor-pointer pb-5 hover:text-blue-500 transition"
+              className="flex items-center gap-2 text-gray-800 font-medium cursor-pointer pb-5 hover:text-blue-500 transition"
             >
               <Link href="/nexserv" className="flex items-center gap-2">
                 <GoHome className="w-4 h-4" />
@@ -249,7 +306,7 @@ function Navbar() {
             </li>
           )}
           {pathname !== "/service" && (
-            <li className="flex items-center gap-2 font-medium pb-5 hover:text-blue-500 transition">
+            <li className="flex items-center gap-2 text-gray-800 font-medium pb-5 hover:text-blue-500 transition">
               <Link href="/service" className="flex items-center gap-2">
                 <GrBusinessService className="w-5 h-5" />
                 Services
@@ -257,7 +314,7 @@ function Navbar() {
             </li>
           )}
           {pathname !== "/Blog" && (
-            <li className="flex items-center gap-2 font-medium pb-5 hover:text-blue-500 transition">
+            <li className="flex items-center gap-2 text-gray-800 font-medium pb-5 hover:text-blue-500 transition">
               <Link href="/Blog" className="flex items-center gap-2">
                 <FaMicroblog className="w-5 h-5" />
                 Blog
@@ -265,7 +322,7 @@ function Navbar() {
             </li>
           )}
           {pathname !== "/contact" && (
-            <li className="flex items-center gap-2 font-medium pb-5 hover:text-blue-500 transition">
+            <li className="flex items-center gap-2 text-gray-800 font-medium pb-5 hover:text-blue-500 transition">
               <Link href="/contact" className="flex items-center gap-2">
                 <RiContactsLine className="w-5 h-5" />
                 Contact
@@ -276,7 +333,7 @@ function Navbar() {
             <li>
               <Link
                 href="/add-service"
-                className="flex items-center gap-2 px-4 py-2 rounded-md border border-pink-600 hover:bg-pink-700 hover:text-white bg-gray-50 transition"
+                className="flex items-center gap-2 px-4 py-2 rounded-md border border-pink-600 text-gray-800 hover:bg-pink-700 hover:text-white bg-gray-50 transition"
               >
                 <RiFunctionAddLine className="w-5 h-5 text-blue-750" />
                 Service
@@ -302,7 +359,7 @@ function Navbar() {
             <li>
               <Link
                 href="/dashbord"
-                className="flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 hover:bg-pink-700 hover:text-white bg-gray-50 transition"
+                className="flex items-center gap-2 px-4 py-2 rounded-md border border-gray-300 text-gray-800 hover:bg-pink-700 hover:text-white bg-gray-50 transition"
               >
                 Dashbord
               </Link>

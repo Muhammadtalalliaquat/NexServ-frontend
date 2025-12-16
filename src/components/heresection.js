@@ -28,7 +28,7 @@ export default function HereSection({ reviewData }) {
       : 0;
 
   return (
-    <section className="w-full bg-gradient-to-b from-pink-100 via-pink-50 to-white p-6 mt-12 md:mt-6">
+    <section className="w-full bg-gradient-to-b from-pink-100 via-pink-50 to-white p-6 mt-14 md:mt-10">
       <div className="container mx-auto px-6 py-7 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left: Text */}

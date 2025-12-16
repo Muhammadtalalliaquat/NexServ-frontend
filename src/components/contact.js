@@ -9,7 +9,7 @@ import { FiSend } from "react-icons/fi";
 import Image from "next/image";
 // import { useRouter } from "next/navigation";
 
-export default function ConatctComp() {
+export default function ConatctComp({ scrollId, scrollRef }) {
   const [user, setUser] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -62,10 +62,14 @@ export default function ConatctComp() {
         console.error("Fetch Error:", err);
       });
   };
-  
+
   return (
     <>
-      <section className="w-full py-12 px-4 md:px-10">
+      <section
+        className="w-full py-12 px-4 md:px-10 bg-white"
+        id={scrollId}
+        ref={scrollRef}
+      >
         <div className="max-w-7xl mx-auto  overflow-hidden">
           <div className="md:flex">
             <div className="md:w-1/2 md:flex items-center justify-center">

@@ -28,7 +28,7 @@ export default function Dashborad() {
 
   return (
     <>
-      <Navbar />
+      <Navbar pageType="dashboard" />
 
       <div className="flex flex-col md:flex-row min-h-screen mt-12">
         {/* Sidebar */}
@@ -86,7 +86,7 @@ export default function Dashborad() {
         <div className="flex-1 bg-white p-6 md:p-10">
           {activeTab === "profile" && (
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold mb-4">
+              <h1 className="text-3xl md:text-4xl font-extrabold mb-4 text-gray-700">
                 Profile
               </h1>
               <p className="text-gray-600 pb-6 border-b border-gray-200">
@@ -100,7 +100,7 @@ export default function Dashborad() {
 
           {activeTab === "planHistory" && (
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold mb-4">
+              <h1 className="text-3xl md:text-4xl font-extrabold mb-4 text-gray-700">
                 Plan History
               </h1>
               <p className="text-gray-600 mb-4 pb-6 border-b border-gray-200">
@@ -113,7 +113,7 @@ export default function Dashborad() {
 
           {activeTab === "FeedBack" && (
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold mb-4">
+              <h1 className="text-3xl md:text-4xl font-extrabold mb-4 text-gray-700">
                 Your Feed Back
               </h1>
               <p className="text-gray-600 mb-4 pb-6 border-b border-gray-200">
@@ -126,7 +126,7 @@ export default function Dashborad() {
 
           {activeTab === "settings" && (
             <div>
-              <h1 className="text-3xl md:text-4xl font-extrabold mb-4">
+              <h1 className="text-3xl md:text-4xl font-extrabold mb-4 text-gray-700">
                 Settings
               </h1>
               <p className="text-gray-600 mb-4 pb-6 border-b border-gray-200">

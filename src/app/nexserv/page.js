@@ -3,7 +3,7 @@
 import { getAllService } from "../../store/features/serviceSlice";
 import { getAllBlogs } from "../../store/features/blogSlice";
 import { getAllReview } from "../../store/features/reviewSlice";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import HereSection from "../../components/heresection";
 import ConatctComp from "../../components/contact";
@@ -21,6 +21,7 @@ export default function HomeRoute() {
   // const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const [itemsPerSlide, setItemsPerSlide] = useState(2);
+  // const [selected, setSelected] = useState("services");
 
   // const itemsPerSlide = 2;
   const totalSlides = Math.ceil(reviewData.length / itemsPerSlide);
@@ -32,6 +33,10 @@ export default function HomeRoute() {
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev - 1 >= 0 ? prev - 1 : totalSlides - 1));
   };
+
+  const serviceRef = useRef(null);
+  const blogRef = useRef(null);
+  const contactRef = useRef(null);
 
   // const start = currentIndex * itemsPerSlide;
   // const visibleReviews = reviewData.slice(start, start + itemsPerSlide);
@@ -77,14 +82,53 @@ export default function HomeRoute() {
     fetchData();
   }, [dispatch]);
 
+  //  useEffect(() => {
+  //    const hash = window.location.hash.replace("#", "");
+
+  //    const sectionMap = {
+  //      services: serviceRef,
+  //      blogs: blogRef,
+  //      contact: contactRef,
+  //    };
+
+  //    if (hash && sectionMap[hash]) {
+  //      setTimeout(() => {
+  //        handleScroll(sectionMap[hash], hash);
+  //        setSelected(hash);
+  //      }, 100);
+  //    }
+  //  }, []);
+
+
+   const handleScroll = (ref, hash) => {
+     if (!ref?.current) return;
+
+     ref.current.scrollIntoView({
+       behavior: "smooth",
+       block: "start",
+     });
+
+     // URL hash update without reload
+     window.history.pushState(null, "", `#${hash}`);
+   };
+
+
   if (loading) return <NextServLoader />;
 
   return (
     <>
-      <Navbar />
+      <Navbar
+        pageType="home"
+        onScroll={handleScroll}
+        sections={{
+          services: serviceRef,
+          blogs: blogRef,
+          contact: contactRef,
+        }}
+      />
       <HereSection reviewData={reviewData} />
 
-      <section className="py-36 sm:py-6 px-6">
+      <section className="py-36 sm:py-6 px-6 bg-white" ref={serviceRef}>
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 text-center mb-12">
             Our <span className="text-pink-600">Services</span>
@@ -138,7 +182,10 @@ export default function HomeRoute() {
         </div>
       </section>
 
-      <div className="bg-gradient-to-t from-gray-300 via-gray-200 to-white py-0 sm:py-19 px-4 md:px-10 w-full">
+      <div
+        className="bg-gradient-to-t from-gray-300 via-gray-200 to-white py-0 sm:py-19 px-4 md:px-10 w-full"
+        ref={blogRef}
+      >
         <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 text-center">
             Recently <span className="text-pink-600">Publish Articles</span>
@@ -310,7 +357,7 @@ export default function HomeRoute() {
         </div>
       </div>
 
-      <ConatctComp />
+      <ConatctComp scrollId="contact" scrollRef={contactRef} />
     </>
   );
 }
