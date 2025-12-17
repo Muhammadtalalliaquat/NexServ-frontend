@@ -13,6 +13,7 @@ import { useParams, useRouter } from "next/navigation";
 import Navbar from "../../../components/navbar";
 import { useDispatch } from "react-redux";
 import NextServLoader from "../../../components/nexservloader";
+import Footer from "../../../components/footer";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -371,6 +372,8 @@ export default function ServiceDetailPage() {
           </div>
         </div>
       </section>
+
+      <Footer />
     </>
   );
 }

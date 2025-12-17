@@ -1,13 +1,14 @@
 "use client";
 
 import { getAllService } from "../../store/features/serviceSlice";
-import { getAllBlogs } from "../../store/features/blogSlice";
+import { getBlogs } from "../../store/features/blogSlice";
 import { getAllReview } from "../../store/features/reviewSlice";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import HereSection from "../../components/heresection";
 import ConatctComp from "../../components/contact";
 import Navbar from "../../components/navbar";
+import Footer from "../../components/footer";
 import NextServLoader from "../../components/nexservloader";
 import Image from "next/image";
 import Link from "next/link";
@@ -63,7 +64,7 @@ export default function HomeRoute() {
       try {
         const [heroRes, blogRes, reviewRes] = await Promise.all([
           dispatch(getAllService()).unwrap(),
-          dispatch(getAllBlogs()).unwrap(),
+          dispatch(getBlogs()).unwrap(),
           dispatch(getAllReview()).unwrap(),
         ]);
 
@@ -358,6 +359,8 @@ export default function HomeRoute() {
       </div>
 
       <ConatctComp scrollId="contact" scrollRef={contactRef} />
+
+      <Footer />
     </>
   );
 }

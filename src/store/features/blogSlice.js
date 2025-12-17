@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  fetchAllBlogs,
   fetchBlogs,
   fetchOneBlogs,
   addBlog,
@@ -7,7 +8,13 @@ import {
   deleteBlogs,
 } from "../../server/blogAction";
 
-export const getAllBlogs = createAsyncThunk("blogs/fetch", async () => {
+export const getAllBlogs = createAsyncThunk("blogs/get", async () => {
+  const response = await fetchAllBlogs();
+  console.log("API Response:", response);
+  return response;
+});
+
+export const getBlogs = createAsyncThunk("blogs/fetch", async () => {
   const response = await fetchBlogs();
   console.log("API Response:", response);
   return response;
@@ -50,14 +57,14 @@ const blogSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getAllBlogs.pending, (state) => {
+      .addCase(getBlogs.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(getAllBlogs.fulfilled, (state, action) => {
+      .addCase(getBlogs.fulfilled, (state, action) => {
         state.status = "success";
         state.blogs = action.payload;
       })
-      .addCase(getAllBlogs.rejected, (state, action) => {
+      .addCase(getBlogs.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })
@@ -69,6 +76,17 @@ const blogSlice = createSlice({
         state.blogs = action.payload;
       })
       .addCase(getOneBlogs.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(getAllBlogs.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(getAllBlogs.fulfilled, (state, action) => {
+        state.status = "success";
+        state.blogs = action.payload;
+      })
+      .addCase(getAllBlogs.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })
