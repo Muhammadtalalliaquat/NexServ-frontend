@@ -14,7 +14,7 @@ import { LuAlignRight } from "react-icons/lu";
 import { clearUser } from "@/store/features/userSlice";
 import { FaRegUser } from "react-icons/fa";
 
-function Navbar({ onScroll, sections, pageType }) {
+function Navbar({ onScroll, sections }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [open, setOpen] = useState(false);
@@ -24,6 +24,8 @@ function Navbar({ onScroll, sections, pageType }) {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const router = useRouter();
+
+  const isHome = pathname === "/nexserv";
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -45,16 +47,6 @@ function Navbar({ onScroll, sections, pageType }) {
     setIsMenuOpen((prev) => !prev);
   };
 
-  // const handleNavigate = () => {
-  //   if (
-  //     pathname === "/add-service" ||
-  //     pathname === "/contact"
-  //     // pathname.startsWith("/add-service")
-  //    ) {
-  //     router.push("/nexserv");
-  //   }
-  // };
-
   const logOut = () => {
     dispatch(clearUser());
     localStorage.removeItem("token");
@@ -62,20 +54,28 @@ function Navbar({ onScroll, sections, pageType }) {
     router.push("/get-started");
   };
 
-  const handleClick = (ref, section) => {
+  const handleNav = (section) => {
     setSelected(section);
 
-    // ❗ Dashboard par scroll nahi hoga
-    if (pageType !== "home") return;
+    // 🟢 Home page → smooth scroll
+    if (isHome && typeof onScroll === "function") {
+      const ref = sections?.[section];
+      if (!ref?.current) return;
+      onScroll(ref, section);
+      return;
+    }
 
-    // ❗ ref exist nahi karta to kuch bhi mat karo
-    if (!ref?.current) return;
-
-    onScroll(ref, section);
+    // 🔵 Other pages → redirect with hash
+    router.push(`/nexserv#${section}`);
   };
 
   // const handleClick = (ref, section) => {
   //   setSelected(section);
+
+  //   if (pageType !== "home") return;
+
+  //   if (!ref?.current) return;
+
   //   onScroll(ref, section);
   // };
 
@@ -83,7 +83,7 @@ function Navbar({ onScroll, sections, pageType }) {
   return (
     <nav
       className={`w-full fixed top-0 left-0 z-50 px-4 py-2 sm:py-0 flex items-center justify-between transition-all duration-300 shadow-sm bg-white
-                 ${isScrolled ? "backdrop-blur-md bg-white/60 shadow-md" : ""}`}
+      ${isScrolled ? "backdrop-blur-md bg-white/90 shadow-md" : ""}`}
     >
       <div className="w-full container mx-auto flex items-center justify-between cursor-pointer pl-5 pr-5">
         {/* Logo */}
@@ -104,7 +104,6 @@ function Navbar({ onScroll, sections, pageType }) {
         <ul className="hidden sm:flex items-center gap-10">
           {pathname !== "/nexserv" && (
             <li
-              // onClick={handleNavigate}
               className="flex items-center gap-2 cursor-pointer transition-all duration-300 px-3 py-2
              text-gray-800 hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
             >
@@ -114,78 +113,45 @@ function Navbar({ onScroll, sections, pageType }) {
               </Link>
             </li>
           )}
-          {pathname !== "/service" && (
-            <li
-              onClick={() => handleClick(sections?.services, "service")}
-              className={`cursor-pointer px-3 py-2 transition-all duration-300  md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
+          <li
+            onClick={() => handleNav("services")}
+            // onClick={() => handleNav(sections?.services, "service")}
+            className={`cursor-pointer px-3 py-2 transition-all duration-300  md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
           ${
             selected === "service"
               ? "bg-blue-600 text-white"
               : "text-gray-800 hover:bg-blue-100 hover:text-blue-600"
           }
           `}
-            >
-              Services
-            </li>
-            // <li
-            //   className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
-            //  text-gray-800 hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
-            //   onClick={() => handleClick(sections.services, "services")}
-            // >
-            //   {/* <Link href="/service" className="flex items-center gap-2"> */}
-            //   {/* {isMenuOpen && <GrBusinessService className="w-4 h-4" />} */}
-            //   Service
-            //   {/* </Link> */}
-            // </li>
-          )}
-          {pathname !== "/Blogs" && (
-            <li
-              onClick={() => handleClick(sections?.blogs, "blog")}
-              className={`cursor-pointer px-3 py-2 transition-all duration-300  md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
+          >
+            Services
+          </li>
+          <li
+            onClick={() => handleNav("blogs")}
+            // onClick={() => handleNav(sections?.blogs, "blog")}
+            className={`cursor-pointer px-3 py-2 transition-all duration-300  md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
     ${
       selected === "blog"
         ? "bg-blue-600 text-white"
         : "text-gray-800 hover:bg-blue-100 hover:text-blue-600"
     }
   `}
-            >
-              Blog
-            </li>
-            // <li
-            //   className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
-            //  text-gray-800 hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
-            //   onClick={() => handleClick(sections.blogs, "blogs")}
-            // >
-            //   {/* <Link href="/Blog" className="flex items-center gap-2"> */}
-            //   {/* {isMenuOpen && <FaMicroblog className="w-4 h-4" />} */}
-            //   Blog
-            //   {/* </Link> */}
-            // </li>
-          )}
-          {pathname !== "/contact" && (
-            // <li
-            //   className="flex items-center gap-2 cursor-pointer transition-all duration-300 py-3
-            // text-gray-800 hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
-            //   onClick={() => handleClick(sections.contact, "contact")}
-            // >
-            //   {/* <Link href="/contact" className="flex items-center gap-2"> */}
-            //   {/* {isMenuOpen && <RiContactsLine className="w-4 h-4" />} */}
-            //   Contact
-            //   {/* </Link> */}
-            // </li>
-            <li
-              onClick={() => handleClick(sections?.contact, "contact")}
-              className={`cursor-pointer px-3 py-2 transition-all duration-300 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
+          >
+            Blog
+          </li>
+          <li
+            onClick={() => handleNav("contact")}
+            // onClick={() => handleNav(sections?.contact, "contact")}
+            className={`cursor-pointer px-3 py-2 transition-all duration-300 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
     ${
       selected === "contact"
         ? "bg-blue-600 text-white"
         : "text-gray-800 hover:bg-blue-100 hover:text-blue-600"
     }
   `}
-            >
-              Contact
-            </li>
-          )}
+          >
+            Contact
+          </li>
         </ul>
 
         {/* Actions */}
@@ -296,7 +262,6 @@ function Navbar({ onScroll, sections, pageType }) {
         <ul className="flex flex-col gap-4 py-5 px-6 divide-y divide-gray-200">
           {pathname !== "/nexserv" && (
             <li
-              // onClick={handleNavigate}
               className="flex items-center gap-2 text-gray-800 font-medium cursor-pointer pb-5 hover:text-blue-500 transition"
             >
               <Link href="/nexserv" className="flex items-center gap-2">
@@ -305,30 +270,33 @@ function Navbar({ onScroll, sections, pageType }) {
               </Link>
             </li>
           )}
-          {pathname !== "/service" && (
-            <li className="flex items-center gap-2 text-gray-800 font-medium pb-5 hover:text-blue-500 transition">
-              <Link href="/service" className="flex items-center gap-2">
-                <GrBusinessService className="w-5 h-5" />
-                Services
-              </Link>
-            </li>
-          )}
-          {pathname !== "/Blog" && (
-            <li className="flex items-center gap-2 text-gray-800 font-medium pb-5 hover:text-blue-500 transition">
-              <Link href="/Blog" className="flex items-center gap-2">
-                <FaMicroblog className="w-5 h-5" />
-                Blog
-              </Link>
-            </li>
-          )}
-          {pathname !== "/contact" && (
-            <li className="flex items-center gap-2 text-gray-800 font-medium pb-5 hover:text-blue-500 transition">
-              <Link href="/contact" className="flex items-center gap-2">
-                <RiContactsLine className="w-5 h-5" />
-                Contact
-              </Link>
-            </li>
-          )}
+          <li
+            onClick={() => handleNav("services")}
+            className="flex items-center gap-2 text-gray-800 font-medium pb-5 hover:text-blue-500 transition"
+          >
+            {/* <Link href="/service" className="flex items-center gap-2"> */}
+            <GrBusinessService className="w-5 h-5" />
+            Services
+            {/* </Link> */}
+          </li>
+          <li
+            onClick={() => handleNav("blogs")}
+            className="flex items-center gap-2 text-gray-800 font-medium pb-5 hover:text-blue-500 transition"
+          >
+            {/* <Link href="/Blog" className="flex items-center gap-2"> */}
+            <FaMicroblog className="w-5 h-5" />
+            Blog
+            {/* </Link> */}
+          </li>
+          <li
+            onClick={() => handleNav("contact")}
+            className="flex items-center gap-2 text-gray-800 font-medium pb-5 hover:text-blue-500 transition"
+          >
+            <Link href="/contact" className="flex items-center gap-2">
+              <RiContactsLine className="w-5 h-5" />
+              Contact
+            </Link>
+          </li>
           {user?.isAdmin && pathname !== "/add-service" && (
             <li>
               <Link

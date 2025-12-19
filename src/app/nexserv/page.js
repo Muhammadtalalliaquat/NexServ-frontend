@@ -10,6 +10,7 @@ import ConatctComp from "../../components/contact";
 import Navbar from "../../components/navbar";
 import Footer from "../../components/footer";
 import NextServLoader from "../../components/nexservloader";
+import ScrollToTop from "../../components/scrolltotop";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -22,7 +23,7 @@ export default function HomeRoute() {
   // const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const [itemsPerSlide, setItemsPerSlide] = useState(2);
-  // const [selected, setSelected] = useState("services");
+  const [selected, setSelected] = useState("");
 
   // const itemsPerSlide = 2;
   const totalSlides = Math.ceil(reviewData.length / itemsPerSlide);
@@ -82,23 +83,38 @@ export default function HomeRoute() {
 
     fetchData();
   }, [dispatch]);
+  
 
-  //  useEffect(() => {
-  //    const hash = window.location.hash.replace("#", "");
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
-  //    const sectionMap = {
-  //      services: serviceRef,
-  //      blogs: blogRef,
-  //      contact: contactRef,
-  //    };
+    const hash = window.location.hash.replace("#", "");
 
-  //    if (hash && sectionMap[hash]) {
-  //      setTimeout(() => {
-  //        handleScroll(sectionMap[hash], hash);
-  //        setSelected(hash);
-  //      }, 100);
-  //    }
-  //  }, []);
+    const sectionMap = {
+      service: serviceRef,
+      contact: contactRef,
+    };
+
+    const ref = sectionMap;
+
+    if (ref?.current) {
+      //  wait for DOM + images
+      setTimeout(() => {
+        const yOffset = -80; //  navbar height
+        const y =
+          ref.current.getBoundingClientRect().top +
+          window.pageYOffset +
+          yOffset;
+
+        window.scrollTo({
+          top: y,
+          behavior: "auto", // refresh par smooth mat use karo
+        });
+
+        setSelected(hash);
+      }, 500);
+    }
+  }, []);
 
 
    const handleScroll = (ref, hash) => {
@@ -129,7 +145,11 @@ export default function HomeRoute() {
       />
       <HereSection reviewData={reviewData} />
 
-      <section className="py-36 sm:py-6 px-6 bg-white" ref={serviceRef}>
+      <section
+        className="py-36 sm:py-6 px-6 bg-white"
+        id="services"
+        ref={serviceRef}
+      >
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 text-center mb-12">
             Our <span className="text-pink-600">Services</span>
@@ -185,6 +205,7 @@ export default function HomeRoute() {
 
       <div
         className="bg-gradient-to-t from-gray-300 via-gray-200 to-white py-0 sm:py-19 px-4 md:px-10 w-full"
+        id="blogs"
         ref={blogRef}
       >
         <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-7xl mx-auto">
@@ -192,9 +213,12 @@ export default function HomeRoute() {
             Recently <span className="text-pink-600">Publish Articles</span>
           </h2>
 
-          <button className="text-sm text-gray-700 underline hover:text-black mt-4 md:mt-0">
+          <Link
+            href={`/blogs`}
+            className="text-sm text-gray-700 underline hover:text-black mt-4 md:mt-0"
+          >
             Read all blogs
-          </button>
+          </Link>
         </div>
 
         {!loading && blogData.length === 0 && (
@@ -359,8 +383,8 @@ export default function HomeRoute() {
       </div>
 
       <ConatctComp scrollId="contact" scrollRef={contactRef} />
-
       <Footer />
+      <ScrollToTop />
     </>
   );
 }

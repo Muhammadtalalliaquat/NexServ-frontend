@@ -1,9 +1,7 @@
-
 import { Globe, Twitter, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 import Link from "next/link";
 
 export default function Footer() {
- 
   const footerData = {
     brand: {
       name: "NexServ",
@@ -19,9 +17,10 @@ export default function Footer() {
     company: [
       { label: "Home", href: "/nexserv" },
       { label: "Blogs", href: "/blogs" },
-      { label: "Services", href: "#service" },
-      { label: "Contact", href: "#contact" },
+      { label: "Services", href: "/nexserv#services" },
+      { label: "Contact", href: "/nexserv#contact" },
     ],
+
     contact: [
       { icon: Mail, label: "support@nexserv.com" },
       { icon: Phone, label: "+92 300 1234567" },

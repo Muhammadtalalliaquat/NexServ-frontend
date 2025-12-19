@@ -30,7 +30,7 @@ export default function Dashborad() {
     <>
       <Navbar pageType="dashboard" />
 
-      <div className="flex flex-col md:flex-row min-h-screen mt-12">
+      <div className="flex flex-col md:flex-row min-h-screen mt-10">
         {/* Sidebar */}
         <div className="bg-gray-100 md:w-1/5 w-full md:min-h-screen p-4 border-r border-gray-300 shadow-md flex flex-col gap-6">
           {/* Navigation */}

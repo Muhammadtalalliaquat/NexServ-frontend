@@ -22,7 +22,6 @@ export default function ServiceDetailPage() {
   const [serviceData, setServiceData] = useState([]);
   const [user, setUser] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
-
   const dispatch = useDispatch();
   const router = useRouter();
   const params = useParams();
