@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import RatingBadge from "@/components/RatingBadge";
 
@@ -27,16 +26,7 @@ export default function HereSection({ reviewData }) {
       : 0;
 
   return (
-    <section
-      // style={{
-      //   backgroundImage:
-      //     "url('https://t4.ftcdn.net/jpg/14/41/17/73/360_F_1441177330_DVwBGXbUqAfpiwWtTcGqPgZDuIVSPgg3.jpg')",
-      //   backgroundRepeat: "no-repeat",
-      //   backgroundSize: "cover",
-      //   backgroundPosition: "center",
-      // }}
-      className="w-full py-24 relative overflow-hidden bg-gradient-to-b from-pink-200 via-pink-50 to-white"
-    >
+    <section className="w-full py-24 relative overflow-hidden bg-gradient-to-b from-pink-200 via-pink-50 to-white">
       <div className="container mx-auto px-6 mt-10 text-center">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
           Professional <span className="text-pink-600">Digital Services</span>
@@ -52,13 +42,13 @@ export default function HereSection({ reviewData }) {
 
         <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
           <Link
-            href="/contact"
+            href="/nexserv#contact"
             className="bg-pink-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-pink-700 transform transition duration-300 hover:scale-105"
           >
             Get a Quote
           </Link>
           <Link
-            href="/services"
+            href="/nexserv#services"
             className="text-pink-600 border border-pink-600 px-6 py-3 rounded-lg font-medium hover:bg-pink-50 hover:text-pink-700 transition duration-300"
           >
             Explore Services
@@ -80,7 +70,7 @@ export default function HereSection({ reviewData }) {
           {features.map((item, idx) => (
             <div
               key={idx}
-              className="flex flex-col items-center gap-2 text-center p-8 backdrop-blur-md bg-white/90 rounded-lg shadow-md"
+              className="flex flex-col items-center gap-2 text-center p-8 drop-shadow-[0_4px_15px_rgba(99,72,113,0.2)] backdrop-blur-md bg-white/90 rounded-lg shadow-md"
             >
               <div className="text-blue-600 bg-blue-100 rounded-full p-2">
                 <svg

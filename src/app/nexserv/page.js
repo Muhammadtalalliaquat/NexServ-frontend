@@ -112,9 +112,10 @@ export default function HomeRoute() {
         });
 
         setSelected(hash);
+        console.log(selected)
       }, 500);
     }
-  }, []);
+  }, [selected]);
 
 
    const handleScroll = (ref, hash) => {

@@ -19,7 +19,7 @@ function Navbar({ onScroll, sections }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [loadingUser, setLoadingUser] = useState(true);
-  const [selected, setSelected] = useState("services");
+  const [selected, setSelected] = useState("");
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const pathname = usePathname();
@@ -118,7 +118,7 @@ function Navbar({ onScroll, sections }) {
             // onClick={() => handleNav(sections?.services, "service")}
             className={`cursor-pointer px-3 py-2 transition-all duration-300  md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
           ${
-            selected === "service"
+            selected === "services"
               ? "bg-blue-600 text-white"
               : "text-gray-800 hover:bg-blue-100 hover:text-blue-600"
           }
@@ -131,7 +131,7 @@ function Navbar({ onScroll, sections }) {
             // onClick={() => handleNav(sections?.blogs, "blog")}
             className={`cursor-pointer px-3 py-2 transition-all duration-300  md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
     ${
-      selected === "blog"
+      selected === "blogs"
         ? "bg-blue-600 text-white"
         : "text-gray-800 hover:bg-blue-100 hover:text-blue-600"
     }
