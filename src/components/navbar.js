@@ -159,7 +159,7 @@ function Navbar({ onScroll, sections }) {
           {!user && (
             <button
               onClick={() => router.push("/login")}
-              className="bg-white px-4 py-2 text-left rounded-md w-full border border-blue-600 text-blue-900 text-sm shadow-sm hover:bg-blue-600 hover:text-white transition"
+              className="bg-white px-4 py-2 text-left  w-full border border-blue-600 text-blue-900 font-bold text-sm shadow-sm hover:bg-blue-600 hover:text-white transition"
             >
               Sign in
             </button>
