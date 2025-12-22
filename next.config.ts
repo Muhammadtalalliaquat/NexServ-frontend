@@ -2,20 +2,24 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "i.postimg.cc",
-      },
-      {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
-      },
-      {
-        protocol: "https",
-        hostname: "www.svgrepo.com",
-      },
-    ],
+    domains: ["i.postimg.cc", "res.cloudinary.com", "www.svgrepo.com"],
+    // remotePatterns: [
+    //   {
+    //     protocol: "https",
+    //     hostname: "i.postimg.cc",
+    //     pathname: "/**",
+    //   },
+    //   {
+    //     protocol: "https",
+    //     hostname: "res.cloudinary.com",
+    //     pathname: "/**",
+    //   },
+    //   {
+    //     protocol: "https",
+    //     hostname: "www.svgrepo.com",
+    //     pathname: "/**",
+    //   },
+    // ],
   },
 };
 
