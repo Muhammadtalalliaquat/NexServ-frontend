@@ -20,7 +20,6 @@ export default function HomeRoute() {
   const [blogData, setBlogData] = useState([]);
   const [reviewData, setReviewData] = useState([]);
   const [loading, setLoading] = useState(true);
-  // const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const [itemsPerSlide, setItemsPerSlide] = useState(2);
   const [selected, setSelected] = useState("");
@@ -126,7 +125,6 @@ export default function HomeRoute() {
        block: "start",
      });
 
-     // URL hash update without reload
      window.history.pushState(null, "", `#${hash}`);
    };
 
