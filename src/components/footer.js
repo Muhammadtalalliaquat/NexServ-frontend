@@ -37,9 +37,7 @@ export default function Footer() {
     <>
       <footer className="bg-gradient-to-b from-slate-950 to-slate-900 text-slate-200">
         <div className="mx-auto max-w-7xl px-6 py-16">
-          {/* Top Section */}
           <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Brand */}
             <div>
               <h3 className="text-2xl font-extrabold text-blue-500 tracking-wide">
                 {footerData.brand.name.slice(0, 3)}
@@ -52,7 +50,6 @@ export default function Footer() {
               </p>
             </div>
 
-            {/* Services */}
             <div>
               <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
                 Services
@@ -69,7 +66,6 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Company */}
             <div>
               <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
                 Company
@@ -80,14 +76,12 @@ export default function Footer() {
                     key={idx}
                     className="cursor-pointer text-slate-400 hover:text-white transition"
                   >
-                    {/* {item} */}
                     <Link href={item.href}>{item.label}</Link>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Contact */}
             <div>
               <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
                 Contact
@@ -103,10 +97,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Divider */}
           <div className="my-12 h-px w-full bg-slate-800" />
 
-          {/* Bottom Bar */}
           <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
             <p className="text-xs text-slate-500">
               © {new Date().getFullYear()} NexServ. All rights reserved.
