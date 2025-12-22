@@ -35,7 +35,7 @@ export default function AuthForm() {
           if (result.user?.isAdmin === true) {
             router.push("/add-service");
           } else {
-            router.push("/nexserv");
+            router.push("/home");
           }
           // router.push("/adminDashboard");
         } else {

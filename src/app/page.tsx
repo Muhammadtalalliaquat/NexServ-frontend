@@ -48,7 +48,7 @@ export default function Home() {
     if (user?.isAdmin) {
       router.push("/add-service");
     } else {
-      router.push("/nexserv");
+      router.push("/home");
     }
   }, [router]);
 

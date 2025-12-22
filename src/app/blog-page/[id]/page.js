@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { getOneBlogs, removeBlog } from "../../../store/features/blogSlice";
 import NextServLoader from "../../../components/nexservloader";
 import Navbar from "../../../components/navbar";
+import Footer from "../../../components/footer";
 import {
   PencilSquareIcon,
   TrashIcon,
@@ -93,9 +94,12 @@ export default function BlogDetailPage() {
                 {title}
               </h1>
 
-              <p className="text-gray-500 text-xs md:text-sm">
-                Published on {new Date(createdAt).toLocaleDateString()}
-              </p>
+              {(createdAt || updatedAt) && (
+                <p className="text-gray-500 text-xs md:text-sm">
+                  Published on{" "}
+                  {new Date(createdAt || updatedAt).toLocaleDateString()}
+                </p>
+              )}
             </div>
 
             <div className="flex items-center flex-wrap justify-between gap-2 mb-5">
@@ -152,6 +156,7 @@ export default function BlogDetailPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

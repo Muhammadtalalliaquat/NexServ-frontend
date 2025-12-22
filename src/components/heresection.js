@@ -42,13 +42,13 @@ export default function HereSection({ reviewData }) {
 
         <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
           <Link
-            href="/nexserv#contact"
+            href="/home#contact"
             className="bg-pink-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-pink-700 transform transition duration-300 hover:scale-105"
           >
             Get a Quote
           </Link>
           <Link
-            href="/nexserv#services"
+            href="/home#services"
             className="text-pink-600 border border-pink-600 px-6 py-3 rounded-lg font-medium hover:bg-pink-50 hover:text-pink-700 transition duration-300"
           >
             Explore Services
@@ -56,7 +56,7 @@ export default function HereSection({ reviewData }) {
         </div>
 
         <div className="w-60 mx-auto mt-12">
-          <div className="rounded-lg bg-gradient-to-br from-pink-400 to-indigo-400 p-5 text-white shadow-2xl flex flex-col items-center">
+          <div className="rounded-lg bg-gradient-to-br from-pink-400 to-indigo-400 p-5 text-white shadow-xl flex flex-col items-center">
             <div className="text-sm font-bold uppercase tracking-wide">
               Client Reviews
             </div>
@@ -70,7 +70,7 @@ export default function HereSection({ reviewData }) {
           {features.map((item, idx) => (
             <div
               key={idx}
-              className="flex flex-col items-center gap-2 text-center p-8 drop-shadow-[0_4px_15px_rgba(99,72,113,0.2)] backdrop-blur-md bg-white/90 rounded-lg shadow-md"
+              className="flex flex-col items-center gap-2 bg-white text-center p-8 rounded-lg shadow-xl"
             >
               <div className="text-blue-600 bg-blue-100 rounded-full p-2">
                 <svg

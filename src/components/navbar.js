@@ -25,7 +25,7 @@ function Navbar({ onScroll, sections }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const isHome = pathname === "/nexserv";
+  const isHome = pathname === "/home";
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -66,7 +66,7 @@ function Navbar({ onScroll, sections }) {
     }
 
     // 🔵 Other pages → redirect with hash
-    router.push(`/nexserv#${section}`);
+    router.push(`/home#${section}`);
   };
 
   // const handleClick = (ref, section) => {
@@ -102,12 +102,12 @@ function Navbar({ onScroll, sections }) {
 
         {/* Menu (Desktop) */}
         <ul className="hidden sm:flex items-center gap-10">
-          {pathname !== "/nexserv" && (
+          {pathname !== "/home" && (
             <li
               className="flex items-center gap-2 cursor-pointer transition-all duration-300 px-3 py-2
              text-gray-800 hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
             >
-              <Link href="/nexserv" className="flex items-center gap-2">
+              <Link href="/home" className="flex items-center gap-2">
                 {/* <GoHome className="w-4 h-4" /> */}
                 Home
               </Link>
@@ -126,19 +126,21 @@ function Navbar({ onScroll, sections }) {
           >
             Services
           </li>
-          <li
-            onClick={() => handleNav("blogs")}
-            // onClick={() => handleNav(sections?.blogs, "blog")}
-            className={`cursor-pointer px-3 py-2 transition-all duration-300  md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
+          {pathname !== "/blogs" && (
+            <li
+              onClick={() => handleNav("blogs")}
+              // onClick={() => handleNav(sections?.blogs, "blog")}
+              className={`cursor-pointer px-3 py-2 transition-all duration-300  md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
     ${
       selected === "blogs"
         ? "bg-blue-600 text-white"
         : "text-gray-800 hover:bg-blue-100 hover:text-blue-600"
     }
   `}
-          >
-            Blog
-          </li>
+            >
+              Blog
+            </li>
+          )}
           <li
             onClick={() => handleNav("contact")}
             // onClick={() => handleNav(sections?.contact, "contact")}
@@ -260,11 +262,9 @@ function Navbar({ onScroll, sections }) {
         style={{ background: "#ffffffff" }}
       >
         <ul className="flex flex-col gap-4 py-5 px-6 divide-y divide-gray-200">
-          {pathname !== "/nexserv" && (
-            <li
-              className="flex items-center gap-2 text-gray-800 font-medium cursor-pointer pb-5 hover:text-blue-500 transition"
-            >
-              <Link href="/nexserv" className="flex items-center gap-2">
+          {pathname !== "/home" && (
+            <li className="flex items-center gap-2 text-gray-800 font-medium cursor-pointer pb-5 hover:text-blue-500 transition">
+              <Link href="/home" className="flex items-center gap-2">
                 <GoHome className="w-4 h-4" />
                 Home
               </Link>

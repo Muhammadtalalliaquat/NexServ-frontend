@@ -7,14 +7,12 @@ import { useEffect, useState, startTransition } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FiSend } from "react-icons/fi";
 import Image from "next/image";
-// import { useRouter } from "next/navigation";
 
 export default function ConatctComp({ scrollId, scrollRef }) {
   const [user, setUser] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  //   const [error, setError] = useState("");
   const dispatch = useDispatch();
 
   const { loading, successMsg, resError } = useSelector(
@@ -66,7 +64,7 @@ export default function ConatctComp({ scrollId, scrollRef }) {
   return (
     <>
       <section
-        className="w-full py-12 px-4 md:px-10 bg-white"
+        className="w-full py-12 px-4 relative z-10 md:px-10 bg-white"
         id={scrollId}
         ref={scrollRef}
       >
@@ -135,7 +133,6 @@ export default function ConatctComp({ scrollId, scrollRef }) {
                   />
                 </div>
 
-                {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}
                 {resError && (
                   <p className="text-red-600 bg-red-100 px-3 py-2 rounded-lg mb-3">
                     {resError}
@@ -146,7 +143,6 @@ export default function ConatctComp({ scrollId, scrollRef }) {
                     {successMsg}
                   </p>
                 )}
-                {/* {loading && <p className="text-pink-600 text-sm">Sending...</p>} */}
 
                 <div className="flex items-center justify-between gap-4">
                   <button
@@ -157,12 +153,6 @@ export default function ConatctComp({ scrollId, scrollRef }) {
                     <FiSend />
                     <span>{loading ? "Sending..." : "Send Message"}</span>
                   </button>
-
-                  {/* Optional small note or phone */}
-                  {/* <div className="text-sm text-gray-500">
-                    <p>Or call us:</p>
-                    <p className="font-medium text-gray-700">+92 300 1234567</p>
-                  </div> */}
                 </div>
               </form>
             </div>

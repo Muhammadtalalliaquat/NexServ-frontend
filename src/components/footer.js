@@ -15,10 +15,10 @@ export default function Footer() {
       "SEO Optimization",
     ],
     company: [
-      { label: "Home", href: "/nexserv" },
+      { label: "Home", href: "/home" },
       { label: "Blogs", href: "/blogs" },
-      { label: "Services", href: "/nexserv#services" },
-      { label: "Contact", href: "/nexserv#contact" },
+      { label: "Services", href: "/home#services" },
+      { label: "Contact", href: "/home#contact" },
     ],
 
     contact: [
@@ -35,7 +35,7 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="bg-gradient-to-b from-slate-950 to-slate-900 text-slate-200">
+      <footer className="relative z-10 bg-gradient-to-b from-slate-950 to-slate-900 text-slate-200">
         <div className="mx-auto max-w-7xl px-6 py-16">
           <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
             <div>
@@ -58,7 +58,7 @@ export default function Footer() {
                 {footerData.services.map((service, idx) => (
                   <li
                     key={idx}
-                    className="cursor-pointer text-slate-400 hover:text-white transition"
+                    className="text-slate-400 hover:text-white transition"
                   >
                     {service}
                   </li>

@@ -134,7 +134,7 @@ export default function HomeRoute() {
   return (
     <>
       <Navbar
-        pageType="home"
+        pageType="homes"
         onScroll={handleScroll}
         sections={{
           services: serviceRef,
@@ -203,7 +203,7 @@ export default function HomeRoute() {
       </section>
 
       <div
-        className="bg-gradient-to-t from-gray-300 via-gray-200 to-white py-0 sm:py-19 px-4 md:px-10 w-full"
+        className="sticky top-5 z-[9] bg-gradient-to-t from-gray-300 via-gray-200 to-white py-0 sm:py-19 px-4 md:px-10 w-full"
         id="blogs"
         ref={blogRef}
       >
@@ -311,7 +311,7 @@ export default function HomeRoute() {
         )}
       </div>
 
-      <div className="w-full py-12 px-4 md:px-10 bg-gradient-to-t from-white to-gray-300">
+      <div className="w-full py-12 px-4 shadow-[0_-4px_6px_rgba(0,0,0,0.1)] md:px-10 relative z-10 bg-gradient-to-t from-white to-gray-200">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-extrabold text-black">
             What Our<span className="text-pink-600"> Clients Say </span>
