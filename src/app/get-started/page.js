@@ -68,7 +68,7 @@ export default function GetStartedPage() {
           <button
             className="px-4 py-3 mx-auto font-bold rounded-xl bg-pink-600 hover:bg-pink-700 text-white shadow-md flex items-center justify-center gap-2 active:scale-95 transition-transform duration-150"
             // className="px-4 py-3 mx-auto font-bold rounded-xl bg-pink-600 hover:bg-pink-700 text-white shadow-md flex items-center justify-center gap-2"
-            onClick={() => router.push("/nexserv")}
+            onClick={() => router.push("/home")}
           >
             Start now
             <ArrowRight className="w-5 h-5" />
