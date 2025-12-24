@@ -28,7 +28,7 @@ export default function HereSection({ reviewData }) {
   return (
     <section className="w-full py-24 relative overflow-hidden bg-gradient-to-b from-pink-200 via-pink-50 to-white">
       <div className="container mx-auto px-6 mt-10 text-center">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-800 leading-tight">
           Professional <span className="text-pink-600">Digital Services</span>
           <br />
           that grow your business

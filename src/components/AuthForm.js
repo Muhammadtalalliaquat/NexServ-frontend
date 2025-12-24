@@ -105,7 +105,7 @@ export default function AuthForm() {
   // };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-pink-200 px-4">
       <div className="bg-white shadow-2xl rounded-[1rem] flex flex-col md:flex-row w-full max-w-[900px] overflow-hidden">
         {/* Left Blue Panel */}
         <div

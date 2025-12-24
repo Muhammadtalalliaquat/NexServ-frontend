@@ -1,8 +1,8 @@
-// const DEV_URL = `http://localhost:4000/`;
-const PROD_URL = `https://nex-serv-backend.vercel.app/`;
+const DEV_URL = `http://localhost:4000/`;
+// const PROD_URL = `https://nexservbackend-a7147v1j.b4a.run/`;
 
-// export const BASIC_URL = DEV_URL;
-export const BASIC_URL = PROD_URL
+export const BASIC_URL = DEV_URL;
+// export const BASIC_URL = PROD_URL
 
 export const ApiRoutes = {
   login: BASIC_URL + `user/login`,

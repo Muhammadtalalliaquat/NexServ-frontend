@@ -249,7 +249,7 @@ export default function ServiceDetailPage() {
                   }
                   ${
                     planKey === "premium"
-                      ? "border-blue-800 hover:bg-blue-400 hover:text-white"
+                      ? "border-blue-800 hover:bg-blue-500 hover:text-white"
                       : ""
                   }
                 `}
@@ -266,7 +266,13 @@ export default function ServiceDetailPage() {
                     >
                       {planKey}
                     </h3>
-                    <p className="text-4xl font-bold mb-4 text-gray-700">
+                    <p
+                      className={`text-4xl font-bold mb-4 text-gray-700  ${
+                        planKey === "premium"
+                          ? "text-blue-800 group-hover:text-white"
+                          : ""
+                      }`}
+                    >
                       ${plan.price}
                     </p>
 
@@ -274,7 +280,11 @@ export default function ServiceDetailPage() {
                       {plan.features.map((f, idx) => (
                         <li
                           key={idx}
-                          className="flex items-center gap-3 text-gray-700"
+                          className={`flex items-center gap-3 text-gray-700 ${
+                            planKey === "premium"
+                              ? "group-hover:text-white"
+                              : ""
+                          }`}
                         >
                           <span
                             className={`w-5 h-5 flex items-center justify-center rounded-full text-white text-[12px]
