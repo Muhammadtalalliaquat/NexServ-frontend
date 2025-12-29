@@ -1,5 +1,5 @@
 const DEV_URL = `http://localhost:4000/`;
-// const PROD_URL = `https://nexservbackend-a7147v1j.b4a.run/`;
+// const PROD_URL = `https://nex-serv-backend.vercel.app/`;
 
 export const BASIC_URL = DEV_URL;
 // export const BASIC_URL = PROD_URL

@@ -13,6 +13,14 @@ import { FaMicroblog } from "react-icons/fa";
 import { LuAlignRight } from "react-icons/lu";
 import { clearUser } from "@/store/features/userSlice";
 import { FaRegUser } from "react-icons/fa";
+import {
+  User,
+  LayoutDashboard,
+  Settings,
+  HelpCircle,
+  LogOut,
+  ChevronRight,
+} from "lucide-react";
 
 function Navbar({ onScroll, sections }) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -53,6 +61,13 @@ function Navbar({ onScroll, sections }) {
     localStorage.removeItem("user");
     router.push("/get-started");
   };
+
+  const menuItems = [
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+    //  { icon: User, label: "My Profile", href: "/profile" },
+    //  { icon: Settings, label: "Settings", href: "/settings" },
+    //  { icon: HelpCircle, label: "Help & Support", href: "/help" },
+  ];
 
   const handleNav = (section) => {
     setSelected(section);
@@ -178,59 +193,176 @@ function Navbar({ onScroll, sections }) {
           )}
 
           {user && (
-            <div className="relative inline-block text-left">
-              <button
-                onClick={() => setOpen(!open)}
-                className="flex items-center justify-center w-10 h-10 sm:w-9 sm:h-9 bg-white text-gray-900 text-sm sm:text-base font-semibold border border-gray-300 rounded-full shadow-md hover:bg-pink-600 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
-              >
-                <FaRegUser />
-              </button>
+            <div className="relative inline-block text-left flex items-center justify-center">
+              <div className="relative">
+                <button
+                  onClick={() => setOpen(!open)}
+                  className="flex items-center justify-center w-10 h-10 sm:w-9 sm:h-9 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white text-sm sm:text-base font-semibold border border-gray-300 rounded-full shadow-md transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                >
+                  <FaRegUser />
+                </button>
 
-              {open && (
-                <div className="absolute right-0 mt-2 w-64 sm:w-85 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden animate-fadeIn">
-                  {/* User Info */}
-                  <div className="flex p-3 gap-3 border-b border-gray-100">
-                    <div className="w-12 h-12 bg-pink-100 text-pink-600 flex items-center justify-center rounded-full text-md font-bold">
-                      {user?.userName.slice(0, 1).toUpperCase()}
+                {/* Dropdown Menu */}
+                {open && (
+                  <div className="absolute right-0 mt-2 bg-gradient-to-br from-slate-700 via-purple-900 to-slate-700 border border-white/20 rounded-2xl shadow-2xl overflow-hidden z-50 overflow-hidden animate-fadeIn">
+                    {/* User Info Section */}
+                    <div className="relative p-6 bg-gradient-to-br from-pink-500/20 to-purple-600/20 border-b border-white/10">
+                      {/* Decorative gradient */}
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full blur-3xl opacity-30"></div>
+
+                      <div className="relative flex items-center gap-4">
+                        {/* Avatar */}
+                        <div className="relative group">
+                          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-400 to-purple-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg group-hover:scale-110 transition-transform duration-300">
+                            {user?.userName.slice(0, 1).toUpperCase()}
+                          </div>
+                          {/* Online indicator */}
+                          <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-400 border-2 border-white/20 rounded-full"></div>
+                        </div>
+
+                        {/* User Details */}
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-white font-bold text-lg mb-1 truncate">
+                            {user.userName}
+                          </h3>
+                          <p className="text-gray-300 text-sm truncate">
+                            {user.email}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex flex-col">
-                      <h3 className="text-gray-900 font-semibold text-base sm:text-lg">
-                        {user.userName}
-                      </h3>
-                      <p className="text-gray-500 text-sm sm:text-base break-all break-all">
-                        {user.email}
+
+                    {/* Menu Items */}
+                    <div className="p-2">
+                      {menuItems.map((item, idx) => {
+                        const Icon = item.icon;
+                        return (
+                          <button
+                            key={idx}
+                            onClick={() => router.push(item.href)}
+                            className="group w-full flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-white/10 transition-all duration-300 mb-1"
+                          >
+                            <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-pink-500 group-hover:to-purple-600 transition-all duration-300">
+                              <Icon className="w-5 h-5" />
+                            </div>
+                            <span className="flex-1 text-left font-medium">
+                              {item.label}
+                            </span>
+                            <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Divider */}
+                    <div className="mx-4 border-t border-white/10"></div>
+
+                    {/* Sign Out Button */}
+                    <div className="p-2">
+                      {user ? (
+                        <button
+                          onClick={logOut}
+                          className="group w-full flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-red-500/20 transition-all duration-300"
+                        >
+                          <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-red-500 transition-all duration-300">
+                            <LogOut className="w-5 h-5" />
+                          </div>
+                          <span className="flex-1 text-left font-medium">
+                            Sign Out
+                          </span>
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => router.push("/login")}
+                          className="w-full px-4 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold hover:shadow-lg hover:shadow-pink-500/50 transition-all duration-300"
+                        >
+                          Sign In
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Footer */}
+                    <div className="px-4 py-3 bg-white/5 border-t border-white/10">
+                      <p className="text-xs text-gray-400 text-center">
+                        Version 2.0.1 •{" "}
+                        <span className="text-purple-400 cursor-pointer hover:underline">
+                          Privacy
+                        </span>
                       </p>
                     </div>
                   </div>
+                )}
 
-                  {/* Menu Links */}
-                  <div className="flex flex-col divide-y divide-gray-100">
-                    <Link
-                      href={"/dashboard"}
-                      className="px-4 py-2 text-gray-700 hover:bg-gray-100 text-left w-full transition text-sm sm:text-base"
-                    >
-                      Dashboard
-                    </Link>
-
-                    {user ? (
-                      <button
-                        onClick={logOut}
-                        className="bg-white px-4 py-2 text-left w-full text-gray-900 text-sm shadow-sm hover:bg-red-300 hover:text-white transition"
-                      >
-                        Sign out
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => router.push("/login")}
-                        className="bg-white px-4 py-2 text-left w-full text-gray-900 text-sm shadow-sm hover:bg-blue-600 hover:text-white transition"
-                      >
-                        Sign in
-                      </button>
-                    )}
-                  </div>
-                </div>
-              )}
+                <style jsx>{`
+                  @keyframes fadeIn {
+                    from {
+                      opacity: 0;
+                      transform: translateY(-10px);
+                    }
+                    to {
+                      opacity: 1;
+                      transform: translateY(0);
+                    }
+                  }
+                  .animate-fadeIn {
+                    animation: fadeIn 0.3s ease-out;
+                  }
+                `}</style>
+              </div>
             </div>
+            // <div className="relative inline-block text-left">
+            //   <button
+            //     onClick={() => setOpen(!open)}
+            //     className="flex items-center justify-center w-10 h-10 sm:w-9 sm:h-9 bg-white text-gray-900 text-sm sm:text-base font-semibold border border-gray-300 rounded-full shadow-md hover:bg-pink-600 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
+            //   >
+            //     <FaRegUser />
+            //   </button>
+
+            //   {open && (
+            //     <div className="absolute right-0 mt-2 w-64 sm:w-85 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden animate-fadeIn">
+            //       {/* User Info */}
+            //       <div className="flex p-3 gap-3 border-b border-gray-100">
+            //         <div className="w-12 h-12 bg-pink-100 text-pink-600 flex items-center justify-center rounded-full text-md font-bold">
+            //           {user?.userName.slice(0, 1).toUpperCase()}
+            //         </div>
+            //         <div className="flex flex-col">
+            //           <h3 className="text-gray-900 font-semibold text-base sm:text-lg">
+            //             {user.userName}
+            //           </h3>
+            //           <p className="text-gray-500 text-sm sm:text-base break-all break-all">
+            //             {user.email}
+            //           </p>
+            //         </div>
+            //       </div>
+
+            //       {/* Menu Links */}
+            //       <div className="flex flex-col divide-y divide-gray-100">
+            //         <Link
+            //           href={"/dashboard"}
+            //           className="px-4 py-2 text-gray-700 hover:bg-gray-100 text-left w-full transition text-sm sm:text-base"
+            //         >
+            //           Dashboard
+            //         </Link>
+
+            //         {user ? (
+            //           <button
+            //             onClick={logOut}
+            //             className="bg-white px-4 py-2 text-left w-full text-gray-900 text-sm shadow-sm hover:bg-red-300 hover:text-white transition"
+            //           >
+            //             Sign out
+            //           </button>
+            //         ) : (
+            //           <button
+            //             onClick={() => router.push("/login")}
+            //             className="bg-white px-4 py-2 text-left w-full text-gray-900 text-sm shadow-sm hover:bg-blue-600 hover:text-white transition"
+            //           >
+            //             Sign in
+            //           </button>
+            //         )}
+            //       </div>
+            //     </div>
+            //   )}
+            // </div>
           )}
         </div>
       </div>

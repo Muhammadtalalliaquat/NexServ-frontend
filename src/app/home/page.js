@@ -10,50 +10,22 @@ import ConatctComp from "../../components/contact";
 import Navbar from "../../components/navbar";
 import Footer from "../../components/footer";
 import NextServLoader from "../../components/nexservloader";
+import UserFeedBack from "../../components/userReviewComp";
 import ScrollToTop from "../../components/scrolltotop";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function HomeRoute() {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [serviceData, setServiceData] = useState([]);
   const [blogData, setBlogData] = useState([]);
   const [reviewData, setReviewData] = useState([]);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const [itemsPerSlide, setItemsPerSlide] = useState(2);
   const [selected, setSelected] = useState("");
-
-  // const itemsPerSlide = 2;
-  const totalSlides = Math.ceil(reviewData.length / itemsPerSlide);
-
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1 < totalSlides ? prev + 1 : 0));
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 >= 0 ? prev - 1 : totalSlides - 1));
-  };
 
   const serviceRef = useRef(null);
   const blogRef = useRef(null);
   const contactRef = useRef(null);
-
-  // const start = currentIndex * itemsPerSlide;
-  // const visibleReviews = reviewData.slice(start, start + itemsPerSlide);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setItemsPerSlide(1);
-      } else {
-        setItemsPerSlide(2);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,7 +54,6 @@ export default function HomeRoute() {
 
     fetchData();
   }, [dispatch]);
-  
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -111,23 +82,21 @@ export default function HomeRoute() {
         });
 
         setSelected(hash);
-        console.log(selected)
+        console.log(selected);
       }, 500);
     }
   }, [selected]);
 
+  const handleScroll = (ref, hash) => {
+    if (!ref?.current) return;
 
-   const handleScroll = (ref, hash) => {
-     if (!ref?.current) return;
+    ref.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
 
-     ref.current.scrollIntoView({
-       behavior: "smooth",
-       block: "start",
-     });
-
-     window.history.pushState(null, "", `#${hash}`);
-   };
-
+    window.history.pushState(null, "", `#${hash}`);
+  };
 
   if (loading) return <NextServLoader />;
 
@@ -145,7 +114,7 @@ export default function HomeRoute() {
       <HereSection reviewData={reviewData} />
 
       <section
-        className="py-36 sm:py-6 px-6 bg-white"
+        className="py-36 sm:py-16 px-6 bg-white"
         id="services"
         ref={serviceRef}
       >
@@ -311,7 +280,9 @@ export default function HomeRoute() {
         )}
       </div>
 
-      <div className="w-full py-12 px-4 shadow-[0_-4px_6px_rgba(0,0,0,0.1)] md:px-10 relative z-10 bg-gradient-to-t from-white to-gray-200">
+      <UserFeedBack reviewData={reviewData} />
+
+      {/* <div className="w-full py-12 px-4 shadow-[0_-4px_6px_rgba(0,0,0,0.1)] md:px-10 relative z-10 bg-gradient-to-t from-white to-gray-200">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-extrabold text-black">
             What Our<span className="text-pink-600"> Clients Say </span>
@@ -379,7 +350,7 @@ export default function HomeRoute() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <ConatctComp scrollId="contact" scrollRef={contactRef} />
       <Footer />
