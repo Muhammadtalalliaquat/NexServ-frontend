@@ -6,7 +6,7 @@ export const fetchService = async () => {
     const response = await axios.get(`${ApiRoutes.getService}`);
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to fetch services:",
       error.response?.data || error.message
     );
@@ -19,7 +19,7 @@ export const fetchOneService = async (id) => {
     const response = await axios.get(`${ApiRoutes.getOneService}/${id}`);
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to fetch services:",
       error.response?.data || error.message
     );
@@ -32,7 +32,7 @@ export const addService = async (serviceData) => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      console.error("Token is missing!");
+      console.log("Token is missing!");
       return;
     }
 
@@ -46,7 +46,7 @@ export const addService = async (serviceData) => {
     // console.log("API Response: Product added:", response.data);
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to add service:",
       error.response?.data || error.message
     );
@@ -58,7 +58,7 @@ export const editService = async (id, serviceData) => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      console.error("Token is missing!");
+      console.log("Token is missing!");
       return;
     }
 
@@ -74,7 +74,7 @@ export const editService = async (id, serviceData) => {
     console.log("Service updated:", response.data);
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to edit service:",
       error.response?.data || error.message
     );
@@ -86,7 +86,7 @@ export const deleteService = async (id) => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      console.error("Token is missing!");
+      console.log("Token is missing!");
       return;
     }
     const response = await axios.delete(`${ApiRoutes.deleteService}/${id}`, {
@@ -97,7 +97,7 @@ export const deleteService = async (id) => {
     console.log("Service deleted:", response.data);
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to delete Service:",
       error.response?.data || error.message
     );

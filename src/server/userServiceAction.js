@@ -6,7 +6,7 @@ export const fetchUserService = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      console.error("Token is missing!");
+      console.log("Token is missing!");
       return;
     }
     const response = await axios.get(`${ApiRoutes.userGetService}`, {
@@ -16,7 +16,7 @@ export const fetchUserService = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to fetch user service:",
       error.response?.data || error.message
     );
@@ -28,7 +28,7 @@ export const getUserService = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      console.error("Token is missing!");
+      console.log("Token is missing!");
       return;
     }
     const response = await axios.get(`${ApiRoutes.userFetchAllService}`, {
@@ -38,7 +38,7 @@ export const getUserService = async () => {
     });
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to fetch user service:",
       error.response?.data || error.message
     );
@@ -51,7 +51,7 @@ export const addUserService = async (serviceId , planId) => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      console.error("Token is missing!");
+      console.log("Token is missing!");
       return;
     }
     const response = await axios.post(ApiRoutes.userAddService, { serviceId, planId }, {
@@ -62,7 +62,7 @@ export const addUserService = async (serviceId , planId) => {
     console.log("API Response: service added:", response.data);
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to service add:",
       error.response?.data || error.message
     );
@@ -74,7 +74,7 @@ export const updateServiceStatus = async (id, status ) => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      console.error("Token is missing!");
+      console.log("Token is missing!");
       return;
     }
 
@@ -87,7 +87,7 @@ export const updateServiceStatus = async (id, status ) => {
     console.log("Service plan status updated:", response.data);
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to service plan status:",
       error.response?.data || error.message
     );

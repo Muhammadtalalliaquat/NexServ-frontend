@@ -14,10 +14,7 @@ import { LuAlignRight } from "react-icons/lu";
 import { clearUser } from "@/store/features/userSlice";
 import { FaRegUser } from "react-icons/fa";
 import {
-  User,
   LayoutDashboard,
-  Settings,
-  HelpCircle,
   LogOut,
   ChevronRight,
 } from "lucide-react";

@@ -9,7 +9,7 @@ export const fetchContact = async () => {
     // console.log("Products fetched:", response.data);
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to fetch contact:",
       error.response?.data || error.message
     );

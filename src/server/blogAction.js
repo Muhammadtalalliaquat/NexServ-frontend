@@ -7,7 +7,7 @@ export const fetchAllBlogs = async () => {
     const response = await axios.get(`${ApiRoutes.getAllBlog}`);
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to fetch blogs:",
       error.response?.data || error.message
     );
@@ -19,7 +19,7 @@ export const fetchBlogs = async () => {
     const response = await axios.get(`${ApiRoutes.getBlog}`);
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to fetch blogs:",
       error.response?.data || error.message
     );
@@ -31,7 +31,7 @@ export const fetchOneBlogs = async (id) => {
     const response = await axios.get(`${ApiRoutes.getOneBlog}/${id}`);
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to fetch blogs:",
       error.response?.data || error.message
     );
@@ -56,7 +56,7 @@ export const addBlog = async (blogData) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Failed to add blog:", error.response?.data || error.message);
+    console.log("Failed to add blog:", error.response?.data || error.message);
   }
 };
 
@@ -77,10 +77,7 @@ export const editBlog = async (id, BlogData) => {
     console.log("blog updated:", response.data);
     return response.data;
   } catch (error) {
-    console.error(
-      "Failed to edit blog:",
-      error.response?.data || error.message
-    );
+    console.log("Failed to edit blog:", error.response?.data || error.message);
   }
 };
 
@@ -100,7 +97,7 @@ export const deleteBlogs = async (id) => {
     console.log("blog deleted:", response.data);
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to delete blogs:",
       error.response?.data || error.message
     );

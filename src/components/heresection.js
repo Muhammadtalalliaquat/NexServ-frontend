@@ -1,7 +1,7 @@
 import RatingBadge from "@/components/RatingBadge";
 import { Sparkles, Zap, TrendingUp, ArrowRight } from "lucide-react";
 
-export default function ModernHero({ reviewData }) {
+export default function HereSection({ reviewData }) {
   const overallRating =
     reviewData.length > 0
       ? (

@@ -6,7 +6,7 @@ export const fetchReview = async () => {
     const response = await axios.get(`${ApiRoutes.getReview}`);
     return response.data;
   } catch (error) {
-    console.error(
+    console.log(
       "Failed to fetch Reviews:",
       error.response?.data || error.message
     );
