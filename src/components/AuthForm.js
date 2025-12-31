@@ -5,9 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerUser, loginUser } from "../server/authAction";
 import { useRouter } from "next/navigation";
 import { ApiRoutes } from "@/constant/constant";
-import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
-// import styles from "./main.module.css";
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  User,
+  Sparkles,
+  ArrowRight,
+} from "lucide-react";
 
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
@@ -105,142 +112,345 @@ export default function AuthForm() {
   // };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-pink-200 px-4">
-      <div className="bg-white shadow-2xl rounded-[1rem] flex flex-col md:flex-row w-full max-w-[900px] overflow-hidden">
-        {/* Left Blue Panel */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center px-4 py-8 relative overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
         <div
-          className="w-full md:w-1/2 bg-pink-700 text-white flex flex-col justify-center items-center p-10 
-           rounded-bl-[4rem] rounded-br-[4rem]    /* Mobile */
-           sm:rounded-tr-[1rem] sm:rounded-br-[6rem] sm:rounded-bl-[0rem]  /* Small screens */
-           md:rounded-tr-[8rem] md:rounded-br-[8rem]  /* Tablet */
-           lg:rounded-tr-[10rem] lg:rounded-br-[10rem]"
-        >
-          <h2 className="text-4xl font-extrabold mb-4">
-            {isLogin ? "Hello, Welcome!" : "Welcome Back!"}
-          </h2>
-          <p className="mb-6 text-center">
-            {isLogin ? "Don't have an account?" : "Already have an account?"}
-          </p>
+          className="absolute bottom-20 right-20 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"
+          style={{ animationDelay: "2s" }}
+        ></div>
+      </div>
 
-          <button
-            className="border border-white rounded-lg px-6 py-2 font-semibold 
-            hover:bg-white hover:text-pink-700 transition"
-            onClick={() => setIsLogin(!isLogin)}
-          >
-            {isLogin ? "Register" : "Login"}
-          </button>
+      {/* Main card */}
+      <div className="relative z-10 w-full max-w-5xl">
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden">
+          <div className="flex flex-col md:flex-row">
+            {/* Left Panel - Welcome Section */}
+            <div className="w-full md:w-1/2 bg-gradient-to-br from-pink-500 to-purple-600 p-12 flex flex-col justify-center items-center text-white relative overflow-hidden">
+              {/* Decorative elements */}
+              <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 left-0 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+
+              <div className="relative z-10 text-center">
+                {/* Logo/Icon */}
+                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                  <Sparkles className="w-10 h-10" />
+                </div>
+
+                <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                  {isLogin ? "Welcome Back!" : "Join Us Today!"}
+                </h2>
+
+                <p className="text-white/90 text-lg mb-8 max-w-sm mx-auto">
+                  {isLogin
+                    ? "Sign in to access your account and continue your journey with us"
+                    : "Create an account and unlock all our amazing tech services"}
+                </p>
+
+                {/* Toggle button */}
+                <button
+                  onClick={() => setIsLogin(!isLogin)}
+                  className="group inline-flex items-center gap-2 px-8 py-3 border-2 border-white rounded-xl font-semibold hover:bg-white hover:text-pink-600 transition-all duration-300 hover:scale-105"
+                >
+                  <span>{isLogin ? "Create Account" : "Back to Login"}</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+
+                {/* Decorative dots */}
+                <div className="mt-12 flex justify-center gap-2">
+                  {[...Array(3)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="w-2 h-2 rounded-full bg-white/30"
+                    ></div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Panel - Form Section */}
+            <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white/5">
+              {/* Header */}
+              <div className="mb-8">
+                <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                  {isLogin ? "Sign In" : "Create Account"}
+                </h3>
+                <p className="text-gray-400">
+                  {isLogin
+                    ? "Enter your credentials to access your account"
+                    : "Fill in your details to get started"}
+                </p>
+              </div>
+
+              {/* Form */}
+              <div className="space-y-5">
+                {/* Username - Only for Registration */}
+                {!isLogin && (
+                  <div className="relative group">
+                    <label className="block text-white text-sm font-medium mb-2 flex items-center gap-2">
+                      <User className="w-4 h-4" />
+                      Username
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter your username"
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
+                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition backdrop-blur-sm"
+                      required
+                    />
+                  </div>
+                )}
+
+                {/* Email */}
+                <div className="relative group">
+                  <label className="block text-white text-sm font-medium mb-2 flex items-center gap-2">
+                    <Mail className="w-4 h-4" />
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition backdrop-blur-sm"
+                    required
+                  />
+                </div>
+
+                {/* Password */}
+                <div className="relative group">
+                  <label className="block text-white text-sm font-medium mb-2 flex items-center gap-2">
+                    <Lock className="w-4 h-4" />
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showPass ? "text" : "password"}
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition backdrop-blur-sm pr-12"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPass(!showPass)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition"
+                    >
+                      {showPass ? (
+                        <EyeOff className="w-5 h-5" />
+                      ) : (
+                        <Eye className="w-5 h-5" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Forgot Password - Login Only */}
+                {isLogin && (
+                  <div className="text-right">
+                    <button
+                      type="button"
+                      onClick={requestPasswordReset}
+                      className="text-sm text-purple-400 hover:text-purple-300 transition"
+                    >
+                      Forgot password?
+                    </button>
+                  </div>
+                )}
+
+                {/* Messages */}
+                {message && (
+                  <div className="p-4 bg-green-500/20 border border-green-500/50 rounded-xl text-green-300 text-sm text-center">
+                    ✓ {message}
+                  </div>
+                )}
+                {authError && (
+                  <div className="p-4 bg-red-500/20 border border-red-500/50 rounded-xl text-red-300 text-sm text-center">
+                    ⚠ {authError}
+                  </div>
+                )}
+
+                {/* Submit Button */}
+                <button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-700 text-white py-4 rounded-xl font-semibold flex justify-center items-center gap-2 transition-all duration-300 shadow-lg hover:shadow-pink-500/50 hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+                      <span>
+                        {isLogin ? "Signing In..." : "Creating Account..."}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{isLogin ? "Sign In" : "Create Account"}</span>
+                      <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
+                </button>
+
+                {/* Terms - Registration Only */}
+                {!isLogin && (
+                  <p className="text-xs text-gray-400 text-center">
+                    By creating an account, you agree to our{" "}
+                    <button className="text-purple-400 hover:underline">
+                      Terms of Service
+                    </button>{" "}
+                    and{" "}
+                    <button className="text-purple-400 hover:underline">
+                      Privacy Policy
+                    </button>
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Right Form Panel */}
-        <div className="w-full md:w-1/2 bg-white p-10 flex flex-col justify-center">
-          <h3 className="text-3xl font-bold text-gray-800 mb-2">
-            {isLogin ? "Login" : "Registration"}
-          </h3>
-
-          <form className="space-y-5" onSubmit={handleSubmit}>
-            {!isLogin && (
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Username"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-700 transition"
-                  required
-                />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-                  <i className="fas fa-user"></i>
-                </span>
-              </div>
-            )}
-
-            <div className="relative">
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-700 transition"
-                required
-              />
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-                <i className="fas fa-envelope"></i>
-              </span>
-            </div>
-
-            <div className="relative">
-              <input
-                type={showPass ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-700 transition"
-                required
-              />
-              <span
-                onClick={() => setShowPass(!showPass)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
-              >
-                {showPass ? <EyeOff size={20} /> : <Eye size={20} />}
-              </span>
-            </div>
-
-            {isLogin && (
-              <div className="text-center text-sm mb-4">
-                <button
-                  type="button"
-                  className="text-gray-500 hover:underline"
-                  onClick={requestPasswordReset}
-                >
-                  Forgot password?
-                </button>
-              </div>
-            )}
-
-            {message && (
-              <p className="text-orange-500 text-center text-sm mt-2">
-                {message}
-              </p>
-            )}
-            {authError && (
-              <p className="text-red-500 text-center text-sm mt-2">
-                {authError}
-              </p>
-            )}
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-pink-700 text-white py-3 font-semibold rounded-lg 
-          hover:bg-pink-600 transition flex items-center justify-center gap-2"
-            >
-              {isSubmitting ? (
-                <div className="animate-spin h-5 w-5 border-t-2 border-white rounded-full"></div>
-              ) : isLogin ? (
-                "Login"
-              ) : (
-                "Register"
-              )}
-            </button>
-
-            {/* Social Icons */}
-            {/* <div className="flex justify-center gap-3 mt-4">
-              <button className="border border-gray-300 rounded-lg p-2">
-                <i className="fab fa-google"></i>
-              </button>
-              <button className="border border-gray-300 rounded-lg p-2">
-                <i className="fab fa-facebook-f"></i>
-              </button>
-              <button className="border border-gray-300 rounded-lg p-2">
-                <i className="fab fa-github"></i>
-              </button>
-              <button className="border border-gray-300 rounded-lg p-2">
-                <i className="fab fa-linkedin-in"></i>
-              </button>
-            </div> */}
-          </form>
+        {/* Additional info */}
+        <div className="mt-6 text-center text-gray-400 text-sm">
+          <p>Secure authentication powered by industry-standard encryption</p>
         </div>
       </div>
     </div>
+    // <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-50 to-pink-200 px-4">
+    //   <div className="bg-white shadow-2xl rounded-[1rem] flex flex-col md:flex-row w-full max-w-[900px] overflow-hidden">
+    //     <div
+    //       className="w-full md:w-1/2 bg-pink-700 text-white flex flex-col justify-center items-center p-10
+    //        rounded-bl-[4rem] rounded-br-[4rem]    /* Mobile */
+    //        sm:rounded-tr-[1rem] sm:rounded-br-[6rem] sm:rounded-bl-[0rem]  /* Small screens */
+    //        md:rounded-tr-[8rem] md:rounded-br-[8rem]  /* Tablet */
+    //        lg:rounded-tr-[10rem] lg:rounded-br-[10rem]"
+    //     >
+    //       <h2 className="text-4xl font-extrabold mb-4">
+    //         {isLogin ? "Hello, Welcome!" : "Welcome Back!"}
+    //       </h2>
+    //       <p className="mb-6 text-center">
+    //         {isLogin ? "Don't have an account?" : "Already have an account?"}
+    //       </p>
+
+    //       <button
+    //         className="border border-white rounded-lg px-6 py-2 font-semibold
+    //         hover:bg-white hover:text-pink-700 transition"
+    //         onClick={() => setIsLogin(!isLogin)}
+    //       >
+    //         {isLogin ? "Register" : "Login"}
+    //       </button>
+    //     </div>
+
+    //     <div className="w-full md:w-1/2 bg-white p-10 flex flex-col justify-center">
+    //       <h3 className="text-3xl font-bold text-gray-800 mb-2">
+    //         {isLogin ? "Login" : "Registration"}
+    //       </h3>
+
+    //       <form className="space-y-5" onSubmit={handleSubmit}>
+    //         {!isLogin && (
+    //           <div className="relative">
+    //             <input
+    //               type="text"
+    //               placeholder="Username"
+    //               value={userName}
+    //               onChange={(e) => setUserName(e.target.value)}
+    //               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-700 transition"
+    //               required
+    //             />
+    //             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+    //               <i className="fas fa-user"></i>
+    //             </span>
+    //           </div>
+    //         )}
+
+    //         <div className="relative">
+    //           <input
+    //             type="email"
+    //             placeholder="Email"
+    //             value={email}
+    //             onChange={(e) => setEmail(e.target.value)}
+    //             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-700 transition"
+    //             required
+    //           />
+    //           <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+    //             <i className="fas fa-envelope"></i>
+    //           </span>
+    //         </div>
+
+    //         <div className="relative">
+    //           <input
+    //             type={showPass ? "text" : "password"}
+    //             placeholder="Password"
+    //             value={password}
+    //             onChange={(e) => setPassword(e.target.value)}
+    //             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-700 transition"
+    //             required
+    //           />
+    //           <span
+    //             onClick={() => setShowPass(!showPass)}
+    //             className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
+    //           >
+    //             {showPass ? <EyeOff size={20} /> : <Eye size={20} />}
+    //           </span>
+    //         </div>
+
+    //         {isLogin && (
+    //           <div className="text-center text-sm mb-4">
+    //             <button
+    //               type="button"
+    //               className="text-gray-500 hover:underline"
+    //               onClick={requestPasswordReset}
+    //             >
+    //               Forgot password?
+    //             </button>
+    //           </div>
+    //         )}
+
+    //         {message && (
+    //           <p className="text-orange-500 text-center text-sm mt-2">
+    //             {message}
+    //           </p>
+    //         )}
+    //         {authError && (
+    //           <p className="text-red-500 text-center text-sm mt-2">
+    //             {authError}
+    //           </p>
+    //         )}
+
+    //         <button
+    //           type="submit"
+    //           disabled={isSubmitting}
+    //           className="w-full bg-pink-700 text-white py-3 font-semibold rounded-lg
+    //       hover:bg-pink-600 transition flex items-center justify-center gap-2"
+    //         >
+    //           {isSubmitting ? (
+    //             <div className="animate-spin h-5 w-5 border-t-2 border-white rounded-full"></div>
+    //           ) : isLogin ? (
+    //             "Login"
+    //           ) : (
+    //             "Register"
+    //           )}
+    //         </button>
+
+    //         {/* <div className="flex justify-center gap-3 mt-4">
+    //           <button className="border border-gray-300 rounded-lg p-2">
+    //             <i className="fab fa-google"></i>
+    //           </button>
+    //           <button className="border border-gray-300 rounded-lg p-2">
+    //             <i className="fab fa-facebook-f"></i>
+    //           </button>
+    //           <button className="border border-gray-300 rounded-lg p-2">
+    //             <i className="fab fa-github"></i>
+    //           </button>
+    //           <button className="border border-gray-300 rounded-lg p-2">
+    //             <i className="fab fa-linkedin-in"></i>
+    //           </button>
+    //         </div> */}
+    //       </form>
+    //     </div>
+    //   </div>
+    // </div>
   );
 }
