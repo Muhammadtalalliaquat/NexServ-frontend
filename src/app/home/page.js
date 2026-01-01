@@ -114,7 +114,7 @@ export default function HomeRoute() {
       <HereSection reviewData={reviewData} />
 
       <section
-        className="py-36 sm:py-16 px-6 bg-white"
+        className="py-19 sm:py-16 px-6 bg-white"
         id="services"
         ref={serviceRef}
       >
