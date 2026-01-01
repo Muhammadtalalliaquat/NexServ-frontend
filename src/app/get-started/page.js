@@ -143,13 +143,13 @@ export default function ModernGetStarted() {
           </div>
 
           <div className="text-center text-gray-300">
-            Don&apos;t have an account?{" "}
+            Have an account?{" "}
             <Link
               href="/login"
               onClick={() => console.log("Navigate to login")}
               className="text-pink-400 font-semibold hover:text-pink-300 transition-colors hover:underline"
             >
-              Sign up
+              Sign in
             </Link>
           </div>
         </div>
