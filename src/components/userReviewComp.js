@@ -30,7 +30,7 @@ export default function UserFeedBack({ reviewData }) {
 
   return (
     <>
-      <section className="relative z-10 w-full py-24 px-4 md:px-10 overflow-hidden bg-gradient-to-b from-slate-900 via-purple-900/100 to-slate-900">
+      <section className="relative z-10 overflow-visible min-h-screen w-full py-24 px-4 md:px-10 overflow-hidden bg-gradient-to-b from-slate-900 via-purple-900/100 to-slate-900">
         {/* Animated background */}
         <div className="absolute inset-0 overflow-hidden opacity-30">
           <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
