@@ -26,6 +26,8 @@ export default function Blogs() {
       });
   }, [dispatch]);
 
+  if (loading) return <NextServLoader />;
+
   return (
     <>
       <Navbar />
@@ -44,9 +46,9 @@ export default function Blogs() {
           </p>
         </div>
 
-        {loading ? (
+        {/* {loading ? (
           <NextServLoader />
-        ) : (
+        ) : ( */}
           <div className="space-y-8">
             {blogsData.blogs.map((blog) => (
               <div
@@ -88,7 +90,7 @@ export default function Blogs() {
               </div>
             ))}
           </div>
-        )}
+        {/* )} */}
       </div>
 
       <Footer />
