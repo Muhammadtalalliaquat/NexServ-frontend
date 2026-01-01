@@ -15,11 +15,6 @@ import {
 import NextServLoader from "../../../components/nexservloader";
 import Navbar from "../../../components/navbar";
 import Footer from "../../../components/footer";
-// import {
-//   PencilSquareIcon,
-//   TrashIcon,
-//   EllipsisVerticalIcon,
-// } from "@heroicons/react/24/solid";
 import { useDispatch } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
@@ -84,7 +79,7 @@ export default function BlogDetailPage() {
     if (navigator.share) {
       await navigator.share({
         title: "Check this blog",
-        text: "Yeh blog zaroor dekho 👇",
+        text: "Read this tech blog 👇",
         url: shareUrl,
       });
     } else {

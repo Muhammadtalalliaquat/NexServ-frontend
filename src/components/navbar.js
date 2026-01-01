@@ -13,18 +13,14 @@ import { FaMicroblog } from "react-icons/fa";
 import { LuAlignRight } from "react-icons/lu";
 import { clearUser } from "@/store/features/userSlice";
 import { FaRegUser } from "react-icons/fa";
-import {
-  LayoutDashboard,
-  LogOut,
-  ChevronRight,
-} from "lucide-react";
+import { LayoutDashboard, LogOut, ChevronRight } from "lucide-react";
 
 function Navbar({ onScroll, sections }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [open, setOpen] = useState(false);
   const [loadingUser, setLoadingUser] = useState(true);
   const [selected, setSelected] = useState("");
+  const [open, setOpen] = useState(false);
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
   const pathname = usePathname();
@@ -59,37 +55,84 @@ function Navbar({ onScroll, sections }) {
     router.push("/get-started");
   };
 
-  const menuItems = [
+  // const handleNav = (section) => {
+  //   setSelected(section);
+
+  //   if (isHome && typeof onScroll === "function") {
+  //     const ref = sections?.[section];
+  //     if (!ref?.current) return;
+  //     onScroll(ref, section);
+  //     return;
+  //   }
+
+  //   router.push(`/home#${section}`);
+  // };
+
+  // handleNav is declared before menuItems and defers access to ref.current
+  const handleNav = (section) => {
+    setSelected(section);
+
+    // 🟢 Home page → smooth scroll (defer reading ref.current to avoid accessing refs during render)
+    if (isHome && typeof onScroll === "function") {
+      const ref = sections?.[section];
+      if (!ref) {
+        setIsMenuOpen(false);
+        return;
+      }
+
+      // Defer access to ref.current to the next frame to avoid reading refs during render
+      requestAnimationFrame(() => {
+        if (!ref.current) return;
+        onScroll(ref, section);
+      });
+
+      setIsMenuOpen(false);
+      return;
+    }
+
+    // 🔵 Other pages → redirect with hash
+    setIsMenuOpen(false);
+    router.push(`/home#${section}`);
+  };
+
+  const profileMenuItems = [
     { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
     //  { icon: User, label: "My Profile", href: "/profile" },
     //  { icon: Settings, label: "Settings", href: "/settings" },
     //  { icon: HelpCircle, label: "Help & Support", href: "/help" },
   ];
 
-  const handleNav = (section) => {
-    setSelected(section);
-
-    // 🟢 Home page → smooth scroll
-    if (isHome && typeof onScroll === "function") {
-      const ref = sections?.[section];
-      if (!ref?.current) return;
-      onScroll(ref, section);
-      return;
-    }
-
-    // 🔵 Other pages → redirect with hash
-    router.push(`/home#${section}`);
-  };
-
-  // const handleClick = (ref, section) => {
-  //   setSelected(section);
-
-  //   if (pageType !== "home") return;
-
-  //   if (!ref?.current) return;
-
-  //   onScroll(ref, section);
-  // };
+  const menuItems = [
+    {
+      id: "home",
+      label: "Home",
+      icon: GoHome,
+      href: "/home",
+      show: pathname !== "/home",
+      // onClick: () => {
+      //   setSelected("home");
+      //   setIsMenuOpen(false);
+      // },
+    },
+    {
+      id: "services",
+      label: "Services",
+      icon: GrBusinessService,
+      // onClick: () => handleNav("services"),
+    },
+    {
+      id: "blogs",
+      label: "Blog",
+      icon: FaMicroblog,
+      // onClick: () => handleNav("blogs"),
+    },
+    {
+      id: "contact",
+      label: "Contact",
+      icon: RiContactsLine,
+      // onClick: () => handleNav("contact"),
+    },
+  ];
 
   if (loadingUser) return null;
   return (
@@ -231,7 +274,7 @@ function Navbar({ onScroll, sections }) {
 
                     {/* Menu Items */}
                     <div className="p-2">
-                      {menuItems.map((item, idx) => {
+                      {profileMenuItems.map((item, idx) => {
                         const Icon = item.icon;
                         return (
                           <button
@@ -390,6 +433,146 @@ function Navbar({ onScroll, sections }) {
     `}
         style={{ background: "#ffffffff" }}
       >
+        <ul className="flex flex-col p-4">
+          {menuItems.map((item) => {
+            if (item.show === false) return null;
+
+            const Icon = item.icon;
+            const isActive = selected === item.id || pathname === item.href;
+
+            const content = (
+              <div className="flex items-center gap-3">
+                <Icon className="w-5 h-5" />
+                <span>{item.label}</span>
+              </div>
+            );
+
+            const className = `
+              flex items-center gap-3
+              w-full px-4 py-3 pt-3 pb-3
+              font-medium text-sm rounded-lg
+              border-b border-gray-200
+              transition-all duration-200
+              cursor-pointer
+              ${
+                isActive
+                  ? "bg-blue-600 text-white shadow-md"
+                  : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+              }
+            `;
+
+            return (
+              <li key={item.id}>
+                {item.href ? (
+                  <Link
+                    href={item.href}
+                    onClick={() => {
+                      setSelected(item.id);
+                      setIsMenuOpen(false);
+                    }}
+                    className={className}
+                    // onClick={item.onClick}
+                  >
+                    {content}
+                  </Link>
+                ) : (
+                  <button
+                    className={className}
+                    onClick={() => handleNav(item.id)}
+                    // onClick={item.onClick}
+                  >
+                    {content}
+                  </button>
+                )}
+              </li>
+            );
+          })}
+
+          {user?.isAdmin && pathname !== "/add-service" && (
+            <li>
+              <Link
+                href="/add-service"
+                onClick={() => setIsMenuOpen(false)}
+                className="
+                  flex items-center gap-3
+                  w-full px-4 py-3 mt-3 mb-2 rounded-lg
+                  font-medium text-sm
+                  border border-pink-500
+                  text-pink-600 hover:bg-pink-50
+                  transition-all duration-200
+                "
+              >
+                <RiFunctionAddLine className="w-5 h-5" />
+                <span>Add Service</span>
+              </Link>
+            </li>
+          )}
+
+          {user && pathname !== "/dashboard" && (
+            <li>
+              <Link
+                href="/dashboard"
+                onClick={() => setIsMenuOpen(false)}
+                className="
+                  flex items-center gap-3
+                  w-full px-4 py-3 rounded-lg
+                  font-medium text-sm
+                  border border-gray-300
+                  text-gray-700 hover:bg-gray-50
+                  transition-all duration-200
+                "
+              >
+                <span>Dashboard</span>
+              </Link>
+            </li>
+          )}
+
+          <li className="pt-2">
+            {user ? (
+              <button
+                onClick={() => {
+                  logOut();
+                  setIsMenuOpen(false);
+                }}
+                className="
+                  w-full px-4 py-3 rounded-lg
+                  font-semibold text-sm
+                  bg-red-500 text-white
+                  hover:bg-red-600
+                  transition-all duration-200
+                  shadow-sm
+                "
+              >
+                Sign Out
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  router.push("/login");
+                  setIsMenuOpen(false);
+                }}
+                className="
+                  w-full px-4 py-3 rounded-lg
+                  font-semibold text-sm
+                  bg-blue-600 text-white
+                  hover:bg-blue-700
+                  transition-all duration-200
+                  shadow-sm
+                "
+              >
+                Sign In
+              </button>
+            )}
+          </li>
+        </ul>
+      </div>
+
+      {/* <div
+        className={`absolute top-full left-0 w-full z-50 overflow-hidden transition-all duration-300 ease-in-out sm:hidden shadow-md
+      ${isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
+    `}
+        style={{ background: "#ffffffff" }}
+      >
         <ul className="flex flex-col gap-4 py-5 px-6 divide-y divide-gray-200">
           {pathname !== "/home" && (
             <li className="flex items-center gap-2 text-gray-800 font-medium cursor-pointer pb-5 hover:text-blue-500 transition">
@@ -403,19 +586,15 @@ function Navbar({ onScroll, sections }) {
             onClick={() => handleNav("services")}
             className="flex items-center gap-2 text-gray-800 font-medium pb-5 hover:text-blue-500 transition"
           >
-            {/* <Link href="/service" className="flex items-center gap-2"> */}
             <GrBusinessService className="w-5 h-5" />
             Services
-            {/* </Link> */}
           </li>
           <li
             onClick={() => handleNav("blogs")}
             className="flex items-center gap-2 text-gray-800 font-medium pb-5 hover:text-blue-500 transition"
           >
-            {/* <Link href="/Blog" className="flex items-center gap-2"> */}
             <FaMicroblog className="w-5 h-5" />
             Blog
-            {/* </Link> */}
           </li>
           <li
             onClick={() => handleNav("contact")}
@@ -462,16 +641,8 @@ function Navbar({ onScroll, sections }) {
               </Link>
             </li>
           )}
-          {/* <li>
-            <Link
-              href="/login"
-              className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition block text-center"
-            >
-              Sign in
-            </Link>
-          </li> */}
         </ul>
-      </div>
+      </div> */}
     </nav>
   );
 }

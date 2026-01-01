@@ -172,7 +172,7 @@ export default function HomeRoute() {
       </section>
 
       <div
-        className="md:sticky md:top-5 md:z-[9] max-md:relative max-md:bottom-10 transition-all duration-300 bg-gradient-to-t from-gray-300 via-gray-200 to-white py-0 sm:py-19 px-4 md:px-10 w-full"
+        className="md:sticky md:top-5 md:z-[9] max-md:relative max-md:bottom-10 transition-all duration-300 bg-gradient-to-t from-gray-300 via-gray-200 to-white py-10 sm:py-19 px-4 md:px-10 w-full"
         id="blogs"
         ref={blogRef}
       >
