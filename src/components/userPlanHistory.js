@@ -42,9 +42,9 @@ export default function PlanHistory() {
     setShowFeatures((prev) => (prev === id ? null : id));
   };
 
-   const toggleDropdownStatus = (serviceId) => {
-     setSatusToggle((prev) => (prev === serviceId ? null : serviceId));
-   };
+  const toggleDropdownStatus = (serviceId) => {
+    setSatusToggle((prev) => (prev === serviceId ? null : serviceId));
+  };
 
   const updatePlanStatus = (id, status) => {
     dispatch(updateService({ id, status }))
@@ -57,9 +57,7 @@ export default function PlanHistory() {
             prev.map((user) => ({
               ...user,
               services: user.services.map((srv) =>
-                srv._id === id
-                  ? { ...srv, status }
-                  : srv
+                srv._id === id ? { ...srv, status } : srv
               ),
             }))
           );
@@ -95,7 +93,7 @@ export default function PlanHistory() {
           <p className="text-gray-500 text-center">No plan history found.</p>
         )}
 
-        <div className="max-w-6xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="max-w-6xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {userPlanData?.map((item) => (
             <div
               key={item._id}
@@ -106,7 +104,9 @@ export default function PlanHistory() {
                   <h4 className="font-semibold text-gray-700">
                     {item.author?.userName}
                   </h4>
-                  <p className="text-sm text-gray-500">{item.author?.email}</p>
+                  <p className="text-sm text-gray-500 break-all">
+                    {item.author?.email}
+                  </p>
                 </div>
               )}
 
@@ -128,7 +128,7 @@ export default function PlanHistory() {
                     Category: {service.serviceId.category.join(", ")}
                   </span>
 
-                  <div className="mt-3 border-t border-gray-100 pt-3">
+                  <div className="relative mt-3 border-t border-gray-100 pt-3">
                     <div className="flex flex-row items-start justify-between">
                       <p className="text-gray-700 font-medium mb-2">
                         Price:{" "}
@@ -136,6 +136,9 @@ export default function PlanHistory() {
                           ${service.selectedPlan.price}
                         </span>
                       </p>
+                      <span className="absolute -top-76 sm:-top-76 md:-top-76 right-2 sm:right-3 bg-gray-300/80 backdrop-blur text-gray-800 text-[10px] sm:text-xs font-medium px-2 sm:px-3 py-1 rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.15)] z-10 whitespace-nowrap">
+                        {service.selectedPlan.planId.slice(5)}
+                      </span>
 
                       <button
                         onClick={() => toggleDropdown(service._id)}
@@ -222,34 +225,35 @@ export default function PlanHistory() {
                             {satusToggle === service._id && (
                               <div className="mt-2 w-48 shadow-xl bg-white transition-all duration-300 ease-out transform">
                                 <div className="py-1">
-                                  {[
-                                    "Booked",
-                                    "completed",
-                                    "cancelled",
-                                  ].map((status) => {
-                                    const statusClassMap = {
-                                      processing:
-                                        "hover:bg-blue-200 active:bg-blue-300",
-                                      Booked:
-                                        "hover:bg-green-200 active:bg-green-300",
-                                      completed:
-                                        "hover:bg-purple-200 active:bg-purple-300",
-                                      cancelled:
-                                        "hover:bg-red-200 active:bg-red-300",
-                                    };
+                                  {["Booked", "completed", "cancelled"].map(
+                                    (status) => {
+                                      const statusClassMap = {
+                                        processing:
+                                          "hover:bg-blue-200 active:bg-blue-300",
+                                        Booked:
+                                          "hover:bg-green-200 active:bg-green-300",
+                                        completed:
+                                          "hover:bg-purple-200 active:bg-purple-300",
+                                        cancelled:
+                                          "hover:bg-red-200 active:bg-red-300",
+                                      };
 
-                                    return (
-                                      <button
-                                        key={status}
-                                        onClick={() =>
-                                          updatePlanStatus(service._id, status)
-                                        }
-                                        className={`block w-full px-4 py-2 text-sm border border-gray-200 font-medium text-gray-700 bg-gray-100 focus:outline-none transition-all ${statusClassMap[status]}`}
-                                      >
-                                        {status}
-                                      </button>
-                                    );
-                                  })}
+                                      return (
+                                        <button
+                                          key={status}
+                                          onClick={() =>
+                                            updatePlanStatus(
+                                              service._id,
+                                              status
+                                            )
+                                          }
+                                          className={`block w-full px-4 py-2 text-sm border border-gray-200 font-medium text-gray-700 bg-gray-100 focus:outline-none transition-all ${statusClassMap[status]}`}
+                                        >
+                                          {status}
+                                        </button>
+                                      );
+                                    }
+                                  )}
                                 </div>
                               </div>
                             )}

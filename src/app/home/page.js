@@ -21,7 +21,7 @@ export default function HomeRoute() {
   const [reviewData, setReviewData] = useState([]);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const [selected, setSelected] = useState("");
+  // const [selected, setSelected] = useState("");
 
   const serviceRef = useRef(null);
   const blogRef = useRef(null);
@@ -55,37 +55,37 @@ export default function HomeRoute() {
     fetchData();
   }, [dispatch]);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
 
-    const hash = window.location.hash.replace("#", "");
+   useEffect(() => {
+     if (typeof window === "undefined") return;
 
-    const sectionMap = {
-      service: serviceRef,
-      contact: contactRef,
-    };
+     const hash = window.location.hash.replace("#");
 
-    const ref = sectionMap;
+     const sectionMap = {
+       services: serviceRef,
+       blogs: blogRef,
+       contact: contactRef,
+     };
 
-    if (ref?.current) {
-      //  wait for DOM + images
-      setTimeout(() => {
-        const yOffset = -80; //  navbar height
-        const y =
-          ref.current.getBoundingClientRect().top +
-          window.pageYOffset +
-          yOffset;
+     console.log("Scrolling on current:", hash);
 
-        window.scrollTo({
-          top: y,
-          behavior: "auto", // refresh par smooth mat use karo
-        });
+     const scrollToSection = () => {
+       const ref = sectionMap[hash];
 
-        setSelected(hash);
-        console.log(selected);
-      }, 500);
-    }
-  }, [selected]);
+       if (!ref?.current) {
+         requestAnimationFrame(scrollToSection); // retry
+         return;
+       }
+
+       const yOffset = -80;
+       const y =
+         ref.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+       window.scrollTo({ top: y, behavior: "smooth" });
+     };
+
+     scrollToSection();
+   }, []);
 
   const handleScroll = (ref, hash) => {
     if (!ref?.current) return;
@@ -172,7 +172,7 @@ export default function HomeRoute() {
       </section>
 
       <div
-        className="md:sticky md:top-5 md:z-[9] max-md:relative max-md:bottom-10 transition-all duration-300 bg-gradient-to-t from-gray-300 via-gray-200 to-white py-10 sm:py-19 px-4 md:px-10 w-full"
+        className="md:sticky md:top-5 md:z-[9] max-md:relative transition-all duration-300 bg-gradient-to-t from-gray-300 via-gray-200 to-white py-10 sm:py-19 px-4 md:px-10 w-full"
         id="blogs"
         ref={blogRef}
       >
