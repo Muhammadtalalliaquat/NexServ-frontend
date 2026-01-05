@@ -70,8 +70,8 @@ function Navbar({ onScroll, sections }) {
 
   // handleNav is declared before menuItems and defers access to ref.current
   const handleNav = (section) => {
+    if (selected === section) return;
     setSelected(section);
-
     // 🟢 Home page → smooth scroll (defer reading ref.current to avoid accessing refs during render)
     if (isHome && typeof onScroll === "function") {
       const ref = sections?.[section];
@@ -92,7 +92,16 @@ function Navbar({ onScroll, sections }) {
 
     // 🔵 Other pages → redirect with hash
     setIsMenuOpen(false);
-    router.push(`/home#${section}`);
+    router.push(`/home`);
+    // router.push(`/home#${section}`);
+  };
+
+  const handleBlogClick = () => {
+    if (pathname === "/home") {
+      handleNav("blogs");
+    } else {
+      router.push("/blogs");
+    }
   };
 
   const profileMenuItems = [
@@ -141,7 +150,6 @@ function Navbar({ onScroll, sections }) {
       ${isScrolled ? "backdrop-blur-md bg-white/90 shadow-md" : ""}`}
     >
       <div className="w-full container mx-auto flex items-center justify-between cursor-pointer pl-5 pr-5">
-        {/* Logo */}
         <div
           className="flex items-center gap-3"
           onClick={() => window.location.reload()}
@@ -155,22 +163,79 @@ function Navbar({ onScroll, sections }) {
           </span>
         </div>
 
-        {/* Menu (Desktop) */}
-        <ul className="hidden sm:flex items-center gap-10">
+        <ul className="hidden sm:flex items-center gap-2">
+          {pathname !== "/home" && (
+            <li>
+              <Link
+                href="/home"
+                className="flex items-center gap-2 px-4 py-3 text-gray-700 
+                   hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200
+                   font-medium text-sm"
+              >
+                Home
+              </Link>
+            </li>
+          )}
+
+          <li>
+            <button
+              onClick={() => handleNav("services")}
+              className={`px-4 py-3 text-sm font-medium transition-all duration-200
+        ${
+          selected === "services"
+            ? "bg-blue-600 text-white shadow-sm"
+            : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+        }`}
+            >
+              Services
+            </button>
+          </li>
+
+          {pathname !== "/blogs" && (
+            <li>
+              <button
+                // onClick={() => handleNav("blogs")}
+                onClick={handleBlogClick}
+                className={`px-4 py-3 text-sm font-medium transition-all duration-200
+          ${
+            selected === "blogs"
+              ? "bg-blue-600 text-white shadow-sm"
+              : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+          }`}
+              >
+                Blogs
+              </button>
+            </li>
+          )}
+
+          <li>
+            <button
+              onClick={() => handleNav("contact")}
+              className={`px-4 py-3 text-sm font-medium transition-all duration-200
+        ${
+          selected === "contact"
+            ? "bg-blue-600 text-white shadow-sm"
+            : "text-gray-700 hover:text-gray-900 hover:bg-gray-100"
+        }`}
+            >
+              Contact
+            </button>
+          </li>
+        </ul>
+
+        {/* <ul className="hidden sm:flex items-center gap-10">
           {pathname !== "/home" && (
             <li
               className="flex items-center gap-2 cursor-pointer transition-all duration-300 px-3 py-2
              text-gray-800 hover:bg-blue-100 hover:text-blue-600 p-1 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2 transition"
             >
               <Link href="/home" className="flex items-center gap-2">
-                {/* <GoHome className="w-4 h-4" /> */}
                 Home
               </Link>
             </li>
           )}
           <li
             onClick={() => handleNav("services")}
-            // onClick={() => handleNav(sections?.services, "service")}
             className={`cursor-pointer px-3 py-2 transition-all duration-300  md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
           ${
             selected === "services"
@@ -184,7 +249,6 @@ function Navbar({ onScroll, sections }) {
           {pathname !== "/blogs" && (
             <li
               onClick={() => handleNav("blogs")}
-              // onClick={() => handleNav(sections?.blogs, "blog")}
               className={`cursor-pointer px-3 py-2 transition-all duration-300  md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
     ${
       selected === "blogs"
@@ -198,7 +262,6 @@ function Navbar({ onScroll, sections }) {
           )}
           <li
             onClick={() => handleNav("contact")}
-            // onClick={() => handleNav(sections?.contact, "contact")}
             className={`cursor-pointer px-3 py-2 transition-all duration-300 md:pl-1 md:pr-1 lg:pl-2 lg:pr-2
     ${
       selected === "contact"
@@ -209,7 +272,7 @@ function Navbar({ onScroll, sections }) {
           >
             Contact
           </li>
-        </ul>
+        </ul> */}
 
         {/* Actions */}
         <div className="hidden sm:flex items-center gap-3">
@@ -478,7 +541,15 @@ function Navbar({ onScroll, sections }) {
                 ) : (
                   <button
                     className={className}
-                    onClick={() => handleNav(item.id)}
+                    onClick={() => {
+                      if (item.id === "blogs") {
+                        handleBlogClick();
+                      } else {
+                        handleNav(item.id);
+                      }
+                      setIsMenuOpen(false);
+                    }}
+                    // onClick={() => handleNav(item.id)}
                     // onClick={item.onClick}
                   >
                     {content}

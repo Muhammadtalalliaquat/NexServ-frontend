@@ -60,6 +60,7 @@ export default function HomeRoute() {
      if (typeof window === "undefined") return;
 
      const hash = window.location.hash.replace("#");
+     if (!hash) return;
 
      const sectionMap = {
        services: serviceRef,
@@ -67,25 +68,25 @@ export default function HomeRoute() {
        contact: contactRef,
      };
 
-     console.log("Scrolling on current:", hash);
+     const ref = sectionMap[hash];
 
-     const scrollToSection = () => {
-       const ref = sectionMap[hash];
-
+     const scrollWhenReady = () => {
        if (!ref?.current) {
-         requestAnimationFrame(scrollToSection); // retry
+         requestAnimationFrame(scrollWhenReady);
          return;
        }
 
-       const yOffset = -80;
-       const y =
-         ref.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+       ref.current.scrollIntoView({
+         behavior: "auto", // refresh par smooth nahi
+         block: "start",
+       });
 
-       window.scrollTo({ top: y, behavior: "smooth" });
+       setSelected(hash);
      };
 
-     scrollToSection();
+     scrollWhenReady();
    }, []);
+
 
   const handleScroll = (ref, hash) => {
     if (!ref?.current) return;
@@ -172,7 +173,7 @@ export default function HomeRoute() {
       </section>
 
       <div
-        className="md:sticky md:top-5 md:z-[9] max-md:relative transition-all duration-300 bg-gradient-to-t from-gray-300 via-gray-200 to-white py-10 sm:py-19 px-4 md:px-10 w-full"
+        className={`md:sticky md:z-[9] max-md:relative transition-all duration-300 bg-gradient-to-t from-gray-300 via-gray-200 to-white py-10 sm:py-19 px-4 md:px-10 w-full`}
         id="blogs"
         ref={blogRef}
       >
