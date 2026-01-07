@@ -92,8 +92,8 @@ function Navbar({ onScroll, sections }) {
 
     // 🔵 Other pages → redirect with hash
     setIsMenuOpen(false);
-    router.push(`/home`);
-    // router.push(`/home#${section}`);
+    // router.push(`/home`);
+    router.push(`/home#${section}`);
   };
 
   const handleBlogClick = () => {

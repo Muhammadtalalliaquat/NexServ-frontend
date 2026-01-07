@@ -4,6 +4,12 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { getOneBlogs, removeBlog } from "../../../store/features/blogSlice";
 import {
+  createBookmark,
+  getCheckBookmark,
+  setSuccessMsg,
+  setResError,
+} from "../../../store/features/bookmarkSlice";
+import {
   Calendar,
   Tag,
   MoreVertical,
@@ -15,7 +21,7 @@ import {
 import NextServLoader from "../../../components/nexservloader";
 import Navbar from "../../../components/navbar";
 import Footer from "../../../components/footer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -25,11 +31,12 @@ export default function BlogDetailPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [user, setUser] = useState(null);
-
   const dispatch = useDispatch();
   const router = useRouter();
   const params = useParams();
   const blogId = params?.id;
+
+  const { successMsg, resError } = useSelector((state) => state.bookmark);
 
   const { title, content, image, tags, createdAt, updatedAt } = blogData;
 
@@ -53,6 +60,78 @@ export default function BlogDetailPage() {
 
     fetchData();
   }, [dispatch, blogId]);
+
+  useEffect(() => {
+    if (!user || !blogId) return;
+
+    dispatch(getCheckBookmark({ blogId }))
+      .unwrap()
+      .then((res) => {
+        console.log("Bookmark check res:", res.data);
+        setIsBookmarked(res.data?.bookmarked);
+      });
+  }, [dispatch, user, blogId]);
+
+  useEffect(() => {
+    if (successMsg || resError) {
+      const timer = setTimeout(() => {
+        dispatch(setSuccessMsg(null));
+        dispatch(setResError(null));
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [successMsg, resError, dispatch]);
+
+  // useEffect(() => {
+  //   if (!user || !blogData?._id) return;
+
+  //   const bookmarks = JSON.parse(
+  //     localStorage.getItem("bookmarkedBlogs") || "[]"
+  //   );
+
+  //   const isAlreadyBookmarked = bookmarks.some(
+  //     (blog) => blog.blogId === blogData._id && blog.userId === user._id
+  //   );
+
+  //   setIsBookmarked(isAlreadyBookmarked);
+  // }, [blogData?._id, user, user?._id]);
+
+  // const handleBookmarkToggle = () => {
+  //   if (!user) {
+  //     setShowMsg("Please login to bookmark blogs");
+  //     return;
+  //   }
+
+  //   const bookmarks = JSON.parse(
+  //     localStorage.getItem("bookmarkedBlogs") || "[]"
+  //   );
+
+  //   if (isBookmarked) {
+  //     const updatedBookmarks = bookmarks.filter(
+  //       (blog) => !(blog.blogId === blogData._id && blog.userId === user._id)
+  //     );
+
+  //     localStorage.setItem("bookmarkedBlogs", JSON.stringify(updatedBookmarks));
+  //     setIsBookmarked(false);
+  //   } else {
+  //     const bookmarkData = {
+  //       userId: user._id,
+  //       blogId: blogData._id,
+  //       title: blogData.title,
+  //       content: blogData.content.slice(0, 150) + "...",
+  //       image: blogData.image,
+  //       tags: blogData.tags,
+  //       bookmarkedAt: new Date().toISOString(),
+  //     };
+
+  //     localStorage.setItem(
+  //       "bookmarkedBlogs",
+  //       JSON.stringify([...bookmarks, bookmarkData])
+  //     );
+  //     setIsBookmarked(true);
+  //   }
+  // };
 
   const handleDeleteBlog = async () => {
     if (!blogId) {
@@ -88,6 +167,22 @@ export default function BlogDetailPage() {
     }
   };
 
+  const handleBookmarkToggle = () => {
+    if (!user) {
+      dispatch(setResError("Please login to bookmark blogs"));
+      return;
+    }
+
+    dispatch(createBookmark({ blogId }))
+      .unwrap()
+      .then((res) => {
+        setIsBookmarked(res.data?.bookmarked);
+      })
+      .catch((err) => {
+        console.error("Bookmark toggle failed:", err);
+      });
+  };
+
   if (loading) return <NextServLoader />;
 
   return (
@@ -108,9 +203,93 @@ export default function BlogDetailPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 
+                {successMsg && (
+                  <div className="fixed top-4 right-4 z-50 animate-slide-in">
+                    <div className="bg-green-800 text-white px-6 py-4 font-medium text-sm rounded-lg shadow-xl flex items-center gap-3 min-w-[320px]">
+                      <svg
+                        className="w-6 h-6 flex-shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <p className="font-medium flex-1">{successMsg}</p>
+                      <button
+                        onClick={() => dispatch(setSuccessMsg(null))}
+                        className="hover:opacity-80 transition"
+                      >
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {resError && (
+                  <div className="fixed top-4 right-4 z-50 animate-slide-in">
+                    <div className="bg-gray-500 text-white px-6 py-4 font-medium text-sm rounded-lg shadow-xl flex items-center gap-3 min-w-[320px]">
+                      <p className="font-medium flex-1">{resError}</p>
+                      <button
+                        onClick={() => dispatch(setResError(null))}
+                        className="hover:opacity-80 transition"
+                      >
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* CSS - Add to your global CSS or Tailwind config */}
+                <style jsx>{`
+                  @keyframes slide-in {
+                    from {
+                      transform: translateX(100%);
+                      opacity: 0;
+                    }
+                    to {
+                      transform: translateX(0);
+                      opacity: 1;
+                    }
+                  }
+
+                  .animate-slide-in {
+                    animation: slide-in 0.3s ease-out;
+                  }
+                `}</style>
+
                 <div className="absolute top-6 right-6 flex gap-2">
                   <button
-                    onClick={() => setIsBookmarked(!isBookmarked)}
+                    onClick={handleBookmarkToggle}
+                    // onClick={() => setIsBookmarked(!isBookmarked)}
                     className={`w-10 h-10 rounded-full backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-300 ${
                       isBookmarked
                         ? "bg-pink-500 text-white"
@@ -230,89 +409,6 @@ export default function BlogDetailPage() {
           </div>
         </div>
       </div>
-      {/* <div className="min-h-screen bg-gray-50 py-20 px-4 md:px-8 lg:px-16">
-        <div className="max-w-5xl mx-auto bg-white overflow-hidden">
-          <div className="w-full overflow-hidden">
-            {image && (
-              <Image
-                src={image}
-                alt={title || "Blog image"}
-                width={800}
-                height={800}
-                className="object-cover w-full h-90 rounded-lg transition-all duration-300"
-                priority
-              />
-            )}
-          </div>
-
-          <div className="p-6 md:p-10">
-            <div className="flex items-center flex-wrap justify-between mb-6">
-              <h1 className="text-2xl md:text-4xl font-bold text-gray-900">
-                {title}
-              </h1>
-
-              {(createdAt || updatedAt) && (
-                <p className="text-gray-500 text-xs md:text-sm">
-                  Published on{" "}
-                  {new Date(createdAt || updatedAt).toLocaleDateString()}
-                </p>
-              )}
-            </div>
-
-            <div className="flex items-center flex-wrap justify-between gap-2 mb-5">
-              <div className="flex items-center flex-wrap gap-2">
-                {tags?.map((tag, idx) => (
-                  <span
-                    key={idx}
-                    className="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-medium"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-              <div className="relative">
-                {user?.isAdmin && (
-                  <>
-                    <button
-                      onClick={() => setIsMenuOpen(!isMenuOpen)}
-                      className="p-2 rounded-full hover:bg-gray-100 transition-all duration-300"
-                    >
-                      <EllipsisVerticalIcon className="w-5 h-5 text-gray-700" />
-                    </button>
-
-                    {isMenuOpen && (
-                      <div className="absolute sm:right-0 mt-2 w-36 bg-white rounded-lg shadow-lg border border-gray-100 z-20 overflow-hidden animate-[fadeIn_0.2s_ease-in-out]">
-                        <Link
-                          // href={"*"}
-                          href={`/update-service/${blogId}`}
-                          className="flex items-center gap-2 w-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors duration-200"
-                        >
-                          <PencilSquareIcon className="w-4 h-4" />
-                          Edit
-                        </Link>
-
-                        <div className="h-px bg-gray-100"></div>
-
-                        <button
-                          onClick={handleDeleteBlog}
-                          className="flex items-center gap-2 w-full px-4 py-2 text-sm font-medium text-red-500 hover:bg-red-50 transition-colors duration-200"
-                        >
-                          <TrashIcon className="w-4 h-4" />
-                          Delete
-                        </button>
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
-
-            <p className="text-gray-700 leading-relaxed whitespace-pre-line text-base md:text-lg">
-              {content}
-            </p>
-          </div>
-        </div>
-      </div> */}
       <Footer />
     </>
   );

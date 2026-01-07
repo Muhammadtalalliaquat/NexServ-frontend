@@ -55,40 +55,38 @@ export default function HomeRoute() {
     fetchData();
   }, [dispatch]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
-   useEffect(() => {
-     if (typeof window === "undefined") return;
+    const hash = window.location.hash.replace("#", "");
+    if (!hash) return;
 
-     const hash = window.location.hash.replace("#");
-     if (!hash) return;
+    const sectionMap = {
+      services: serviceRef,
+      blogs: blogRef,
+      contact: contactRef,
+    };
 
-     const sectionMap = {
-       services: serviceRef,
-       blogs: blogRef,
-       contact: contactRef,
-     };
+    const ref = sectionMap[hash];
 
-     const ref = sectionMap[hash];
+    console.log("Scrolling to action:", ref);
 
-     const scrollWhenReady = () => {
-       if (!ref?.current) {
-         requestAnimationFrame(scrollWhenReady);
-         return;
-       }
+    const scrollWhenReady = () => {
+      if (!ref?.current) {
+        requestAnimationFrame(scrollWhenReady);
+        return;
+      }
 
-       ref.current.scrollIntoView({
-         behavior: "auto", // refresh par smooth nahi
-         block: "start",
-       });
+      ref.current.scrollIntoView({
+        behavior: "auto",
+        block: "start",
+      });
+    };
 
-       setSelected(hash);
-     };
+    scrollWhenReady();
+  }, []);
 
-     scrollWhenReady();
-   }, []);
-
-
-  const handleScroll = (ref, hash) => {
+  const handleScroll = (ref, section) => {
     if (!ref?.current) return;
 
     ref.current.scrollIntoView({
@@ -96,7 +94,7 @@ export default function HomeRoute() {
       block: "start",
     });
 
-    window.history.pushState(null, "", `#${hash}`);
+    window.history.pushState(null, "", `#${section}`);
   };
 
   if (loading) return <NextServLoader />;

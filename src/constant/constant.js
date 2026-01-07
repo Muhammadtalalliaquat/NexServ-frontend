@@ -35,4 +35,7 @@ export const ApiRoutes = {
 
   addContact: BASIC_URL + `contact-us/addContact`,
   getContact: BASIC_URL + `contact-us/getContacts`,
+
+  addBookmark: BASIC_URL + `bookmark/addBookmark`,
+  checkBookmark: BASIC_URL + `bookmark/check`,
 };
