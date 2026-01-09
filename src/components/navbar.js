@@ -489,12 +489,20 @@ function Navbar({ onScroll, sections }) {
         </button>
       </div>
 
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 z-40 sm:hidden"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
+
       {/* Mobile Menu */}
       <div
         className={`absolute top-full left-0 w-full z-50 overflow-hidden transition-all duration-300 ease-in-out sm:hidden shadow-md
       ${isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
     `}
         style={{ background: "#ffffffff" }}
+        onClick={(e) => e.stopPropagation()}
       >
         <ul className="flex flex-col p-4">
           {menuItems.map((item) => {

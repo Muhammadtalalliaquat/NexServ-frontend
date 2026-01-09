@@ -7,6 +7,7 @@ import accountReducer from "./features/userAcountUpdateSlice";
 import blogReducer from "./features/blogSlice";
 import reviewReducer from "./features/reviewSlice";
 import bookmarkReducer from "./features/bookmarkSlice";
+import projectReducer from "./features/projectSlice";
 
 // const persistedReducer = persistReducer(persistConfig, userReducer);
 
@@ -20,6 +21,7 @@ export const store = configureStore({
     blog: blogReducer,
     review: reviewReducer,
     bookmark: bookmarkReducer,
+    project: projectReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

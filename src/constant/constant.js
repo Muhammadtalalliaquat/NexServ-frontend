@@ -1,8 +1,8 @@
-// const DEV_URL = `http://localhost:4000/`;
-const PROD_URL = `https://nex-serv-backend.vercel.app/`;
+const DEV_URL = `http://localhost:4000/`;
+// const PROD_URL = `https://nex-serv-backend.vercel.app/`;
 
-// export const BASIC_URL = DEV_URL;
-export const BASIC_URL = PROD_URL;
+export const BASIC_URL = DEV_URL;
+// export const BASIC_URL = PROD_URL;
 
 export const ApiRoutes = {
   login: BASIC_URL + `user/login`,
@@ -29,6 +29,10 @@ export const ApiRoutes = {
   getOneBlog: BASIC_URL + `blogs/fetchOneBlog`,
   editBlog: BASIC_URL + `blogs/editBlog`,
   deleteBlog: BASIC_URL + `blogs/deleteBlog`,
+
+  getProject: BASIC_URL + `project/fetchProjects`,
+  addProject: BASIC_URL + `project/startProject`,
+  updateProjectStatus: BASIC_URL + `project/updateProject`,
 
   addReview: BASIC_URL + `user-review/addReview`,
   getReview: BASIC_URL + `user-review/getReview`,

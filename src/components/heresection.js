@@ -1,7 +1,11 @@
+
 import RatingBadge from "@/components/RatingBadge";
 import { Sparkles, Zap, TrendingUp, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function HereSection({ reviewData }) {
+  const router = useRouter();
+
   const overallRating =
     reviewData.length > 0
       ? (
@@ -71,13 +75,18 @@ export default function HereSection({ reviewData }) {
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-            <button className="group relative px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl font-semibold shadow-2xl shadow-pink-500/50 hover:shadow-pink-500/70 transform transition-all duration-300 hover:scale-105 overflow-hidden">
+            <button
+              onClick={() => router.push("/startProject")}
+              className="group relative px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl font-semibold shadow-2xl shadow-pink-500/50 hover:shadow-pink-500/70 transform transition-all duration-300 hover:scale-105 overflow-hidden"
+            >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Start Your Project
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
+
+            {/* <ModernProjectForm /> */}
 
             <button className="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-xl font-semibold hover:bg-white/20 transition-all duration-300">
               View Our Work

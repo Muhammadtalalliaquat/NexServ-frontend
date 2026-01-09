@@ -39,7 +39,6 @@ export default function ConatctComp({ scrollId, scrollRef }) {
 
     if (!user) {
       dispatch(setResError("please login before submit"));
-      //   setResError("please login before submit");
       return;
     }
 
