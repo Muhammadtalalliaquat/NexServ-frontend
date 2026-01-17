@@ -16,6 +16,7 @@ import NextServLoader from "../../../components/nexservloader";
 import Footer from "../../../components/footer";
 import Image from "next/image";
 import Link from "next/link";
+import { CheckCircle } from "lucide-react";
 
 export default function ServiceDetailPage() {
   const [loading, setLoading] = useState(true);
@@ -127,7 +128,7 @@ export default function ServiceDetailPage() {
   };
 
   const activeService = userService?.services?.find(
-    (s) => s?.serviceId?._id === serviceData._id
+    (s) => s?.serviceId?._id === serviceData._id,
   );
 
   if (loading) return <NextServLoader />;
@@ -137,9 +138,6 @@ export default function ServiceDetailPage() {
       <Navbar />
       <section className="bg-white">
         <div className="max-w-7xl mx-auto px-6 py-16 space-y-16 mt-10">
-          {/* Header */}
-          {/* Active service box */}
-
           <div className="flex flex-col md:flex-row  gap-8">
             <Image
               src={image || "/placeholder.png"}
@@ -170,7 +168,7 @@ export default function ServiceDetailPage() {
                   <Link
                     href={`/update-service/${serviceId}`}
                     className="px-4 py-2 border border-blue-500 text-blue-600 hover:bg-blue-50 
-    rounded-lg text-sm font-medium transition"
+                               rounded-lg text-sm font-medium transition"
                   >
                     update
                   </Link>
@@ -178,41 +176,53 @@ export default function ServiceDetailPage() {
                   <button
                     onClick={handleDeleteService}
                     className="px-4 py-2 border border-red-500 text-red-600 hover:bg-red-50 
-    rounded-lg text-sm font-medium transition"
+                              rounded-lg text-sm font-medium transition"
                   >
                     Delete
                   </button>
                 </div>
               )}
               {user && activeService ? (
-                <div className="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-gradient-to-r from-green-50 to-green-100 border border-green-300 rounded-lg p-4 shadow-sm">
-                  {/* Header */}
-                  <h3 className="text-green-800 flex items-center gap-2 font-semibold text-base">
-                    <span className="w-2 h-2 bg-green-600 rounded-full"></span>
-                    Your Service is Activated
-                  </h3>
+                <div className="relative overflow-hidden bg-white border border-green-200 rounded-2xl shadow-lg p-4 sm:p-4">
+                  {/* soft background accent */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 opacity-70" />
 
-                  {/* Status */}
-                  <div className="flex flex-row sm:flex-row sm:items-center justify-between gap-2 mt-2 sm:mt-0">
-                    <span className="font-semibold text-gray-800">Status:</span>
+                  <div className="relative flex sm:flex-row flex-wrap items-center justify-between gap-4">
+                    {/* Left section */}
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <div className="w-10 h-10 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center shadow-md shrink-0">
+                        <CheckCircle className="w-5 h-5 sm:w-4 sm:h-4 text-white" />
+                      </div>
 
-                    {activeService.status === "processing" && (
-                      <span className="px-3 py-1 bg-yellow-100 text-yellow-700 border border-yellow-400 rounded-md text-sm font-medium">
-                        ⏳ Processing
-                      </span>
-                    )}
+                      <div>
+                        <h3 className="text-gray-800 font-semibold text-base font-medium text-sm leading-tight">
+                          Service Activated
+                        </h3>
+                        <p className="text-xs sm:text-sm text-gray-500">
+                          Your service status is
+                        </p>
+                      </div>
+                    </div>
 
-                    {activeService.status === "Booked" && (
-                      <span className="px-3 py-1 bg-blue-100 text-blue-700 border border-blue-400 rounded-md text-sm font-medium">
-                        Booked
-                      </span>
-                    )}
+                    <div className="flex justify-start sm:justify-end">
+                      {activeService.status === "processing" && (
+                        <span className="px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-yellow-100 text-yellow-700 border border-yellow-200">
+                          ⏳ Processing
+                        </span>
+                      )}
 
-                    {activeService.status === "completed" && (
-                      <span className="px-3 py-1 bg-green-100 text-green-700 border border-green-500 rounded-md text-sm font-medium">
-                        ✔ Completed
-                      </span>
-                    )}
+                      {activeService.status === "Booked" && (
+                        <span className="px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-medium bg-blue-100 text-blue-700 border border-blue-200">
+                          📅 Booked
+                        </span>
+                      )}
+
+                      {activeService.status === "completed" && (
+                        <span className="px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-green-100 text-green-700 border border-green-200">
+                          ✔ Completed
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               ) : (
@@ -260,8 +270,8 @@ export default function ServiceDetailPage() {
                       planKey === "basic"
                         ? "text-blue-500"
                         : planKey === "standard"
-                        ? "text-pink-500"
-                        : "text-blue-800 group-hover:text-white"
+                          ? "text-pink-500"
+                          : "text-blue-800 group-hover:text-white"
                     }`}
                     >
                       {planKey}
@@ -292,8 +302,8 @@ export default function ServiceDetailPage() {
                               planKey === "basic"
                                 ? "bg-blue-500"
                                 : planKey === "standard"
-                                ? "bg-pink-500"
-                                : "bg-blue-800"
+                                  ? "bg-pink-500"
+                                  : "bg-blue-800"
                             }
                            `}
                           >
@@ -312,8 +322,8 @@ export default function ServiceDetailPage() {
                       planKey === "basic"
                         ? "bg-blue-500 hover:bg-blue-600 text-white"
                         : planKey === "standard"
-                        ? "bg-pink-500 hover:bg-pink-600 text-white"
-                        : "bg-blue-800 hover:bg-blue-900 text-white"
+                          ? "bg-pink-500 hover:bg-pink-600 text-white"
+                          : "bg-blue-800 hover:bg-blue-900 text-white"
                     }`}
                     >
                       Select{" "}
@@ -367,17 +377,66 @@ export default function ServiceDetailPage() {
             )}
 
             {errorMsg && (
-              <div
-                className={`rounded-md px-3 py-2 mt-2 text-sm${
-                  errorMsg.toLowerCase().includes("already")
-                    ? "text-red-600 bg-red-100 border border-red-400"
-                    : "text-green-600 bg-green-100 border border-green-400"
-                }
-              `}
-              >
-                {errorMsg}
+              <div className="fixed top-15 right-4 z-50 animate-slide-in">
+                <div
+                  className={`px-6 py-4 font-medium text-sm rounded-lg shadow-xl flex items-center gap-3 min-w-[320px]${
+                    errorMsg.toLowerCase().includes("already")
+                      ? "text-red-600 bg-red-100 border border-red-400"
+                      : "text-green-600 bg-green-100 border border-green-400"
+                  }`}
+                >
+                  <svg
+                    className="w-6 h-6 flex-shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  <p className="font-medium flex-1">{errorMsg}</p>
+                  <button
+                    onClick={() => setErrorMsg(null)}
+                    className="hover:opacity-80 transition cursor-pointer"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
             )}
+
+            <style jsx>{`
+              @keyframes slide-in {
+                from {
+                  transform: translateX(100%);
+                  opacity: 0;
+                }
+                to {
+                  transform: translateX(0);
+                  opacity: 1;
+                }
+              }
+
+              .animate-slide-in {
+                animation: slide-in 0.3s ease-out;
+              }
+            `}</style>
           </div>
         </div>
       </section>

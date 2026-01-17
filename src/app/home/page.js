@@ -148,10 +148,10 @@ export default function HomeRoute() {
                       : service.description}
                   </p>
                   <div className="flex items-center justify-between mt-4">
-                    <p className="text-gray-400 text-xs">
+                    {/* <p className="text-gray-400 text-xs">
                       Created:{" "}
                       {new Date(service.createdAt).toLocaleDateString()}
-                    </p>
+                    </p> */}
                     <Link
                       href={`/service-detail/${service._id}`}
                       className="px-3 py-1 text-sm bg-pink-600 text-white rounded-md hover:bg-pink-700 transition-colors duration-300"
