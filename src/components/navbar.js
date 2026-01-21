@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, startTransition } from "react";
+import { useState, useEffect, startTransition, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
@@ -25,7 +25,7 @@ function Navbar({ onScroll, sections }) {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const router = useRouter();
-
+  const ref = useRef(null);
   const isHome = pathname === "/home";
 
   useEffect(() => {
@@ -42,6 +42,16 @@ function Navbar({ onScroll, sections }) {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (!ref.current?.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   const toggleMenubar = () => {
@@ -296,7 +306,10 @@ function Navbar({ onScroll, sections }) {
           )}
 
           {user && (
-            <div className="relative inline-block text-left flex items-center justify-center">
+            <div
+              ref={ref}
+              className="relative inline-block text-left flex items-center justify-center"
+            >
               <div className="relative">
                 <button
                   onClick={() => setOpen(!open)}

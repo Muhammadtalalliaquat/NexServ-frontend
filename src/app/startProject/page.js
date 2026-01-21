@@ -25,12 +25,22 @@ import Navbar from "../../components/navbar";
 
 const PROJECT_TYPES = [
   "Web Development",
-  "Mobile App",
+  // "Mobile App",
   "UI/UX Design",
   "E-commerce",
-  "Custom Software",
+  "SEO",
+  // "Custom Software",
   "Other",
 ];
+
+// export const PROJECT_TYPES = {
+//   WEB: "Web Development",
+//   UIUX: "UI/UX Design",
+//   ECOM: "E-commerce",
+//   SEO: "SEO",
+//   OTHER: "Other",
+// };
+
 
 const BUDGETS = ["Low", "Medium", "High", "Custom"];
 

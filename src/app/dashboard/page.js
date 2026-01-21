@@ -5,8 +5,11 @@ import Navbar from "../../components/navbar";
 import UserProdile from "../../components/userProdile";
 import PlanHistory from "../../components/userPlanHistory";
 import UserFeedBack from "../../components/userReview";
+import ProjectComp from "../../components/userProjectcomp";
 import { FaUser, FaHistory, FaCog } from "react-icons/fa";
 import { VscFeedback } from "react-icons/vsc";
+import { AiTwotoneProject } from "react-icons/ai";
+
 export default function Dashborad() {
   const [activeTab, setActiveTab] = useState("profile");
   const [user, setUser] = useState(null);
@@ -22,6 +25,11 @@ export default function Dashborad() {
   const tabs = [
     { id: "profile", label: "Profile", icon: <FaUser size={18} /> },
     { id: "planHistory", label: "Plan History", icon: <FaHistory size={18} /> },
+    {
+      id: "CurrentProjects",
+      label: "Projects",
+      icon: <AiTwotoneProject size={18} />,
+    },
     { id: "FeedBack", label: "Feed back", icon: <VscFeedback size={18} /> },
     { id: "settings", label: "Settings", icon: <FaCog size={18} /> },
   ];
@@ -108,6 +116,23 @@ export default function Dashborad() {
               </p>
               <PlanHistory />
               {/* Add plan history table or cards here */}
+            </div>
+          )}
+
+          {activeTab === "CurrentProjects" && (
+            <div>
+              {user && (
+                <h1 className="text-3xl md:text-4xl font-extrabold mb-4 text-gray-700">
+                  {user.isAdmin ? "Current Projects" : "Your Projects"}
+                </h1>
+              )}
+              <p className="text-gray-600 mb-4 pb-6 border-b border-gray-200">
+                {user.isAdmin
+                  ? "View and manage your current projects."
+                  : "View your current projects."}
+              </p>
+              <ProjectComp />
+              {/* Add current projects content here */}
             </div>
           )}
 

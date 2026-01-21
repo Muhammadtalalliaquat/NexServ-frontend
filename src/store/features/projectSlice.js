@@ -3,6 +3,7 @@ import { ApiRoutes } from "../../constant/constant";
 import axios from "axios";
 
 export const getAllProjects = createAsyncThunk("project/fetch", async () => {
+  // dispatch(setLoading(true));
   try {
     const token = localStorage.getItem("token");
 
@@ -19,8 +20,10 @@ export const getAllProjects = createAsyncThunk("project/fetch", async () => {
 
     console.log(
       "API Response: user project fetched successfully:",
-      response.data
+      response.data,
     );
+    // dispatch(setLoading(false));
+
     return response.data;
   } catch (error) {
     dispatch(setLoading(false));
@@ -55,7 +58,7 @@ export const createProject = createAsyncThunk(
 
       console.log(
         "API Response: user create project successfully added:",
-        response.data
+        response.data,
       );
       return response.data;
     } catch (error) {
@@ -68,7 +71,7 @@ export const createProject = createAsyncThunk(
 
       return null;
     }
-  }
+  },
 );
 
 export const updateProjectStatus = createAsyncThunk(
@@ -91,7 +94,7 @@ export const updateProjectStatus = createAsyncThunk(
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       dispatch(setSuccessMsg(response.data.msg));
@@ -100,7 +103,7 @@ export const updateProjectStatus = createAsyncThunk(
 
       console.log(
         "API Response: project status update successfully:",
-        response.data
+        response.data,
       );
       return response.data;
     } catch (error) {
@@ -108,7 +111,7 @@ export const updateProjectStatus = createAsyncThunk(
       const backendMsg = error.response?.data?.msg || "Something went wrong";
       console.log(
         "Failed to update project status:",
-        backendMsg || error.message
+        backendMsg || error.message,
       );
 
       dispatch(setResError(backendMsg));
@@ -116,7 +119,7 @@ export const updateProjectStatus = createAsyncThunk(
 
       return null;
     }
-  }
+  },
 );
 
 const projectSlice = createSlice({
@@ -139,14 +142,14 @@ const projectSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAllProjects.pending, (state) => {
-        state.status = "loading";
+        state.loading = true;
       })
       .addCase(getAllProjects.fulfilled, (state, action) => {
-        state.status = "success";
+        state.loading = false;
         state.project = action.payload;
       })
       .addCase(getAllProjects.rejected, (state, action) => {
-        state.status = "failed";
+        state.loading = false;
         state.error = action.payload;
       })
       .addCase(createProject.fulfilled, (state, action) => {
@@ -155,7 +158,14 @@ const projectSlice = createSlice({
         } else {
           state.project = [action.payload];
         }
-      });
+      })
+      // .addCase(updateProjectStatus.fulfilled, (state, action) => {
+      //   const { id, status } = action.payload;
+
+      //   state.project = state.project.map((p) =>
+      //     p._id === id ? { ...p, status } : p,
+      //   );
+      // });
   },
 });
 export const { setSuccessMsg, setLoading, setResError } = projectSlice.actions;

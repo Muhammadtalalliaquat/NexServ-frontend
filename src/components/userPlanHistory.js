@@ -304,15 +304,15 @@ export default function PlanHistory() {
         `}</style>
       </div> */}
 
-      <div className="max-w-7xl mx-auto">
-        <h2
+      <div className="max-w-8xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        {/* <h2
           className="text-xl sm:text-2xl md:text-3xl font-bold 
           bg-gradient-to-r from-blue-600 to-blue-800 
           text-white shadow-md rounded-md 
           px-5 py-4 mt-10 mb-6 tracking-wide"
         >
           {user?.isAdmin ? "All Users Plans" : "Your Plan History"}
-        </h2>
+        </h2> */}
 
         {loading && (
           <div className="flex flex-col items-center justify-center py-44">
@@ -349,7 +349,7 @@ export default function PlanHistory() {
             item.services?.map((service) => (
               <div
                 key={`${item._id}-${service._id}-${index}`}
-                className="group bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition "
+                className="group bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition"
               >
                 {user?.isAdmin && (
                   <div className=" border-b border-gray-200 px-5 py-4">
@@ -495,7 +495,7 @@ export default function PlanHistory() {
                             className="overflow-hidden absolute right-0 z-10"
                           >
                             {satusToggle === service._id && (
-                              <div className="mt-2 w-48 bg-white  shadow-2xl border border-gray-200 overflow-hidden z-20 animate-fade">
+                              <div className="mt-2 w-48 bg-white shadow-2xl border border-gray-200 overflow-hidden z-20 animate-fade">
                                 <div className="py-1">
                                   {["Booked", "completed", "cancelled"].map(
                                     (status) => {
