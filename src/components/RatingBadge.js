@@ -10,7 +10,6 @@ export default function RatingBadge({
   const rounded = Number(rating).toFixed(1);
   const pct = Math.max(0, Math.min(100, (rating / 5) * 100));
 
-  // Variant styles
   const variants = {
     default: {
       container:
@@ -49,7 +48,6 @@ export default function RatingBadge({
     <div
       className={`inline-flex items-center flex-wrap gap-4 px-6 py-4 rounded-2xl ${style.container} ${style.glow} transition-all duration-300 hover:scale-105`}
     >
-      {/* Stars */}
       <div className="flex gap-1">
         {[1, 2, 3, 4, 5].map((i) => {
           const isFull = i <= fullStars;
@@ -57,13 +55,11 @@ export default function RatingBadge({
 
           return (
             <div key={i} className="relative w-6 h-6">
-              {/* Background star */}
               <Star
                 className={`w-6 h-6 ${style.starEmpty} transition-all duration-300`}
                 fill="currentColor"
               />
 
-              {/* Filled star or half star */}
               {(isFull || isHalf) && (
                 <div
                   className="absolute inset-0 overflow-hidden"
@@ -80,7 +76,6 @@ export default function RatingBadge({
         })}
       </div>
 
-      {/* Rating number */}
       <div className="flex flex-col items-start">
         <div className={`text-2xl font-bold ${style.text} leading-none`}>
           {rounded}

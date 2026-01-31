@@ -17,7 +17,6 @@ export default function ScrollToTop() {
 
   return (
     <div className="fixed bottom-8 right-8 z-50 flex flex-col items-center">
-      {/* Tooltip */}
       <span
         onClick={scrollToTop}
         className="mb-2 px-3 py-1 rounded-full bg-blue-900 text-white text-xs transform transition-all duration-300

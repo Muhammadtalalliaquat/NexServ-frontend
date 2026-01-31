@@ -2,7 +2,6 @@
 
 import {
   createProject,
-  setSuccessMsg,
   setLoading,
   setResError,
 } from "../../store/features/projectSlice";
@@ -19,7 +18,6 @@ import {
   CheckCircle,
   Loader,
   XCircle,
-  AlertCircle,
 } from "lucide-react";
 import Navbar from "../../components/navbar";
 

@@ -31,7 +31,6 @@ export default function UserFeedBack({ reviewData }) {
   return (
     <>
       <section className="relative z-10 overflow-visible min-h-screen w-full py-24 px-4 md:px-10 bg-gradient-to-b from-slate-900 via-purple-900/100 to-slate-900">
-        {/* Animated background */}
         <div className="absolute inset-0 overflow-hidden opacity-30">
           <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
           <div
@@ -41,7 +40,6 @@ export default function UserFeedBack({ reviewData }) {
         </div>
 
         <div className="relative z-10">
-          {/* Header */}
           <div className="text-center mb-16 max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/20 backdrop-blur-sm border border-purple-500/30 text-purple-300 text-sm mb-6">
               <Star className="w-4 h-4 fill-purple-300" />
@@ -61,7 +59,6 @@ export default function UserFeedBack({ reviewData }) {
             </p>
           </div>
 
-          {/* Reviews carousel */}
           <div className="w-full max-w-6xl mx-auto relative">
             <div className="overflow-hidden rounded-3xl">
               <div
@@ -76,16 +73,13 @@ export default function UserFeedBack({ reviewData }) {
                     } p-4`}
                   >
                     <div className="group relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-500 hover:scale-[1.02] h-full">
-                      {/* Gradient overlay on hover */}
                       <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-purple-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                       <div className="relative z-10">
-                        {/* Quote icon */}
                         <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                           <Quote className="w-6 h-6 text-white" />
                         </div>
 
-                        {/* Stars */}
                         <div className="flex gap-1 mb-4">
                           {Array.from({ length: 5 }).map((_, i) => (
                             <Star
@@ -99,12 +93,10 @@ export default function UserFeedBack({ reviewData }) {
                           ))}
                         </div>
 
-                        {/* Review text */}
                         <p className="text-gray-200 text-base leading-relaxed mb-6">
                           &quot;{review.comment}&quot;
                         </p>
 
-                        {/* Author info */}
                         <div className="flex items-center justify-between pt-4 border-t border-white/10">
                           <div>
                             <h3 className="text-white font-semibold text-lg">
@@ -122,7 +114,6 @@ export default function UserFeedBack({ reviewData }) {
                             </p>
                           </div>
 
-                          {/* Avatar */}
                           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-white font-bold text-lg">
                             {review.author?.userName?.[0] || "?"}
                           </div>
