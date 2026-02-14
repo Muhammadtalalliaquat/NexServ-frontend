@@ -120,7 +120,7 @@ export default function HereSection({ reviewData }) {
           <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4 animate-fadeInUp animation-delay-400">
             <button
               onClick={() => router.push("/startProject")}
-              className="group relative px-8 py-4 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white rounded-2xl font-bold shadow-2xl shadow-pink-500/50 hover:shadow-pink-500/70 transform transition-all duration-300 hover:scale-105 overflow-hidden"
+              className="group relative px-8 py-4 cursor-pointer bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white rounded-2xl font-bold shadow-2xl shadow-pink-500/50 hover:shadow-pink-500/70 transform transition-all duration-300 hover:scale-105 overflow-hidden"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 <Rocket className="w-5 h-5" />
@@ -133,7 +133,7 @@ export default function HereSection({ reviewData }) {
               </div>
             </button>
 
-            <button className="group px-8 py-4 bg-white/10 backdrop-blur-md text-white border-2 border-white/20 rounded-2xl font-bold hover:bg-white/20 hover:border-white/30 transition-all duration-300 flex items-center justify-center gap-2">
+            <button className="group px-8 py-4 cursor-pointer bg-white/10 backdrop-blur-md text-white border-2 border-white/20 rounded-2xl font-bold hover:bg-white/20 hover:border-white/30 transition-all duration-300 flex items-center justify-center gap-2">
               <Play className="w-5 h-5 group-hover:scale-110 transition-transform" />
               View Our Work
             </button>

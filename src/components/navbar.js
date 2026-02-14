@@ -159,9 +159,9 @@ function Navbar({ onScroll, sections }) {
       className={`w-full fixed top-0 left-0 z-50 px-4 py-2 sm:py-0 flex items-center justify-between transition-all duration-300 shadow-sm bg-white
       ${isScrolled ? "backdrop-blur-md bg-white/90 shadow-md" : ""}`}
     >
-      <div className="w-full container mx-auto flex items-center justify-between cursor-pointer pl-5 pr-5">
+      <div className="w-full container mx-auto flex items-center justify-between pl-5 pr-5">
         <div
-          className="flex items-center gap-3"
+          className="flex items-center gap-3 cursor-pointer"
           onClick={() => window.location.reload()}
         >
           <span
@@ -178,7 +178,7 @@ function Navbar({ onScroll, sections }) {
             <li>
               <Link
                 href="/home"
-                className="flex items-center gap-2 px-4 py-3 text-gray-700 
+                className="flex items-center gap-2 px-4 py-3 text-gray-700 cursor-pointer
                    hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200
                    font-medium text-sm"
               >
@@ -190,7 +190,7 @@ function Navbar({ onScroll, sections }) {
           <li>
             <button
               onClick={() => handleNav("services")}
-              className={`px-4 py-3 text-sm font-medium transition-all duration-200
+              className={`px-4 py-3 text-sm font-medium transition-all duration-200 cursor-pointer
         ${
           selected === "services"
             ? "bg-blue-600 text-white shadow-sm"
@@ -206,7 +206,7 @@ function Navbar({ onScroll, sections }) {
               <button
                 // onClick={() => handleNav("blogs")}
                 onClick={handleBlogClick}
-                className={`px-4 py-3 text-sm font-medium transition-all duration-200
+                className={`px-4 py-3 text-sm font-medium transition-all duration-200 cursor-pointer
           ${
             selected === "blogs"
               ? "bg-blue-600 text-white shadow-sm"
@@ -221,7 +221,7 @@ function Navbar({ onScroll, sections }) {
           <li>
             <button
               onClick={() => handleNav("contact")}
-              className={`px-4 py-3 text-sm font-medium transition-all duration-200
+              className={`px-4 py-3 text-sm font-medium transition-all duration-200 cursor-pointer
         ${
           selected === "contact"
             ? "bg-blue-600 text-white shadow-sm"
@@ -313,7 +313,7 @@ function Navbar({ onScroll, sections }) {
               <div className="relative">
                 <button
                   onClick={() => setOpen(!open)}
-                  className="flex items-center justify-center w-10 h-10 sm:w-9 sm:h-9 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white text-sm sm:text-base font-semibold border border-gray-300 rounded-full shadow-md transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                  className="flex items-center justify-center cursor-pointer w-10 h-10 sm:w-9 sm:h-9 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white text-sm sm:text-base font-semibold border border-gray-300 rounded-full shadow-md transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-pink-400"
                 >
                   <FaRegUser />
                 </button>
@@ -356,7 +356,7 @@ function Navbar({ onScroll, sections }) {
                           <button
                             key={idx}
                             onClick={() => router.push(item.href)}
-                            className="group w-full flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-white/10 transition-all duration-300 mb-1"
+                            className="group w-full flex items-center gap-3 cursor-pointer px-4 py-3 rounded-xl text-white hover:bg-white/10 transition-all duration-300 mb-1"
                           >
                             <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-pink-500 group-hover:to-purple-600 transition-all duration-300">
                               <Icon className="w-5 h-5" />
@@ -378,7 +378,7 @@ function Navbar({ onScroll, sections }) {
                       {user ? (
                         <button
                           onClick={logOut}
-                          className="group w-full flex items-center gap-3 px-4 py-3 rounded-xl text-white hover:bg-red-500/20 transition-all duration-300"
+                          className="group w-full flex items-center gap-3 cursor-pointer px-4 py-3 rounded-xl text-white hover:bg-red-500/20 transition-all duration-300"
                         >
                           <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-red-500 transition-all duration-300">
                             <LogOut className="w-5 h-5" />

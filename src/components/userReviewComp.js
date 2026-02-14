@@ -131,7 +131,7 @@ export default function UserFeedBack({ reviewData }) {
             <div className="flex justify-center items-center gap-4 mt-10">
               <button
                 onClick={prevSlide}
-                className="group w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600 transition-all duration-300 hover:scale-110"
+                className="group w-12 h-12 cursor-pointer flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600 transition-all duration-300 hover:scale-110"
                 aria-label="Previous review"
               >
                 <ChevronLeft className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
@@ -155,7 +155,7 @@ export default function UserFeedBack({ reviewData }) {
 
               <button
                 onClick={nextSlide}
-                className="group w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600 transition-all duration-300 hover:scale-110"
+                className="group w-12 h-12 cursor-pointer flex items-center justify-center rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-600 transition-all duration-300 hover:scale-110"
                 aria-label="Next review"
               >
                 <ChevronRight className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />

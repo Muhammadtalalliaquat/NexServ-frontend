@@ -147,7 +147,7 @@ export default function ConatctComp({ scrollId, scrollRef }) {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex items-center gap-2 w-full sm:w-full bg-pink-600 hover:bg-pink-700 disabled:opacity-60 text-white font-semibold px-5 py-3 rounded-xl transition"
+                    className="flex items-center gap-2 w-full sm:w-full cursor-pointer bg-pink-600 hover:bg-pink-700 disabled:opacity-60 text-white font-semibold px-5 py-3 rounded-xl transition"
                   >
                     <FiSend />
                     <span>{loading ? "Sending..." : "Send Message"}</span>
