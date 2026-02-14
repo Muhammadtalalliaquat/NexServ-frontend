@@ -2,29 +2,29 @@ import axios from "axios";
 import { ApiRoutes } from "../constant/constant";
 
 
-export const fetchAllBlogs = async () => {
-  try {
-    const response = await axios.get(`${ApiRoutes.getAllBlog}`);
-    return response.data;
-  } catch (error) {
-    console.log(
-      "Failed to fetch blogs:",
-      error.response?.data || error.message
-    );
-  }
-};
+// export const fetchAllBlogs = async () => {
+//   try {
+//     const response = await axios.get(`${ApiRoutes.getAllBlog}`);
+//     return response.data;
+//   } catch (error) {
+//     console.log(
+//       "Failed to fetch blogs:",
+//       error.response?.data || error.message
+//     );
+//   }
+// };
 
-export const fetchBlogs = async () => {
-  try {
-    const response = await axios.get(`${ApiRoutes.getBlog}`);
-    return response.data;
-  } catch (error) {
-    console.log(
-      "Failed to fetch blogs:",
-      error.response?.data || error.message
-    );
-  }
-};
+// export const fetchBlogs = async () => {
+//   try {
+//     const response = await axios.get(`${ApiRoutes.getBlog}`);
+//     return response.data;
+//   } catch (error) {
+//     console.log(
+//       "Failed to fetch blogs:",
+//       error.response?.data || error.message
+//     );
+//   }
+// };
 
 export const fetchOneBlogs = async (id) => {
   try {

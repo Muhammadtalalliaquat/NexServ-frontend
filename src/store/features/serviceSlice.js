@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  fetchService,
+  // fetchService,
   fetchOneService,
   addService,
   editService,
@@ -8,11 +8,11 @@ import {
 } from "../../server/serviceAction";
 
 
-export const getAllService = createAsyncThunk("services/fetch", async () => {
-  const response = await fetchService();
-  console.log("API Response:", response);
-  return response;
-});
+// export const getAllService = createAsyncThunk("services/fetch", async () => {
+//   const response = await fetchService();
+//   console.log("API Response:", response);
+//   return response;
+// });
 
 export const getOneService = createAsyncThunk("services/fetchOne", async (id) => {
   const response = await fetchOneService(id);
@@ -52,17 +52,17 @@ const serviceSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getAllService.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getAllService.fulfilled, (state, action) => {
-        state.status = "success";
-        state.services = action.payload;
-      })
-      .addCase(getAllService.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
-      })
+      // .addCase(getAllService.pending, (state) => {
+      //   state.status = "loading";
+      // })
+      // .addCase(getAllService.fulfilled, (state, action) => {
+      //   state.status = "success";
+      //   state.services = action.payload;
+      // })
+      // .addCase(getAllService.rejected, (state, action) => {
+      //   state.status = "failed";
+      //   state.error = action.payload;
+      // })
       .addCase(getOneService.pending, (state) => {
         state.status = "loading";
       })

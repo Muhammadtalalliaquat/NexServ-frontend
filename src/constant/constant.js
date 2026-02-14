@@ -38,6 +38,7 @@ export const ApiRoutes = {
   getReview: BASIC_URL + `user-review/getReview`,
 
   addContact: BASIC_URL + `contact-us/addContact`,
+  UpdateStatus: BASIC_URL + `contact-us/updateContactStatus`,
   getContact: BASIC_URL + `contact-us/getContacts`,
 
   addBookmark: BASIC_URL + `bookmark/addBookmark`,

@@ -1,17 +1,17 @@
 import axios from "axios";
 import { ApiRoutes } from "../constant/constant";
 
-export const fetchService = async () => {
-  try {
-    const response = await axios.get(`${ApiRoutes.getService}`);
-    return response.data;
-  } catch (error) {
-    console.log(
-      "Failed to fetch services:",
-      error.response?.data || error.message
-    );
-  }
-};
+// export const fetchService = async () => {
+//   try {
+//     const response = await axios.get(`${ApiRoutes.getService}`);
+//     return response.data;
+//   } catch (error) {
+//     console.log(
+//       "Failed to fetch services:",
+//       error.response?.data || error.message
+//     );
+//   }
+// };
 
 
 export const fetchOneService = async (id) => {

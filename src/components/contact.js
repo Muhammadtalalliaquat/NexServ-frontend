@@ -37,10 +37,10 @@ export default function ConatctComp({ scrollId, scrollRef }) {
   const handleAddConatcData = (e) => {
     e.preventDefault();
 
-    if (!user) {
-      dispatch(setResError("please login before submit"));
-      return;
-    }
+    // if (!user) {
+    //   dispatch(setResError("please login before submit"));
+    //   return;
+    // }
 
     const contactData = {
       name,
@@ -56,7 +56,7 @@ export default function ConatctComp({ scrollId, scrollRef }) {
         setMessage("");
       })
       .catch((err) => {
-        console.error("Fetch Error:", err);
+        console.log("Fetch Error:", err);
       });
   };
 

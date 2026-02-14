@@ -1,3 +1,5 @@
+"use client";
+
 import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -109,7 +111,7 @@ export default function UserFeedBack({ reviewData }) {
                                   month: "long",
                                   day: "numeric",
                                   year: "numeric",
-                                }
+                                },
                               )}
                             </p>
                           </div>

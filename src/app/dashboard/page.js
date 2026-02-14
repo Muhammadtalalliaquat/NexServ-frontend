@@ -6,7 +6,9 @@ import UserProdile from "../../components/userProdile";
 import PlanHistory from "../../components/userPlanHistory";
 import UserFeedBack from "../../components/userReview";
 import ProjectComp from "../../components/userProjectcomp";
+import ContactAdminDashboard from "../../components/customerComp";
 import { FaUser, FaHistory, FaCog } from "react-icons/fa";
+import { GrUserAdmin } from "react-icons/gr";
 import { VscFeedback } from "react-icons/vsc";
 import { AiTwotoneProject } from "react-icons/ai";
 
@@ -31,7 +33,8 @@ export default function Dashborad() {
       icon: <AiTwotoneProject size={18} />,
     },
     { id: "FeedBack", label: "Feed back", icon: <VscFeedback size={18} /> },
-    { id: "settings", label: "Settings", icon: <FaCog size={18} /> },
+    { id: "admin", label: "Admin Panel", icon: <GrUserAdmin size={18} /> },
+    // { id: "settings", label: "Settings", icon: <FaCog size={18} /> },
   ];
 
   return (
@@ -49,7 +52,7 @@ export default function Dashborad() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-3 py-2 rounded-md border border-gray-300 transition font-medium ${
                   activeTab === tab.id
-                    ? "bg-blue-600 text-white"
+                    ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
                     : "text-gray-700 hover:bg-gray-200"
                 }`}
               >
@@ -149,15 +152,15 @@ export default function Dashborad() {
             </div>
           )}
 
-          {activeTab === "settings" && (
+          {activeTab === "admin" && user?.isAdmin && (
             <div>
               <h1 className="text-3xl md:text-4xl font-extrabold mb-4 text-gray-700">
-                Settings
+                Customers Contact
               </h1>
               <p className="text-gray-600 mb-4 pb-6 border-b border-gray-200">
-                Update your account settings and preferences.
+                View and manage customer contact messages.
               </p>
-              {/* Add settings forms here */}
+              <ContactAdminDashboard />
             </div>
           )}
         </div>

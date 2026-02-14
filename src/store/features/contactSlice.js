@@ -9,43 +9,101 @@ export const getAllContact = createAsyncThunk("contact/fetch", async () => {
   return response;
 });
 
-export const createContact = createAsyncThunk("contact/add", async (contactData, { dispatch }) => {
+export const createContact = createAsyncThunk(
+  "contact/add",
+  async (contactData, { dispatch, rejectWithValue }) => {
     try {
       dispatch(setLoading(true));
 
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        console.error("Token is missing!");
-        return;
-      }
-
-      // console.log("Token before sending request:", token);
-
-      const response = await axios.post(ApiRoutes.addContact, contactData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.post(ApiRoutes.addContact, contactData);
 
       dispatch(setSuccessMsg(response.data.msg));
       dispatch(setResError(null));
-      dispatch(setLoading(false));
-      
-      console.log("API Response: contact data added:", response.data);
+
+      // console.log("API Response:", response.data);
+
       return response.data;
     } catch (error) {
-      dispatch(setLoading(false));
       const backendMsg = error.response?.data?.msg || "Something went wrong";
-      console.log("Failed to add product:", backendMsg || error.message);
+
+      // console.log("Failed to add contact:", backendMsg);
 
       dispatch(setResError(backendMsg));
       dispatch(setSuccessMsg(null));
 
-       return null;
+      return rejectWithValue(backendMsg);
+    } finally {
+      dispatch(setLoading(false));
     }
-  }
+  },
 );
+
+export const updateContactStatus = createAsyncThunk("contact/edit", async ({ id, status }, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        return rejectWithValue("Token is missing");
+      }
+
+      const response = await axios.put(
+        `${ApiRoutes.UpdateStatus}/${id}`,
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      console.log("Contact status updated:", response.data);
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to update contact status",
+      );
+    }
+  },
+);
+
+// export const createContact = createAsyncThunk("contact/add", async (contactData, { dispatch }) => {
+//     try {
+//       dispatch(setLoading(true));
+
+//       const token = localStorage.getItem("token");
+
+//       if (!token) {
+//         console.error("Token is missing!");
+//         return;
+//       }
+
+//       console.log("Token before sending request:", token);
+
+//       const response = await axios.post(ApiRoutes.addContact, contactData, {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       });
+
+//       dispatch(setSuccessMsg(response.data.msg));
+//       dispatch(setResError(null));
+//       dispatch(setLoading(false));
+
+//       console.log("API Response: contact data added:", response.data);
+//       return response.data;
+//     } catch (error) {
+//       dispatch(setLoading(false));
+//       const backendMsg = error.response?.data?.msg || "Something went wrong";
+//       console.log("Failed to add product:", backendMsg || error.message);
+
+//       dispatch(setResError(backendMsg));
+//       dispatch(setSuccessMsg(null));
+
+//        return null;
+//     }
+//   }
+// );
 
 const ContactSlice = createSlice({
   name: "contact",
@@ -83,6 +141,26 @@ const ContactSlice = createSlice({
         } else {
           state.contact = [action.payload];
         }
+      })
+      .addCase(updateContactStatus.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateContactStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        const updatedContact = action.payload.data || action.payload;
+        const index = state.contact.data.findIndex(
+          (c) => c._id === updatedContact._id,
+        );
+        if (index !== -1) {
+          state.contact[index] = updatedContact;
+        } else {
+          state.contact.push(updatedContact);
+        }
+      })
+
+      .addCase(updateContactStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
     //   .addCase(removeProduct.fulfilled, (state, action) => {
     //     // state.products = state.products.filter((product) => product._id !== action.payload);
