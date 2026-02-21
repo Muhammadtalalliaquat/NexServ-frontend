@@ -14,18 +14,18 @@ import { ApiRoutes } from "../constant/constant";
 // };
 
 
-export const fetchOneService = async (id) => {
-  try {
-    const response = await axios.get(`${ApiRoutes.getOneService}/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error(
-      "Failed to fetch service:",
-      error.response?.data || error.message
-    );
-    throw error;
-  }
-};
+// export const fetchOneService = async (id) => {
+//   try {
+//     const response = await axios.get(`${ApiRoutes.getOneService}/${id}`);
+//     return response.data;
+//   } catch (error) {
+//     console.error(
+//       "Failed to fetch service:",
+//       error.response?.data || error.message
+//     );
+//     throw error;
+//   }
+// };
 
 
 

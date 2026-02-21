@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   // fetchService,
-  fetchOneService,
+  // fetchOneService,
   addService,
   editService,
   deleteService,
@@ -14,11 +14,11 @@ import {
 //   return response;
 // });
 
-export const getOneService = createAsyncThunk("services/fetchOne", async (id) => {
-  const response = await fetchOneService(id);
-  console.log("API Response:", response);
-  return response;
-});
+// export const getOneService = createAsyncThunk("services/fetchOne", async (id) => {
+//   const response = await fetchOneService(id);
+//   console.log("API Response:", response);
+//   return response;
+// });
 
 export const createService = createAsyncThunk("services/add", async (serviceData) => {
   const response = await addService(serviceData);
@@ -63,17 +63,17 @@ const serviceSlice = createSlice({
       //   state.status = "failed";
       //   state.error = action.payload;
       // })
-      .addCase(getOneService.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getOneService.fulfilled, (state, action) => {
-        state.status = "success";
-        state.services = action.payload;
-      })
-      .addCase(getOneService.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
-      })
+      // .addCase(getOneService.pending, (state) => {
+      //   state.status = "loading";
+      // })
+      // .addCase(getOneService.fulfilled, (state, action) => {
+      //   state.status = "success";
+      //   state.services = action.payload;
+      // })
+      // .addCase(getOneService.rejected, (state, action) => {
+      //   state.status = "failed";
+      //   state.error = action.payload;
+      // })
       .addCase(createService.fulfilled, (state, action) => {
         if (Array.isArray(state.services)) {
           state.services.push(action.payload);
