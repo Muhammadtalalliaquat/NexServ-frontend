@@ -8,7 +8,7 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import HereSection from "./heresection";
 import ConatctComp from "./contact";
-import Navbar from "./navbar";
+import NavbarComp from "../components/navbar";
 import Footer from "./footer";
 import UserFeedBack from "./userReviewComp";
 import WhyChooseUs from "./ChooseUsComp";
@@ -112,7 +112,7 @@ export default function HomeRoute({ initialServiceData, initialBlogData, initial
 
   return (
     <>
-      <Navbar
+      <NavbarComp
         pageType="homes"
         onScroll={handleScroll}
         sections={{

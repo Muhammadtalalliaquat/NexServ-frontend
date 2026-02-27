@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  fetchOneBlogs,
+  // fetchOneBlogs,
   addBlog,
   editBlog,
   deleteBlogs,
@@ -18,11 +18,11 @@ import {
 //   return response;
 // });
 
-export const getOneBlogs = createAsyncThunk("blogs/fetchOne", async (id) => {
-  const response = await fetchOneBlogs(id);
-  console.log("API Response:", response);
-  return response;
-});
+// export const getOneBlogs = createAsyncThunk("blogs/fetchOne", async (id) => {
+//   const response = await fetchOneBlogs(id);
+//   console.log("API Response:", response);
+//   return response;
+// });
 
 export const createBlog = createAsyncThunk("blogs/add", async (blogData) => {
   const response = await addBlog(blogData);
@@ -76,17 +76,17 @@ const blogSlice = createSlice({
       //   state.status = "failed";
       //   state.error = action.payload;
       // })
-      .addCase(getOneBlogs.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(getOneBlogs.fulfilled, (state, action) => {
-        state.status = "success";
-        state.blogs = action.payload;
-      })
-      .addCase(getOneBlogs.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
-      })
+      // .addCase(getOneBlogs.pending, (state) => {
+      //   state.status = "loading";
+      // })
+      // .addCase(getOneBlogs.fulfilled, (state, action) => {
+      //   state.status = "success";
+      //   state.blogs = action.payload;
+      // })
+      // .addCase(getOneBlogs.rejected, (state, action) => {
+      //   state.status = "failed";
+      //   state.error = action.payload;
+      // })
       // .addCase(getAllBlogs.pending, (state) => {
       //   state.status = "loading";
       // })

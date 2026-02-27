@@ -26,17 +26,17 @@ import { ApiRoutes } from "../constant/constant";
 //   }
 // };
 
-export const fetchOneBlogs = async (id) => {
-  try {
-    const response = await axios.get(`${ApiRoutes.getOneBlog}/${id}`);
-    return response.data;
-  } catch (error) {
-    console.log(
-      "Failed to fetch blogs:",
-      error.response?.data || error.message
-    );
-  }
-};
+// export const fetchOneBlogs = async (id) => {
+//   try {
+//     const response = await axios.get(`${ApiRoutes.getOneBlog}/${id}`);
+//     return response.data;
+//   } catch (error) {
+//     console.log(
+//       "Failed to fetch blogs:",
+//       error.response?.data || error.message
+//     );
+//   }
+// };
 
 export const addBlog = async (blogData) => {
   try {
