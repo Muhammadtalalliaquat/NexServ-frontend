@@ -6,7 +6,7 @@ import {
   updateServiceStatus,
 } from "../../server/userServiceAction";
 
-export const getUserAllService = createAsyncThunk("userService/fetch", async () => {
+export const getActiveUserService = createAsyncThunk("userService/fetch", async () => {
     const response = await fetchUserService();
     console.log("API Response:", response);
     return response;
@@ -42,14 +42,14 @@ const userServiceSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getUserAllService.pending, (state) => {
+      .addCase(getActiveUserService.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(getUserAllService.fulfilled, (state, action) => {
+      .addCase(getActiveUserService.fulfilled, (state, action) => {
         state.status = "success";
         state.userService = action.payload;
       })
-      .addCase(getUserAllService.rejected, (state, action) => {
+      .addCase(getActiveUserService.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })

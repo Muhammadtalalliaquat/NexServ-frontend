@@ -4,8 +4,8 @@
 // import { getBlogs } from "../../store/features/blogSlice";
 // import { getAllReview } from "../../store/features/reviewSlice";
 // import NextServLoader from "./nexservloader";
-import { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
+import { useEffect, useRef } from "react";
 import HereSection from "./heresection";
 import ConatctComp from "./contact";
 import NavbarComp from "../components/navbar";
@@ -20,8 +20,8 @@ export default function HomeRoute({ initialServiceData, initialBlogData, initial
 //   const [serviceData, setServiceData] = useState([]);
 //   const [blogData, setBlogData] = useState([]);
 //   const [reviewData, setReviewData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
+  // const [loading, setLoading] = useState(true);
+  // const dispatch = useDispatch();
   // const [selected, setSelected] = useState("");
 
   const serviceRef = useRef(null);

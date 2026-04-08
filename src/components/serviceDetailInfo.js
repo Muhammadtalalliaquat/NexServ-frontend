@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import {
-  //   getOneService,
+    // getOneService,
   removeService,
 } from "../store/features/serviceSlice";
 import {
   createUserService,
-  getUserAllService,
+  getActiveUserService,
 } from "../store/features/userServiceSlice";
 import { useParams, useRouter } from "next/navigation";
 import Navbar from "../components/navbar";
@@ -54,22 +54,22 @@ export default function ServiceDetailPage({ initialServiceData }) {
       //   setLoading(true);
 
       if (storedUser) {
-        const userSerData = await dispatch(getUserAllService()).unwrap();
+        const userSerData = await dispatch(getActiveUserService()).unwrap();
         setUserService(userSerData.data);
       }
-      //   try {
-      //     // Always call this
-      //     const serviceRes = await dispatch(getOneService(serviceId)).unwrap();
-      //     setServiceData(serviceRes.data);
+        // try {
+        //   // Always call this
+        //   const serviceRes = await dispatch(getOneService(serviceId)).unwrap();
+        //   setServiceData(serviceRes.data);
 
-      //     // Only call user services if user exists
-      //   } catch (err) {
-      //     console.error("Fetch Error:", err);
-      //     setError("Failed to load data.");
-      //   }
-      //   finally {
-      //     setLoading(false);
-      //   }
+        //   // Only call user services if user exists
+        // } catch (err) {
+        //   console.error("Fetch Error:", err);
+        //   setError("Failed to load data.");
+        // }
+        // finally {
+        //   setLoading(false);
+        // }
     };
 
     fetchData();
@@ -163,8 +163,21 @@ export default function ServiceDetailPage({ initialServiceData }) {
           {/* Hero Section */}
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 mb-16">
             {/* Image */}
-            <div className="lg:w-1/2">
-              <div className="relative group overflow-hidden rounded-3xl shadow-2xl">
+            <div className="lg:w-1/2 sm:mt-0 mt-10">
+              <div className="relative group overflow-hidden rounded-2xl shadow-2xl aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:h-[510px]">
+                <Image
+                  src={image}
+                  alt={title}
+                  fill
+                  className="object-cover transform group-hover:scale-105 transition-transform duration-700"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            </div>
+            {/* <div className="lg:w-1/2">
+              <div className="relative group overflow-hidden rounded-2xl shadow-2xl">
                 <Image
                   width={700}
                   height={700}
@@ -174,7 +187,7 @@ export default function ServiceDetailPage({ initialServiceData }) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
-            </div>
+            </div> */}
 
             {/* Content */}
             <div className="lg:w-1/2 space-y-6">
@@ -222,25 +235,26 @@ export default function ServiceDetailPage({ initialServiceData }) {
 
               {/* Active Service Status */}
               {user && activeService && (
-                <div className="relative overflow-hidden bg-white rounded-2xl shadow-xl border-2 border-gray-100 p-6">
+                <div className="relative overflow-hidden bg-white rounded-2xl shadow-xl border border-gray-100 p-4 sm:p-6">
                   {/* Background Gradient */}
                   <div
-                    className={`absolute inset-0 bg-gradient-to-br ${statusConfig.bg} opacity-50`}
-                  ></div>
+                    className={`absolute inset-0 bg-gradient-to-br ${statusConfig.bg} opacity-40`}
+                  />
 
-                  <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                     {/* Left Section */}
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4">
                       <div
-                        className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${statusConfig.gradient} flex items-center justify-center shadow-lg`}
+                        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${statusConfig.gradient} flex items-center justify-center shadow-md`}
                       >
-                        <StatusIcon className="w-7 h-7 text-white" />
+                        <StatusIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                       </div>
+
                       <div>
-                        <h3 className="text-gray-900 font-bold text-lg">
+                        <h3 className="text-gray-900 font-semibold text-base sm:text-lg">
                           Service Activated
                         </h3>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-xs sm:text-sm text-gray-600">
                           Your service is currently active
                         </p>
                       </div>
@@ -248,7 +262,7 @@ export default function ServiceDetailPage({ initialServiceData }) {
 
                     {/* Status Badge */}
                     <span
-                      className={`px-5 py-2.5 rounded-xl font-bold text-sm ${statusConfig.text} bg-gradient-to-r ${statusConfig.bg} border-2 ${statusConfig.border} shadow-md flex items-center gap-2`}
+                      className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg font-semibold text-xs sm:text-sm ${statusConfig.text} bg-gradient-to-r ${statusConfig.bg} border ${statusConfig.border} shadow flex items-center gap-1.5`}
                     >
                       {activeService.status === "processing" && "⏳"}
                       {activeService.status === "Booked" && "📅"}
@@ -257,12 +271,47 @@ export default function ServiceDetailPage({ initialServiceData }) {
                     </span>
                   </div>
                 </div>
+                // <div className="relative overflow-hidden bg-white rounded-2xl shadow-xl border-2 border-gray-100 p-6">
+                //   {/* Background Gradient */}
+                //   <div
+                //     className={`absolute inset-0 bg-gradient-to-br ${statusConfig.bg} opacity-50`}
+                //   ></div>
+
+                //   <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                //     {/* Left Section */}
+                //     <div className="flex items-center gap-4">
+                //       <div
+                //         className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${statusConfig.gradient} flex items-center justify-center shadow-lg`}
+                //       >
+                //         <StatusIcon className="w-7 h-7 text-white" />
+                //       </div>
+                //       <div>
+                //         <h3 className="text-gray-900 font-bold text-lg">
+                //           Service Activated
+                //         </h3>
+                //         <p className="text-sm text-gray-600">
+                //           Your service is currently active
+                //         </p>
+                //       </div>
+                //     </div>
+
+                //     {/* Status Badge */}
+                //     <span
+                //       className={`px-5 py-2.5 rounded-xl font-bold text-sm ${statusConfig.text} bg-gradient-to-r ${statusConfig.bg} border-2 ${statusConfig.border} shadow-md flex items-center gap-2`}
+                //     >
+                //       {activeService.status === "processing" && "⏳"}
+                //       {activeService.status === "Booked" && "📅"}
+                //       {activeService.status === "completed" && "✔"}
+                //       {statusConfig.label}
+                //     </span>
+                //   </div>
+                // </div>
               )}
             </div>
           </div>
 
           {/* Pricing Plans Section */}
-          <div className="space-y-12">
+          <div className="space-y-12 md:mt-30">
             {/* Section Header */}
             <div className="text-center space-y-4">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full border border-blue-200">
@@ -281,7 +330,7 @@ export default function ServiceDetailPage({ initialServiceData }) {
             </div>
 
             {/* Pricing Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 md:mt-20">
               {Object.entries(pricingPlans).map(([planKey, plan], index) => {
                 const colors = {
                   basic: {
